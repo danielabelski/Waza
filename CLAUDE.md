@@ -4,7 +4,7 @@ Configuration health audit skill for Claude Code.
 
 ## Communication
 
-- Do not use em dashes (U+2014) in any output. Use commas, periods, colons, semicolons, or `--` instead.
+- Do not use em dashes (U+2014) in any output. Use commas, periods, colons, or semicolons instead.
 
 ## Structure
 
