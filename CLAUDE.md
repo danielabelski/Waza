@@ -9,20 +9,19 @@ Configuration health audit skill for Claude Code.
 ## Structure
 
 - `skills/health/SKILL.md` -- the only source file, contains all audit logic
-- Four parallel agents: A (context layer), B (control + verification), C (behavior patterns), D (skill security & quality)
+- Two parallel agents: Agent 1 (context + skill security), Agent 2 (control + behavior)
 
 ## Verification
 
 ```bash
-# Syntax check: bash scripts in SKILL.md should parse
-grep -Pzo '```bash\n([\s\S]*?)```' skills/health/SKILL.md | bash -n
+# Syntax check: extract bash blocks and check syntax (macOS compatible)
+awk '/^```bash$/{p=1;next} /^```$/{p=0} p' skills/health/SKILL.md | bash -n
 
 # Word count: SKILL.md should stay under 3000 words
 wc -w skills/health/SKILL.md
 
-# Version consistency: frontmatter version, VER variable and marketplace.json must match
+# Version consistency: frontmatter version and marketplace.json must match
 grep 'version:' skills/health/SKILL.md | head -1
-grep 'VER=' skills/health/SKILL.md
 grep '"version"' .claude-plugin/marketplace.json
 ```
 

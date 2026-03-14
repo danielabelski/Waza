@@ -1,7 +1,7 @@
 {
   "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
   "name": "claude-health",
-  "description": "Configuration health audit skill for Claude Code. Systematically audits CLAUDE.md, rules, skills, hooks, subagents, and verifiers across four parallel agents.",
+  "description": "Configuration health audit skill for Claude Code. Systematically audits CLAUDE.md, rules, skills, hooks, subagents, and verifiers across two parallel agents.",
   "owner": {
     "name": "tw93",
     "email": "piao.zhuchao@gmail.com"
