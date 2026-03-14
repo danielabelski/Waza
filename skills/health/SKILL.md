@@ -27,11 +27,9 @@ Use this rubric to pick the audit tier before proceeding:
 **Apply the tier's standard throughout the audit. Do not flag missing layers that aren't required for the detected tier.**
 
 
-## Step 1: Collect all data (two parallel bash blocks)
+## Step 1: Collect all data (single bash block)
 
-Run these two blocks in parallel to minimize confirmation prompts.
-
-**Block A — project config + conversation evidence:**
+Run one block to collect everything. This keeps the entire data-gathering phase to a single confirmation prompt.
 
 ```bash
 P=$(pwd)
@@ -46,6 +44,7 @@ echo "claude_md_lines: $(wc -l < "$P/CLAUDE.md" 2>/dev/null)"
 
 echo "=== CLAUDE.md (global) ===" ; cat ~/.claude/CLAUDE.md 2>/dev/null || echo "(none)"
 echo "=== CLAUDE.md (local) ===" ; cat "$P/CLAUDE.md" 2>/dev/null || echo "(none)"
+echo "=== settings.local.json ===" ; cat "$SETTINGS" 2>/dev/null || echo "(none)"
 echo "=== rules/ ===" ; find "$P/.claude/rules" -name "*.md" 2>/dev/null | while IFS= read -r f; do echo "--- $f ---"; cat "$f"; done
 echo "=== skill descriptions ===" ; grep -r "^description:" "$P/.claude/skills" ~/.claude/skills 2>/dev/null
 echo "=== hooks ===" ; python3 -c "import json,sys; d=json.load(open('$SETTINGS')); print(json.dumps(d.get('hooks',{}), indent=2))" 2>/dev/null
@@ -86,12 +85,8 @@ if [ -n "$FILES" ]; then
 else
   echo "(no conversation files)"
 fi
-```
 
-**Block B — skill security scan:**
-
-```bash
-P=$(pwd)
+# --- Skill scan (inventory, security, frontmatter, provenance, full content) ---
 # Exclude self by frontmatter name field -- stable across install paths
 SELF_SKILL=$(grep -rl '^name: health$' "$P/.claude/skills" "$HOME/.claude/skills" 2>/dev/null | grep 'SKILL.md' | head -1)
 [ -z "$SELF_SKILL" ] && SELF_SKILL="health/SKILL.md"
@@ -164,16 +159,27 @@ for DIR in "$P/.claude/skills" "$HOME/.claude/skills"; do
     fi
   done
 done
+
+echo "=== SKILL FULL CONTENT ==="
+for DIR in "$P/.claude/skills" "$HOME/.claude/skills"; do
+  [ -d "$DIR" ] || continue
+  find -L "$DIR" -name "SKILL.md" 2>/dev/null | grep -v "$SELF_SKILL" | while IFS= read -r f; do
+    echo "--- FULL: $f ---"
+    cat "$f"
+  done
+done
 ```
 
 ## Step 2: Launch two parallel diagnostic agents
 
-Spin up **two subagents** in parallel using the Agent tool. **Required:** each call must include `prompt`; fill in `[project]` and tier, use `(no conversation history)` if none.
+Spin up **two subagents** in parallel using the Agent tool. Paste all relevant Step 1 output sections inline into each agent's prompt so they do not need to read any files. Fill in `[project]` and tier; use `(no conversation history)` if none.
 
 ### Agent 1 — Context + Security Audit (no conversation needed)
 Prompt:
 ```
-Read: ~/.claude/CLAUDE.md, [project]/CLAUDE.md, [project]/.claude/rules/**, [project]/.claude/skills/**/SKILL.md, ~/.claude/skills/**/SKILL.md -- exclude health/ skill, the auditor itself
+All data is provided inline below. DO NOT use the Read tool or Bash tool to read any files.
+
+[PASTE Step 1 output sections: CLAUDE.md (global), CLAUDE.md (local), rules/, skill descriptions, MCP, HANDOFF.md, MEMORY.md, SKILL INVENTORY, SKILL SECURITY SCAN, SKILL FRONTMATTER, SKILL SYMLINK PROVENANCE, SKILL FULL CONTENT]
 
 This project is tier: [SIMPLE / STANDARD / COMPLEX] — apply only the checks appropriate for this tier.
 
@@ -221,7 +227,7 @@ Verifiers layer STANDARD+:
 
 ## Part B: Skill Security & Quality
 
-Use the collected security scan data from Step 1: SKILL INVENTORY, SKILL SECURITY SCAN, SKILL FRONTMATTER, SKILL SYMLINK PROVENANCE. Also read full content of each SKILL.md for context.
+Use the collected data from Step 1: SKILL INVENTORY, SKILL SECURITY SCAN, SKILL FRONTMATTER, SKILL SYMLINK PROVENANCE, SKILL FULL CONTENT. All data is already provided inline above.
 
 CRITICAL DISTINCTION: Differentiate between a skill that DISCUSSES a security pattern (benign) vs. one that USES it (dangerous). Only flag the latter. Note FALSE POSITIVES explicitly.
 
@@ -238,6 +244,7 @@ CRITICAL DISTINCTION: Differentiate between a skill that DISCUSSES a security pa
 2. Description too broad: would match unrelated user requests
 3. Content bloat: skill >5000 words
 4. Broken file references: skill references files that do not exist
+5. Subagent hygiene: Agent tool calls in skills that lack explicit tool restrictions, isolation mode, or output format constraint
 
 🟢 Provenance checks:
 1. Symlink source: git remote + commit for symlinked skills
@@ -252,10 +259,9 @@ Output: bullet points only, two sections:
 ### Agent 2 — Control + Behavior Audit (uses conversation evidence)
 Prompt:
 ```
-Read: [project]/.claude/settings.local.json, [project]/CLAUDE.md, ~/.claude/CLAUDE.md
+All data is provided inline below. DO NOT use the Read tool or Bash tool to read any files.
 
-Conversation evidence -- no file reading needed:
-[PASTE EXTRACTED CONVERSATION CONTENT HERE]
+[PASTE Step 1 output sections: settings.local.json, CLAUDE.md (global), CLAUDE.md (local), hooks, allowedTools count, skill descriptions, CONVERSATION EXTRACT]
 
 This project is tier: [SIMPLE / STANDARD / COMPLEX] — apply only the checks appropriate for this tier.
 
@@ -305,8 +311,8 @@ Tier-adjusted verification checks:
 - COMPLEX: Each task type in conversations should map to a verification command or skill.
 
 Subagents hygiene STANDARD+:
-- Flag Agent tool calls in skills/hooks that lack explicit tool restrictions or isolation mode.
-- Flag subagent prompts with no output format constraint -- free-form output pollutes parent context.
+- Flag Agent tool calls in hooks that lack explicit tool restrictions or isolation mode.
+- Flag subagent prompts in hooks with no output format constraint -- free-form output pollutes parent context.
 
 ## Part B: Behavior Pattern Audit
 
@@ -327,7 +333,7 @@ Output: bullet points only, two sections:
 [BEHAVIOR: rules violated | repeated corrections | add to local CLAUDE.md | add to global CLAUDE.md | skill frequency | anti-patterns -- each finding tagged with confidence level]
 ```
 
-Paste conversation content inline into Agent 2; do not pass file paths.
+Paste all relevant data inline into each agent; do not pass file paths or instruct agents to read files.
 
 ## Step 3: Synthesize and present
 
