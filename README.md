@@ -10,7 +10,7 @@
 
 <br/>
 
-A Claude Code skill that systematically reviews your project's setup using the six-layer framework: `CLAUDE.md → rules → skills → hooks → subagents → verifiers`. It detects project complexity, runs four parallel diagnostic agents, and outputs a prioritized report telling you what to fix first.
+A Claude Code skill that systematically reviews your project's setup using the six-layer framework: `CLAUDE.md → rules → skills → hooks → subagents → verifiers`. It detects project complexity, runs two parallel diagnostic agents, and outputs a prioritized report telling you what to fix first.
 
 ## Install
 
