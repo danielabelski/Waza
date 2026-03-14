@@ -35,5 +35,6 @@ grep '"version"' .claude-plugin/marketplace.json
 - Title: `V{version} {Codename} {emoji}` -- e.g., V1.3.0 Guardian
 - Tag: `v{version}` (lowercase v)
 - Body: HTML format, bilingual (English Changelog + 中文更新日志), one-to-one
-- Each item: `<li><strong>Category</strong>: description.</li>`
+- Each item: `<li><strong>Category</strong>: description.</li>` -- bold label summarizes the change, description is one concise sentence, no filler words
+- Style: engineer-facing, no marketing language; lead with what changed, not why it matters
 - Footer: update command `npx skills add tw93/claude-health@latest` + star + repo link
