@@ -2,6 +2,10 @@
 
 Configuration health audit skill for Claude Code.
 
+## Communication
+
+- Do not use em dashes (U+2014) in any output. Use commas, periods, colons, semicolons, or `--` instead.
+
 ## Structure
 
 - `skills/health/SKILL.md` -- the only source file, contains all audit logic
@@ -28,7 +32,7 @@ grep '"version"' .claude-plugin/marketplace.json
 
 ## Release Convention (tw93/miaoyan style)
 
-- Title: `V{version} {Codename} {emoji}` (e.g., V1.3.0 Guardian)
+- Title: `V{version} {Codename} {emoji}` -- e.g., V1.3.0 Guardian
 - Tag: `v{version}` (lowercase v)
 - Body: HTML format, bilingual (English Changelog + 中文更新日志), one-to-one
 - Each item: `<li><strong>Category</strong>: description.</li>`
