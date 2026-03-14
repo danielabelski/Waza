@@ -11,6 +11,8 @@ Systematically audit the current project's Claude Code setup using the six-layer
 
 The goal is not just to find rule violations, but to diagnose which layer is misaligned and why — **calibrated to the project's actual complexity**.
 
+**Output language:** Detect from the conversation language or the CLAUDE.md `## Communication` rule; present all findings in that language. Default to English if unclear.
+
 ## Step 0: Assess project tier
 
 ```bash
@@ -32,7 +34,7 @@ Use this rubric to pick the audit tier before proceeding:
 
 **Apply the tier's standard throughout the audit. Do not flag missing layers that aren't required for the detected tier.**
 
-## Step 0.5: Check for skill updates -- weekly
+## Step 0.5: Check for skill updates -- weekly (run in parallel with Step 1)
 
 ```bash
 CACHE="$HOME/.cache/claude-health-last-check"
@@ -78,7 +80,7 @@ echo "=== HANDOFF.md ===" ; cat "$P/HANDOFF.md" 2>/dev/null || echo "(none)"
 echo "=== MEMORY.md ===" ; cat "$HOME/.claude/projects/-$(pwd | sed 's|/|-|g; s|^-||')/memory/MEMORY.md" 2>/dev/null | head -50 || echo "(none)"
 ```
 
-Collect skill security and quality data for Agent D:
+Collect skill security and quality data for Agent D (run in parallel with the first block above):
 
 ```bash
 P=$(pwd)
@@ -155,22 +157,17 @@ done
 
 ## Step 2: Collect conversation evidence
 
-Read conversation files directly — do NOT write to disk and pass paths to subagents -- subagents cannot read `~/.claude/` paths. Instead, read content here and inline it into agent prompts in Step 3.
+Read and extract conversation files with jq below -- do NOT pass file paths to subagents (they cannot access `~/.claude/`). Assign to agents B and C: 1–2 files >50KB, 3–5 files 10–50KB, up to 5 files <10KB.
 
 ```bash
 PROJECT_PATH=$(pwd | sed 's|/|-|g; s|^-||')
 CONVO_DIR=~/.claude/projects/-${PROJECT_PATH}
 
-# List the 15 most recent conversations with sizes
-ls -lhS "$CONVO_DIR"/*.jsonl 2>/dev/null | head -15
+# List the 10 most recent conversations with sizes
+ls -lhS "$CONVO_DIR"/*.jsonl 2>/dev/null | head -10
 ```
 
-For each conversation file you want to include, use the Read tool or jq via Bash to extract its text content directly into a variable in your context. Assign files to agents B and C based on size:
-- Large >50KB: 1–2 per agent
-- Medium 10–50KB: 3–5 per agent
-- Small <10KB: up to 10 per agent
-
-Extract each file's content with:
+Extract content:
 ```bash
 cat <file>.jsonl | jq -r '
   if .type == "user" then "USER: " + ((.message.content // "") | if type == "array" then map(select(.type == "text") | .text) | join(" ") else . end)
@@ -178,14 +175,14 @@ cat <file>.jsonl | jq -r '
     "ASSISTANT: " + ((.message.content // []) | map(select(.type == "text") | .text) | join("\n"))
   else empty
   end
-' 2>/dev/null | grep -v "^ASSISTANT: $" | head -300
+' 2>/dev/null | grep -v "^ASSISTANT: $" | head -150
 ```
 
-Store the output in your context. You will paste it inline into the agent B and C prompts below.
+Store output in context for inline pasting into agents B and C.
 
 ## Step 3: Launch parallel diagnostic agents
 
-Spin up **four focused subagents** in parallel, each examining one diagnostic dimension:
+Spin up **four focused subagents** in parallel using the Agent tool. **Required:** each call must include `prompt`; fill in `[project]` and tier, use `(no conversation history)` if none.
 
 ### Agent A — Context Layer Audit
 Prompt:
@@ -368,7 +365,7 @@ Output format:
 - If no issues found for a severity level, output "[severity] None"
 ```
 
-Paste the extracted conversation content inline into agent B and C prompts. Do not pass file paths.
+Paste conversation content inline into agents B and C; do not pass file paths.
 
 ## Step 4: Synthesize and present
 
