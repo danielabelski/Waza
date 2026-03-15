@@ -47,6 +47,11 @@ echo "=== CLAUDE.md (local) ===" ; cat "$P/CLAUDE.md" 2>/dev/null || echo "(none
 echo "=== settings.local.json ===" ; cat "$SETTINGS" 2>/dev/null || echo "(none)"
 echo "=== rules/ ===" ; find "$P/.claude/rules" -name "*.md" 2>/dev/null | while IFS= read -r f; do echo "--- $f ---"; cat "$f"; done
 echo "=== skill descriptions ===" ; grep -r "^description:" "$P/.claude/skills" ~/.claude/skills 2>/dev/null
+echo "=== STARTUP CONTEXT ESTIMATE ==="
+echo "global_claude_words: $(wc -w < ~/.claude/CLAUDE.md 2>/dev/null | tr -d ' ' || echo 0)"
+echo "local_claude_words: $(wc -w < "$P/CLAUDE.md" 2>/dev/null | tr -d ' ' || echo 0)"
+echo "rules_words: $(find "$P/.claude/rules" -name "*.md" 2>/dev/null | while IFS= read -r f; do cat "$f"; done | wc -w | tr -d ' ')"
+echo "skill_desc_words: $(grep -r "^description:" "$P/.claude/skills" ~/.claude/skills 2>/dev/null | wc -w | tr -d ' ')"
 echo "=== hooks ===" ; python3 -c "import json,sys; d=json.load(open('$SETTINGS')); print(json.dumps(d.get('hooks',{}), indent=2))" 2>/dev/null || echo "(unavailable: settings.local.json missing or malformed)"
 echo "=== MCP ===" ; python3 -c "
 import json
@@ -61,6 +66,8 @@ try:
 except: print('(no MCP)')
 " 2>/dev/null || echo "(unavailable: settings.local.json missing or malformed)"
 echo "=== allowedTools count ===" ; python3 -c "import json; d=json.load(open('$SETTINGS')); print(len(d.get('permissions',{}).get('allow',[])))" 2>/dev/null || echo "(unavailable)"
+echo "=== NESTED CLAUDE.md ===" ; find "$P" -name "CLAUDE.md" -not -path "$P/CLAUDE.md" -not -path "*/.git/*" -not -path "*/node_modules/*" 2>/dev/null || echo "(none)"
+echo "=== GITIGNORE ===" ; (grep -qE "settings\.local" "$P/.gitignore" "$P/.claude/.gitignore" 2>/dev/null && echo "settings.local.json: gitignored") || echo "settings.local.json: NOT gitignored -- risk of committing tokens/credentials"
 echo "=== HANDOFF.md ===" ; cat "$P/HANDOFF.md" 2>/dev/null || echo "(none)"
 echo "=== MEMORY.md ===" ; cat "$HOME/.claude/projects/-$(pwd | sed 's|[/_]|-|g; s|^-||')/memory/MEMORY.md" 2>/dev/null | head -50 || echo "(none)"
 
@@ -179,7 +186,7 @@ Prompt:
 ```
 All data is provided inline below. DO NOT use the Read tool or Bash tool to read any files.
 
-[PASTE Step 1 output sections: CLAUDE.md (global), CLAUDE.md (local), rules/, skill descriptions, MCP, HANDOFF.md, MEMORY.md, SKILL INVENTORY, SKILL SECURITY SCAN, SKILL FRONTMATTER, SKILL SYMLINK PROVENANCE, SKILL FULL CONTENT]
+[PASTE Step 1 output sections: CLAUDE.md (global), CLAUDE.md (local), NESTED CLAUDE.md, rules/, skill descriptions, STARTUP CONTEXT ESTIMATE, MCP, HANDOFF.md, MEMORY.md, SKILL INVENTORY, SKILL SECURITY SCAN, SKILL FRONTMATTER, SKILL SYMLINK PROVENANCE, SKILL FULL CONTENT]
 
 This project is tier: [SIMPLE / STANDARD / COMPLEX] — apply only the checks appropriate for this tier.
 
@@ -188,6 +195,7 @@ This project is tier: [SIMPLE / STANDARD / COMPLEX] — apply only the checks ap
 Tier-adjusted CLAUDE.md checks:
 - ALL tiers: Is CLAUDE.md short and executable? No prose, no background, no soft guidance.
 - ALL tiers: Does it have build/test commands?
+- ALL tiers: Flag any nested CLAUDE.md files found in subdirectories -- stacked context causes unpredictable behavior.
 - STANDARD+: Is there a "Verification" section with per-task done-conditions?
 - STANDARD+: Is there a "Compact Instructions" section?
 - COMPLEX only: Is content that belongs in rules/ or skills already split out?
@@ -216,6 +224,11 @@ MCP token cost check ALL tiers:
 - If estimated MCP tokens > 10% of 200K context (~20,000 tokens), flag as context pressure
 - If >6 servers, flag as HIGH: likely exceeding 12.5% context overhead
 - Check if any idle/rarely-used servers could be disconnected to reclaim context
+
+Startup context budget ALL tiers:
+- Compute: (global_claude_words + local_claude_words + rules_words + skill_desc_words) × 1.3 + mcp_tokens
+- Flag if total > 30K tokens (15% of 200K): context pressure before first user message
+- Flag if CLAUDE.md alone > 5K tokens (~3800 words): contract is oversized
 
 Tier-adjusted HANDOFF.md check STANDARD+:
 - Check if HANDOFF.md exists or if CLAUDE.md mentions handoff practice
@@ -261,7 +274,7 @@ Prompt:
 ```
 All data is provided inline below. DO NOT use the Read tool or Bash tool to read any files.
 
-[PASTE Step 1 output sections: settings.local.json, CLAUDE.md (global), CLAUDE.md (local), hooks, allowedTools count, skill descriptions, CONVERSATION EXTRACT]
+[PASTE Step 1 output sections: settings.local.json, GITIGNORE, CLAUDE.md (global), CLAUDE.md (local), hooks, allowedTools count, skill descriptions, CONVERSATION EXTRACT]
 
 This project is tier: [SIMPLE / STANDARD / COMPLEX] — apply only the checks appropriate for this tier.
 
@@ -280,6 +293,9 @@ Tier-adjusted hooks checks:
 allowedTools hygiene ALL tiers:
 - Flag genuinely dangerous operations only: sudo *, force-delete root paths, *>* (redirect to arbitrary files), git push --force origin main
 - Do NOT flag: path-hardcoded commands, debug/test commands, brew/launchctl/maintenance commands -- these are normal personal workflow entries
+
+Credential exposure ALL tiers:
+- Check GITIGNORE section: if settings.local.json is NOT gitignored, flag as 🔴 Critical -- API tokens and personal paths may be committed to version control
 
 MCP configuration STANDARD+:
 - Check enabledMcpjsonServers count -- >6 may impact performance
