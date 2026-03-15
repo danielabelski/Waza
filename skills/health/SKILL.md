@@ -289,6 +289,8 @@ Tier-adjusted hooks checks:
   - Each hook in the array needs `type: "command"` and `command` field
   - File path available via `$CLAUDE_TOOL_INPUT_FILE_PATH` env var in commands
   - Flag hooks missing `matcher` -- would fire on ALL tool calls
+- ALL tiers: Flag hook commands running full test suites on every edit (cargo test, npm test, pytest, go test, jest) -- replace with fast checkers (cargo check, tsc --noEmit, bash -n, go build) for immediate feedback; reserve full tests for explicit verification
+- ALL tiers: Flag hook commands without output truncation (| head -N or | tail -N) -- unbounded output floods context on every edit
 
 allowedTools hygiene ALL tiers:
 - Flag genuinely dangerous operations only: sudo *, force-delete root paths, *>* (redirect to arbitrary files), git push --force origin main
