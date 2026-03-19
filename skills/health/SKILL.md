@@ -1,7 +1,7 @@
 ---
 name: health
 description: Audit Claude Code config drift and collaboration issues.
-version: "1.5.0"
+version: "1.5.1"
 disable-model-invocation: true
 ---
 
@@ -167,13 +167,14 @@ for DIR in "$P/.claude/skills" "$HOME/.claude/skills"; do
   done
 done
 
-echo "=== SKILL FULL CONTENT ==="
-for DIR in "$P/.claude/skills" "$HOME/.claude/skills"; do
-  [ -d "$DIR" ] || continue
-  find -L "$DIR" -name "SKILL.md" 2>/dev/null | grep -v "$SELF_SKILL" | while IFS= read -r f; do
-    echo "--- FULL: $f ---"
-    cat "$f"
+echo "=== SKILL FULL CONTENT (sample: up to 5 skills, 80 lines each) ==="
+{ for DIR in "$P/.claude/skills" "$HOME/.claude/skills"; do
+    [ -d "$DIR" ] || continue
+    find -L "$DIR" -name "SKILL.md" 2>/dev/null | grep -v "$SELF_SKILL"
   done
+} | head -5 | while IFS= read -r f; do
+  echo "--- FULL: $f ---"
+  head -80 "$f"
 done
 ```
 

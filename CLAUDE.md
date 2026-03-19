@@ -17,12 +17,18 @@ Configuration health audit skill for Claude Code.
 # Syntax check: extract bash blocks and check syntax (macOS compatible)
 awk '/^```bash$/{p=1;next} /^```$/{p=0} p' skills/health/SKILL.md | bash -n
 
-# Word count: SKILL.md should stay under 3000 words
+# Word count: SKILL.md should stay under 3500 words
 wc -w skills/health/SKILL.md
 
 # Version consistency: frontmatter version and marketplace.json must match
 grep 'version:' skills/health/SKILL.md | head -1
 grep '"version"' .claude-plugin/marketplace.json
+
+# Claude Code install smoke test: project-local install should land in .claude/skills
+TMP_HOME=$(mktemp -d) && TMP_PROJ=$(mktemp -d) && \
+cd "$TMP_PROJ" && \
+HOME="$TMP_HOME" XDG_CONFIG_HOME="$TMP_HOME/.config" npx skills add tw93/claude-health -a claude-code -s health -y --copy && \
+test -f "$TMP_PROJ/.claude/skills/health/SKILL.md"
 ```
 
 ## Commit Convention

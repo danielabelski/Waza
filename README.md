@@ -14,10 +14,16 @@ A Claude Code skill that systematically reviews your project's setup using the s
 
 ## Install
 
-**npx skills(Recommended):**
+Recommended, install globally for Claude Code:
 
 ```bash
-npx skills add tw93/claude-health
+npx skills add tw93/claude-health -a claude-code -s health -g -y
+```
+
+Install only in the current project:
+
+```bash
+npx skills add tw93/claude-health -a claude-code -s health -y
 ```
 
 **Claude Plugin:**
@@ -29,11 +35,18 @@ claude plugin install health
 
 ## Usage
 
-In any Claude Code session, run `/health` or just say:
+Restart Claude Code after installation. Then in any Claude Code session, run `/health` or just say:
 
 > "Run a health check on my Claude Code config"
 
 The skill automatically detects your project tier (Simple / Standard / Complex) and calibrates checks accordingly. It won't flag missing layers that aren't needed for your project size.
+
+## Troubleshooting
+
+- `Unknown skill: health`: install to Claude Code explicitly with `-a claude-code`. Use `-g` if you want the skill available in every project. Restart Claude Code after installation.
+- Installer summary shows `./.agents/skills/health`: that summary is generic. For Claude Code, the installed path should end up at `./.claude/skills/health` or `~/.claude/skills/health`.
+- `/health` runs for too long: recent versions cap global skill and conversation sampling to keep audits bounded. Run it from the target project root, not from a large umbrella directory.
+- Scope: this repository targets Claude Code only. Codex and OpenClaw are not supported here.
 
 ## What Gets Checked
 

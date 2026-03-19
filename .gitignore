@@ -1,5 +1,6 @@
 # AI Assistant Configuration
 .claude/settings.local.json
+AGENTS.md
 
 # macOS
 .DS_Store
