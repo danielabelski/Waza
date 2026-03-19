@@ -46,12 +46,12 @@ echo "=== CLAUDE.md (global) ===" ; cat ~/.claude/CLAUDE.md 2>/dev/null || echo 
 echo "=== CLAUDE.md (local) ===" ; cat "$P/CLAUDE.md" 2>/dev/null || echo "(none)"
 echo "=== settings.local.json ===" ; cat "$SETTINGS" 2>/dev/null || echo "(none)"
 echo "=== rules/ ===" ; find "$P/.claude/rules" -name "*.md" 2>/dev/null | while IFS= read -r f; do echo "--- $f ---"; cat "$f"; done
-echo "=== skill descriptions ===" ; grep -r "^description:" "$P/.claude/skills" ~/.claude/skills 2>/dev/null
+echo "=== skill descriptions ===" ; { [ -d "$P/.claude/skills" ] && grep -r "^description:" "$P/.claude/skills" 2>/dev/null; grep -r "^description:" ~/.claude/skills 2>/dev/null; } | sort -u
 echo "=== STARTUP CONTEXT ESTIMATE ==="
 echo "global_claude_words: $(wc -w < ~/.claude/CLAUDE.md 2>/dev/null | tr -d ' ' || echo 0)"
 echo "local_claude_words: $(wc -w < "$P/CLAUDE.md" 2>/dev/null | tr -d ' ' || echo 0)"
 echo "rules_words: $(find "$P/.claude/rules" -name "*.md" 2>/dev/null | while IFS= read -r f; do cat "$f"; done | wc -w | tr -d ' ')"
-echo "skill_desc_words: $(grep -r "^description:" "$P/.claude/skills" ~/.claude/skills 2>/dev/null | wc -w | tr -d ' ')"
+echo "skill_desc_words: $({ [ -d "$P/.claude/skills" ] && grep -r "^description:" "$P/.claude/skills" 2>/dev/null; grep -r "^description:" ~/.claude/skills 2>/dev/null; } | wc -w | tr -d ' ')"
 echo "=== hooks ===" ; python3 -c "import json,sys; d=json.load(open('$SETTINGS')); print(json.dumps(d.get('hooks',{}), indent=2))" 2>/dev/null || echo "(unavailable: settings.local.json missing or malformed)"
 echo "=== MCP ===" ; python3 -c "
 import json
@@ -77,17 +77,19 @@ CONVO_DIR=~/.claude/projects/-${PROJECT_PATH}
 ls -lhS "$CONVO_DIR"/*.jsonl 2>/dev/null | head -10
 
 echo "=== CONVERSATION EXTRACT (up to 3 most recent, confidence improves with more files) ==="
-FILES=$(ls -t "$CONVO_DIR"/*.jsonl 2>/dev/null | head -3)
-if [ -n "$FILES" ]; then
-  for F in $FILES; do
+# Skip the most-recent file -- it's the active session (still being written, jq will fail on incomplete JSON)
+_PREV_FILES=$(ls -t "$CONVO_DIR"/*.jsonl 2>/dev/null | tail -n +2 | head -3)
+if [ -n "$_PREV_FILES" ]; then
+  echo "$_PREV_FILES" | while IFS= read -r F; do
+    [ -f "$F" ] || continue
     echo "--- file: $F ---"
-    cat "$F" | jq -r '
+    jq -r '
       if .type == "user" then "USER: " + ((.message.content // "") | if type == "array" then map(select(.type == "text") | .text) | join(" ") else . end)
       elif .type == "assistant" then
         "ASSISTANT: " + ((.message.content // []) | map(select(.type == "text") | .text) | join("\n"))
       else empty
       end
-    ' 2>/dev/null | grep -v "^ASSISTANT: $" | head -300 || echo "(unavailable: jq not installed or parse error)"
+    ' "$F" 2>/dev/null | grep -v "^ASSISTANT: $" | head -300 || echo "(unavailable: jq not installed or parse error)"
   done
 else
   echo "(no conversation files)"
@@ -95,7 +97,7 @@ fi
 
 # --- Skill scan (inventory, security, frontmatter, provenance, full content) ---
 # Exclude self by frontmatter name field -- stable across install paths
-SELF_SKILL=$(grep -rl '^name: health$' "$P/.claude/skills" "$HOME/.claude/skills" 2>/dev/null | grep 'SKILL.md' | head -1)
+SELF_SKILL=$( (grep -rl '^name: health$' "$P/.claude/skills" "$HOME/.claude/skills" 2>/dev/null || true) | grep 'SKILL.md' | head -1)
 [ -z "$SELF_SKILL" ] && SELF_SKILL="health/SKILL.md"
 
 echo "=== SKILL INVENTORY ==="
