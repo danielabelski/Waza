@@ -7,16 +7,18 @@ disable-model-invocation: true
 
 # Claude Code Configuration Health Audit
 
-Systematically audit the current project's Claude Code setup using the six-layer framework:
+Audit the current project's Claude Code setup with the six-layer framework:
 `CLAUDE.md → rules → skills → hooks → subagents → verifiers`
 
-The goal is not just to find rule violations, but to diagnose which layer is misaligned and why — **calibrated to the project's actual complexity**.
+The goal is to find violations and identify the misaligned layer, calibrated to project complexity.
 
-**Output language:** Detect from the conversation language or the CLAUDE.md `## Communication` rule; present all findings in that language. Default to English if unclear.
+**Output language:** Use the user's recent messages; fall back to the CLAUDE.md `## Communication` rule. Default to English.
+
+**IMPORTANT:** Before the first tool call, output one short status line in the output language that says the audit is starting.
 
 ## Step 0: Assess project tier
 
-Use this rubric to pick the audit tier before proceeding:
+Pick the audit tier first:
 
 | Tier | Signal | What's expected |
 |------|--------|-----------------|
@@ -24,12 +26,12 @@ Use this rubric to pick the audit tier before proceeding:
 | **Standard** | 500–5K files, small team or CI present | CLAUDE.md + 1–2 rules files; 2–4 skills; basic hooks |
 | **Complex** | >5K files, multi-contributor, multi-language, active CI | Full six-layer setup required |
 
-**Apply the tier's standard throughout the audit. Do not flag missing layers that aren't required for the detected tier.**
+**Apply only the detected tier's requirements.**
 
 
 ## Step 1: Collect all data (single bash block)
 
-Run one block to collect everything. This keeps the entire data-gathering phase to a single confirmation prompt.
+Run one block to collect all data.
 
 ```bash
 P=$(pwd)
@@ -95,7 +97,7 @@ CONVO_DIR=~/.claude/projects/-${PROJECT_PATH}
 ls -lhS "$CONVO_DIR"/*.jsonl 2>/dev/null | head -10
 
 echo "=== CONVERSATION EXTRACT (up to 3 most recent, confidence improves with more files) ==="
-# Skip the most-recent file -- it's the active session (still being written, jq will fail on incomplete JSON)
+# Skip the active session, it may still be incomplete.
 _PREV_FILES=$(ls -t "$CONVO_DIR"/*.jsonl 2>/dev/null | tail -n +2 | head -3)
 if [ -n "$_PREV_FILES" ]; then
   echo "$_PREV_FILES" | while IFS= read -r F; do
@@ -118,8 +120,8 @@ ls -t "$CONVO_DIR"/*.jsonl 2>/dev/null | head -10 | while IFS= read -r F; do
   grep -nEm 2 'Access denied - path outside allowed directories|tool-results/.+ not in ' "$F" 2>/dev/null
 done | head -20
 
-# --- Skill scan (inventory, security, frontmatter, provenance, full content) ---
-# Exclude self by frontmatter name field -- stable across install paths
+# --- Skill scan ---
+# Exclude self by frontmatter name, stable across install paths.
 SELF_SKILL=$( (grep -rl '^name: health$' "$P/.claude/skills" "$HOME/.claude/skills" 2>/dev/null || true) | grep 'SKILL.md' | head -1)
 [ -z "$SELF_SKILL" ] && SELF_SKILL="health/SKILL.md"
 
@@ -205,171 +207,171 @@ done
 
 ## Step 2: Launch two parallel diagnostic agents
 
-Spin up **two subagents** in parallel using the Agent tool. Paste all relevant Step 1 output sections inline into each agent's prompt so they do not need to read any files. Fill in `[project]` and tier; use `(no conversation history)` if none.
+Launch **two subagents** in parallel. Paste the needed Step 1 sections inline. Fill in `[project]`, tier, and `(no conversation history)` when needed.
 
-### Agent 1 — Context + Security Audit (no conversation needed)
+### Agent 1 -- Context + Security Audit (no conversation needed)
 Prompt:
 ```
-All data is provided inline below. DO NOT use the Read tool or Bash tool to read any files.
+Use only the pasted data. Do not read files.
 
 [PASTE Step 1 output sections: CLAUDE.md (global), CLAUDE.md (local), NESTED CLAUDE.md, rules/, skill descriptions, STARTUP CONTEXT ESTIMATE, MCP, HANDOFF.md, MEMORY.md, SKILL INVENTORY, SKILL SECURITY SCAN, SKILL FRONTMATTER, SKILL SYMLINK PROVENANCE, SKILL FULL CONTENT]
 
-This project is tier: [SIMPLE / STANDARD / COMPLEX] — apply only the checks appropriate for this tier.
+Tier: [SIMPLE / STANDARD / COMPLEX]. Apply only that tier.
 
 ## Part A: Context Layer
 
-Tier-adjusted CLAUDE.md checks:
-- ALL tiers: Is CLAUDE.md short and executable? No prose, no background, no soft guidance.
-- ALL tiers: Does it have build/test commands?
-- ALL tiers: Flag any nested CLAUDE.md files found in subdirectories -- stacked context causes unpredictable behavior.
-- ALL tiers: Compare global and local CLAUDE.md for duplicate rules (same constraint in both = wasted context) and conflicting rules (opposite directives = unpredictable behavior). Duplicates are 🟢, conflicts are 🔴.
+CLAUDE.md checks:
+- ALL: Short, executable, no prose/background/soft guidance.
+- ALL: Has build/test commands.
+- ALL: Flag nested CLAUDE.md files, stacked context is unpredictable.
+- ALL: Compare global vs local rules. Duplicates are [+], conflicts are [!].
 - STANDARD+: Is there a "Verification" section with per-task done-conditions?
 - STANDARD+: Is there a "Compact Instructions" section?
 - COMPLEX only: Is content that belongs in rules/ or skills already split out?
 
-Tier-adjusted rules/ checks:
-- SIMPLE: rules/ is NOT required — do not flag its absence.
-- STANDARD+: Language-specific rules like Rust or Lua should be in rules/ not CLAUDE.md.
-- COMPLEX: Path-specific rules should be isolated; no rules in root CLAUDE.md.
+rules/ checks:
+- SIMPLE: rules/ is optional.
+- STANDARD+: Language-specific rules belong in rules/, not CLAUDE.md.
+- COMPLEX: Isolate path-specific rules; keep root CLAUDE.md clean.
 
-Tier-adjusted skill checks:
-- SIMPLE: 0–1 skills is fine. Do not flag absence of skills.
-- ALL tiers: If skills exist, descriptions should be <12 words and say WHEN to use.
-- STANDARD+: Low-frequency skills should have disable-model-invocation: true.
+Skill checks:
+- SIMPLE: 0–1 skills is fine.
+- ALL tiers: If skills exist, descriptions should be <12 words and say when to use.
+- STANDARD+: Low-frequency skills should use disable-model-invocation: true.
 
-Tier-adjusted MEMORY.md checks STANDARD+:
+MEMORY.md checks, STANDARD+:
 - Check if project has `.claude/projects/.../memory/MEMORY.md`
-- Verify CLAUDE.md references MEMORY.md for architecture decisions
-- Ensure key design decisions: data models, API contracts, major tradeoffs are documented there
-- Weight urgency by conversation count (0–2 = low, 3–9 = medium, 10+ = 🔴 Critical if MEMORY.md absent)
+- Verify CLAUDE.md points to MEMORY.md for architecture decisions
+- Ensure key decisions, models, contracts, and tradeoffs are documented
+- Weight urgency by conversation count, 10+ means [!] Critical if MEMORY.md is absent
 
-Tier-adjusted AGENTS.md checks COMPLEX with multiple modules:
-- Verify CLAUDE.md includes "AGENTS.md 使用指南" section
-- Check that it explains WHEN to consult each AGENTS.md -- not just list links
+AGENTS.md checks, COMPLEX multi-module only:
+- Verify CLAUDE.md includes "AGENTS.md 使用指南"
+- Ensure it explains when to consult each AGENTS.md, not just links
 
-MCP token cost check ALL tiers:
-- Count MCP servers and estimate token overhead: ~200 tokens/tool, ~25 tools/server
-- If estimated MCP tokens > 10% of 200K context (~20,000 tokens), flag as context pressure
+MCP token cost, ALL tiers:
+- Count MCP servers and estimate token overhead, ~200 tokens/tool and ~25 tools/server
+- If estimated MCP tokens >10% of 200K context, flag context pressure
 - If >6 servers, flag as HIGH: likely exceeding 12.5% context overhead
 - Flag too-narrow filesystem allowlists when `~/.claude/projects/.../tool-results` denials indicate breakage
 - Flag idle/rarely-used servers to disconnect and reclaim context
 
-Startup context budget ALL tiers:
+Startup context budget, ALL tiers:
 - Compute: (global_claude_words + local_claude_words + rules_words + skill_desc_words) × 1.3 + mcp_tokens
-- Flag if total > 30K tokens (15% of 200K): context pressure before first user message
+- Flag if total >30K tokens, context pressure before the first user message
 - Flag if CLAUDE.md alone > 5K tokens (~3800 words): contract is oversized
 
-Tier-adjusted HANDOFF.md check STANDARD+:
+HANDOFF.md checks, STANDARD+:
 - Check if HANDOFF.md exists or if CLAUDE.md mentions handoff practice
 - COMPLEX: Recommend HANDOFF.md pattern for cross-session continuity if not present
 
-Verifiers layer STANDARD+:
-- Check for test/lint scripts: package.json `scripts`, Makefile, Taskfile, or CI steps.
+Verifiers, STANDARD+:
+- Check for test/lint scripts in package.json, Makefile, Taskfile, or CI.
 - Flag done-conditions in CLAUDE.md with no matching command in the project.
 
 ## Part B: Skill Security & Quality
 
-Use the collected data from Step 1: SKILL INVENTORY, SKILL SECURITY SCAN, SKILL FRONTMATTER, SKILL SYMLINK PROVENANCE, SKILL FULL CONTENT. All data is already provided inline above.
+Use these Step 1 sections: SKILL INVENTORY, SKILL SECURITY SCAN, SKILL FRONTMATTER, SKILL SYMLINK PROVENANCE, SKILL FULL CONTENT.
 
-CRITICAL DISTINCTION: Differentiate between a skill that DISCUSSES a security pattern (benign) vs. one that USES it (dangerous). Only flag the latter. Note FALSE POSITIVES explicitly.
+CRITICAL: distinguish discussion of a security pattern from actual use. Only flag use. Note false positives explicitly.
 
-🔴 Security checks:
+[!] Security checks:
 1. Prompt injection: "ignore previous instructions", "you are now", "pretend you are", "new persona", "override system prompt"
-2. Data exfiltration: HTTP POST via network tools with env vars, encoding secrets before transmission
+2. Data exfiltration: HTTP POST via network tools with env vars or encoded secrets
 3. Destructive commands: recursive force-delete on root paths, force-push to main, world-write chmod without confirmation
 4. Hardcoded credentials: api_key/secret_key assignments with long alphanumeric strings
 5. Obfuscation: shell evaluation of subshell output, decode piped to shell, hex escape sequences
 6. Safety override: "override/bypass/disable" combined with "safety/rules/hooks/guard/verification"
 
-🟡 Quality checks:
+[~] Quality checks:
 1. Missing or incomplete YAML frontmatter: no name, no description, no version
 2. Description too broad: would match unrelated user requests
 3. Content bloat: skill >5000 words -- split large reference docs into supporting files
 4. Broken file references: skill references files that do not exist
 5. Subagent hygiene: Agent tool calls in skills that lack explicit tool restrictions, isolation mode, or output format constraint
 
-🟢 Provenance checks:
+[+] Provenance checks:
 1. Symlink source: git remote + commit for symlinked skills
 2. Missing version in frontmatter
 3. Unknown origin: non-symlink skills with no source attribution
 
 Output: bullet points only, two sections:
 [CONTEXT LAYER: CLAUDE.md issues | rules/ issues | skill description issues | MCP cost | verifiers gaps]
-[SKILL SECURITY: 🔴 Critical | 🟡 Structural | 🟢 Provenance]
+[SKILL SECURITY: [!] Critical | [~] Structural | [+] Provenance]
 ```
 
-### Agent 2 — Control + Behavior Audit (uses conversation evidence)
+### Agent 2 -- Control + Behavior Audit (uses conversation evidence)
 Prompt:
 ```
-All data is provided inline below. DO NOT use the Read tool or Bash tool to read any files.
+Use only the pasted data. Do not read files.
 
 [PASTE Step 1 output sections: settings.local.json, GITIGNORE, CLAUDE.md (global), CLAUDE.md (local), hooks, MCP FILESYSTEM, MCP ACCESS DENIALS, allowedTools count, skill descriptions, CONVERSATION EXTRACT]
 
-This project is tier: [SIMPLE / STANDARD / COMPLEX] — apply only the checks appropriate for this tier.
+Tier: [SIMPLE / STANDARD / COMPLEX]. Apply only that tier.
 
 ## Part A: Control + Verification Layer
 
-Tier-adjusted hooks checks:
-- SIMPLE: Hooks are optional. Only flag if a hook is broken -- like firing on wrong file types.
+Hooks checks:
+- SIMPLE: Hooks are optional. Only flag broken ones, for example wrong file types.
 - STANDARD+: PostToolUse hooks expected for the primary languages of the project.
 - COMPLEX: Hooks expected for all frequently-edited file types found in conversations.
-- ALL tiers: If hooks exist, verify correct schema:
-  - Each entry needs `matcher`: tool name regex like "Edit|Write", and a `hooks` array
-  - Each hook in the array needs `type: "command"` and `command` field
-  - File path available via `$CLAUDE_TOOL_INPUT_FILE_PATH` env var in commands
-  - Flag hooks missing `matcher` -- would fire on ALL tool calls
-- ALL tiers: Flag hook commands running full test suites on every edit (cargo test, npm test, pytest, go test, jest) -- replace with fast checkers (cargo check, tsc --noEmit, bash -n, go build) for immediate feedback; reserve full tests for explicit verification
-- ALL tiers: Flag hook commands without output truncation (| head -N or | tail -N) -- unbounded output floods context on every edit
-- ALL tiers: Flag hook commands without error surfacing -- commands that can fail silently (no || echo 'FAILED' or explicit exit handling) give Claude no signal that the check failed
+- ALL tiers: If hooks exist, verify schema:
+  - Each entry needs `matcher` and a `hooks` array
+  - Each hook needs `type: "command"` and `command`
+  - File path may be available via `$CLAUDE_TOOL_INPUT_FILE_PATH`
+  - Missing `matcher` fires on all tool calls
+- ALL tiers: Flag full test suites on every edit, prefer fast checks for immediate feedback.
+- ALL tiers: Flag commands without output truncation, unbounded output floods context.
+- ALL tiers: Flag commands without explicit failure surfacing.
 
-allowedTools hygiene ALL tiers:
-- Flag genuinely dangerous operations only: sudo *, force-delete root paths, *>* (redirect to arbitrary files), git push --force origin main
+allowedTools hygiene, ALL tiers:
+- Flag genuinely dangerous operations only: sudo *, force-delete root paths, *>* and git push --force origin main
 - Do NOT flag: path-hardcoded commands, debug/test commands, brew/launchctl/maintenance commands -- these are normal personal workflow entries
 
-Credential exposure ALL tiers:
-- Check GITIGNORE section: if settings.local.json is NOT gitignored, flag as 🔴 Critical -- API tokens and personal paths may be committed to version control
+Credential exposure, ALL tiers:
+- If settings.local.json is NOT gitignored, flag [!] Critical, tokens and personal paths may be committed
 
-MCP configuration STANDARD+:
-- Check enabledMcpjsonServers count -- >6 may impact performance
+MCP configuration, STANDARD+:
+- Check enabledMcpjsonServers count, >6 may impact performance
 - Check filesystem MCP has allowedDirectories configured
-- If `~/.claude/projects/.../tool-results/*` denials show real breakage, escalate and output a ready-to-run `python3` one-liner that appends the narrowest missing path to `allowedDirectories` in `settings.local.json`
+- If `~/.claude/projects/.../tool-results/*` denials show breakage, output a `python3` one-liner that appends the narrowest missing path
 
-Prompt cache hygiene ALL tiers:
-- Check CLAUDE.md or hooks for dynamic timestamps/dates injected into system-level context -- breaks prompt cache on every request
+Prompt cache hygiene, ALL tiers:
+- Check CLAUDE.md or hooks for dynamic timestamps/dates in system context, they break prompt cache
 - Check if hooks or skills non-deterministically reorder tool definitions
-- In conversation evidence, look for mid-session model switches like Opus→Haiku→Opus — flag as cache-breaking: switching model rebuilds entire cache and can be MORE expensive
-- If model switching is detected, recommend: use subagents for different-model tasks instead of switching mid-session
+- Flag mid-session model switches like Opus→Haiku→Opus, they rebuild cache and can cost more
+- If model switching is detected, recommend subagents instead
 
-Three-layer defense consistency STANDARD+:
+Three-layer defense consistency, STANDARD+:
 - For each critical rule in CLAUDE.md NEVER/ALWAYS items, check if:
   1. CLAUDE.md declares the rule: intent layer
   2. A Skill teaches the method/workflow for that rule: knowledge layer
   3. A Hook enforces it deterministically: control layer
-- Flag rules that only exist in one layer — single-layer rules are fragile:
+- Flag rules that only exist in one layer -- single-layer rules are fragile:
   - CLAUDE.md-only rules: Claude may ignore them under context pressure
   - Hook-only rules: no flexibility for edge cases, no teaching
   - Skill-only rules: no enforcement, no always-on awareness
 - Priority: focus on safety-critical rules: file protection, test requirements, deploy gates
 
-Tier-adjusted verification checks:
+Verification checks:
 - SIMPLE: No formal verification section required. Only flag if Claude declared done without running any check.
 - STANDARD+: CLAUDE.md should have a Verification section with per-task done-conditions.
 - COMPLEX: Each task type in conversations should map to a verification command or skill.
 
-Subagents hygiene STANDARD+:
+Subagent hygiene, STANDARD+:
 - Flag Agent tool calls in hooks that lack explicit tool restrictions or isolation mode.
 - Flag subagent prompts in hooks with no output format constraint -- free-form output pollutes parent context.
 
 ## Part B: Behavior Pattern Audit
 
-Data source: up to 3 recent conversation files; only flag patterns with clear evidence. Tag each finding [HIGH CONFIDENCE] (multiple files) or [LOW CONFIDENCE] (single file or inferred).
+Data source: up to 3 recent conversation files. Only flag clear evidence. Tag each finding [HIGH CONFIDENCE] or [LOW CONFIDENCE].
 
-1. Rules violated: Find cases where CLAUDE.md says NEVER/ALWAYS but Claude did the opposite. Quote both the rule and the violation. Only flag if directly observed, not inferred.
-2. Repeated corrections: Find cases where the user corrected Claude's behavior more than once on the same issue. Requires evidence in at least 2 conversations to flag as repeated.
-3. Missing local patterns: Find project-specific behaviors the user reinforced in conversation but that aren't in local CLAUDE.md.
-4. Missing global patterns: Find behaviors that would apply to any project that aren't in ~/.claude/CLAUDE.md.
-5. Skill frequency STANDARD+: Only report frequency if skill invocations are directly visible in the conversation evidence. Do not infer monthly rates from fewer than 3 sessions -- mark as [INSUFFICIENT DATA] instead. For verified <1/month skills: retire from skills/ and move to AGENTS.md as plain documentation.
-6. Anti-patterns: Only flag what is directly observable in the sample:
+1. Rules violated: quote the NEVER/ALWAYS rule and observed violation. No inference.
+2. Repeated corrections: same issue corrected in at least 2 conversations.
+3. Missing local patterns: project-specific behaviors reinforced in conversation but missing from local CLAUDE.md.
+4. Missing global patterns: cross-project behaviors missing from ~/.claude/CLAUDE.md.
+5. Skill frequency, STANDARD+: only report directly observed usage. With fewer than 3 sessions, mark [INSUFFICIENT DATA]. For verified <1/month skills, retire them to AGENTS.md docs.
+6. Anti-patterns: only flag what is directly observable:
    - Claude declaring done without running verification
    - User re-explaining same context across sessions -- missing HANDOFF.md or memory
    - Long sessions over 20 turns without /compact or /clear
@@ -379,30 +381,30 @@ Output: bullet points only, two sections:
 [BEHAVIOR: rules violated | repeated corrections | add to local CLAUDE.md | add to global CLAUDE.md | skill frequency | anti-patterns (tag each with confidence level)]
 ```
 
-Paste all relevant data inline into each agent; do not pass file paths or instruct agents to read files.
+Paste all data inline. Do not pass file paths.
 
 ## Step 3: Synthesize and present
 
-Aggregate all agent outputs into a single report with these sections:
+Aggregate both agent outputs into one report:
 
-### 🔴 Critical -- fix now
-Rules that were violated, missing verification definitions, allowedTools entries matching dangerous patterns (sudo *, force-delete root, *>*, force-push main), MCP token overhead >12.5%, repeated filesystem `Access denied` on required paths, cache-breaking patterns in active use. **Agent 1 security findings**: prompt injection, data exfiltration, destructive commands, hardcoded credentials, obfuscation, safety overrides detected in skills.
+### [!] Critical -- fix now
+Rules violated, missing verification definitions, dangerous allowedTools, MCP overhead >12.5%, required-path `Access denied`, active cache-breakers, and Agent 1 security findings.
 
-### 🟡 Structural -- fix soon
-CLAUDE.md content that belongs elsewhere, missing hooks for frequently-edited file types, skill descriptions that are too long, single-layer critical rules missing enforcement, mid-session model switching. **Agent 1**: test/lint scripts vs done-conditions. **Agent 2**: subagent permission/isolation gaps. **Agent 1**: missing frontmatter, overly broad descriptions, content bloat >5000 words (suggest supporting files), broken file references.
+### [~] Structural -- fix soon
+CLAUDE.md content that belongs elsewhere, missing hooks, oversized skill descriptions, single-layer critical rules, model switching, verifier gaps, subagent permission gaps, and skill structural issues.
 
-### 🟢 Incremental -- nice to have
-New patterns to add, outdated items to remove, global vs local placement improvements, context hygiene habits, HANDOFF.md adoption. **Agent 2**: skills to tune auto-invoke strategy, retire, or move to AGENTS.md. **Agent 1**: symlink source, missing version numbers, unknown-origin skills.
+### [+] Incremental -- nice to have
+New patterns to add, outdated items to remove, global vs local placement, context hygiene, HANDOFF.md adoption, skill invoke tuning, and provenance issues.
 
 ---
 
 ## Non-goals
-- Never auto-apply fixes without explicit confirmation.
+- Never auto-apply fixes without confirmation.
 - Never apply complex-tier checks to simple projects.
-- Flag issues; do not replace architectural judgment.
+- Flag issues, do not replace architectural judgment.
 
 
-**Stop condition:** After presenting the report, ask:
+**Stop condition:** After the report, ask:
 > "Should I draft the changes? I can handle each layer separately: global CLAUDE.md / local CLAUDE.md / hooks / skills."
 
 Do not make any edits without explicit confirmation.
