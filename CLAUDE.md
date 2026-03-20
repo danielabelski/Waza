@@ -8,17 +8,27 @@ Configuration health audit skill for Claude Code.
 
 ## Structure
 
-- `skills/health/SKILL.md` -- the only source file, contains all audit logic
-- Two parallel agents: Agent 1 (context + skill security), Agent 2 (control + behavior)
+```
+skills/health/
+├── SKILL.md                  -- orchestration: tier detection, data collection, synthesis
+├── agents/
+│   ├── agent1-context.md     -- Agent 1 prompt: CLAUDE.md, rules, skills, MCP, security audit
+│   └── agent2-control.md     -- Agent 2 prompt: hooks, behavior patterns, control layer audit
+```
+
+SKILL.md owns the flow. Agent files are loaded on demand by STANDARD/COMPLEX tier only; SIMPLE tier never reads them.
 
 ## Verification
 
 ```bash
-# Syntax check: extract bash blocks and check syntax (macOS compatible)
+# Syntax check: extract bash blocks from SKILL.md (macOS compatible)
 awk '/^```bash$/{p=1;next} /^```$/{p=0} p' skills/health/SKILL.md | bash -n
 
-# Word count: SKILL.md should stay under 3500 words
-wc -w skills/health/SKILL.md
+# Word count: SKILL.md should stay under 3500 words; agent files under 750 words each
+wc -w skills/health/SKILL.md skills/health/agents/agent1-context.md skills/health/agents/agent2-control.md
+
+# Agent files must exist
+test -f skills/health/agents/agent1-context.md && test -f skills/health/agents/agent2-control.md && echo "agent files: ok"
 
 # Version consistency: frontmatter version and marketplace.json must match
 grep 'version:' skills/health/SKILL.md | head -1
@@ -28,7 +38,9 @@ grep '"version"' .claude-plugin/marketplace.json
 TMP_HOME=$(mktemp -d) && TMP_PROJ=$(mktemp -d) && \
 cd "$TMP_PROJ" && \
 HOME="$TMP_HOME" XDG_CONFIG_HOME="$TMP_HOME/.config" npx skills add tw93/claude-health -a claude-code -s health -y --copy && \
-test -f "$TMP_PROJ/.claude/skills/health/SKILL.md"
+test -f "$TMP_PROJ/.claude/skills/health/SKILL.md" && \
+test -f "$TMP_PROJ/.claude/skills/health/agents/agent1-context.md" && \
+test -f "$TMP_PROJ/.claude/skills/health/agents/agent2-control.md"
 ```
 
 ## Commit Convention
