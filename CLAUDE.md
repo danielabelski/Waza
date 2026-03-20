@@ -31,8 +31,7 @@ wc -w skills/health/SKILL.md skills/health/agents/agent1-context.md skills/healt
 # Agent files must exist
 test -f skills/health/agents/agent1-context.md && test -f skills/health/agents/agent2-control.md && echo "agent files: ok"
 
-# Version consistency: frontmatter version and marketplace.json must match
-grep 'version:' skills/health/SKILL.md | head -1
+# Version: single source of truth is marketplace.json
 grep '"version"' .claude-plugin/marketplace.json
 
 # Claude Code install smoke test: project-local install should land in .claude/skills

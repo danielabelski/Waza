@@ -1,7 +1,6 @@
 ---
 name: health
 description: Run when Claude feels off, ignores rules, or hooks/MCP need auditing.
-version: "1.5.1"
 disable-model-invocation: true
 ---
 
@@ -12,7 +11,7 @@ Audit the current project's Claude Code setup with the six-layer framework:
 
 The goal is to find violations and identify the misaligned layer, calibrated to project complexity.
 
-**Output language:** Use the user's recent messages; fall back to the CLAUDE.md `## Communication` rule. Default to English.
+**Output language:** Check in order: (1) CLAUDE.md `## Communication` rule (global takes precedence over local); (2) language of the user's recent conversation messages; (3) default English. Apply the detected language to all output including progress lines, the report, and the stop-condition question.
 
 **IMPORTANT:** Before the first tool call, output a progress block in the output language:
 
@@ -212,60 +211,57 @@ echo "=== SKILL FULL CONTENT (sample: up to 5 skills, 80 lines each) ==="
 done
 ```
 
+## Gotchas
+
+Before interpreting Step 1 output, check these known failure modes.
+
+**Data collection silent failures**
+- `jq` not installed: conversation extraction prints `(unavailable: jq not installed or parse error)`. BEHAVIOR section will be empty -- treat as [INSUFFICIENT DATA], not a finding.
+- `python3` not on PATH: all MCP/hooks/allowedTools sections print `(unavailable)`. Do not flag those areas when the data source itself failed.
+- `settings.local.json` absent: hooks, MCP, and allowedTools all show `(unavailable)`. Normal for projects using global settings only -- not a misconfiguration.
+
+**MEMORY.md path construction**
+- Path built with `sed 's|[/_]|-|g'` on `pwd`. Unusual characters produce the wrong project key. If MEMORY.md shows `(none)` but the user mentions prior sessions, verify the path manually before flagging as [!].
+
+**Skill self-exclusion**
+- Security scan excludes the health skill by frontmatter name. If installed with a non-default name, `SELF_SKILL` may be empty and the scan will include this skill's content, producing false positives for patterns like `base64 -d`.
+
+**Conversation extract scope**
+- Only the 3 most recent `.jsonl` files are sampled, skipping the active session. Findings from fewer than 3 files carry low signal -- always tag [LOW CONFIDENCE].
+
+**MCP token estimate**
+- Assumes ~25 tools/server and ~200 tokens/tool. Servers with many or few tools cause large over/under-estimates. Treat as directional, not precise.
+
+**Tier misclassification edge cases**
+- The bash block excludes `node_modules/`, `dist/`, and `build/`, but not all generators. Monorepos with `.next/`, `__pycache__/`, or `.turbo/` output can inflate the file count and trigger COMPLEX tier falsely. Recheck manually if the tier feels wrong.
+
 ## Step 2: Analyze with tier-adjusted depth
 
-After Step 1 completes, output a summary line with the detected tier and key metrics, then the step progress:
+After Step 1 completes, output a summary line, then the step indicator:
 
 ```
-Tier: {SIMPLE/STANDARD/COMPLEX}; {file_count} files · {contributor_count} contributors · {ci: present/absent}
+Tier: {SIMPLE/STANDARD/COMPLEX} -- {file_count} files · {contributor_count} contributors · CI: {present/absent}
 Step 2/3: {SIMPLE: "Analyzing locally" | STANDARD/COMPLEX: "Launching parallel analysis agents"}
 ```
 
-For STANDARD/COMPLEX, also list what each agent covers:
+SIMPLE: output "Analyzing locally" above. Do not launch subagents. Analyze from Step 1, prioritize core config checks, skip conversation-heavy cross-validation unless evidence is obvious.
+
+STANDARD/COMPLEX: output "Launching parallel analysis agents" above, then list coverage:
+
 ```
   · Agent 1: CLAUDE.md, rules, skills, MCP context + security scan
   · Agent 2: hooks, allowedTools, behavior patterns, three-layer defense
 ```
 
-SIMPLE: do not launch subagents. Analyze locally from Step 1, prioritize core config checks, and skip conversation-heavy cross-validation unless the evidence is already obvious.
-
-STANDARD/COMPLEX: launch **two subagents** in parallel. Paste the needed Step 1 sections inline. Fill in `[project]`, tier, and `(no conversation history)` when needed.
+Launch **two subagents** in parallel. Paste all data inline -- do not pass file paths.
 
 ### Agent 1 -- Context + Security Audit (no conversation needed)
 
-Read `agents/agent1-context.md` from this skill's directory for the full prompt.
-Paste these Step 1 sections inline: CLAUDE.md (global), CLAUDE.md (local), NESTED CLAUDE.md, rules/, skill descriptions, STARTUP CONTEXT ESTIMATE, MCP, HANDOFF.md, MEMORY.md, SKILL INVENTORY, SKILL SECURITY SCAN, SKILL FRONTMATTER, SKILL SYMLINK PROVENANCE, SKILL FULL CONTENT.
+Read `agents/agent1-context.md` from this skill's directory. It specifies which Step 1 sections to paste and the full audit checklist.
 
 ### Agent 2 -- Control + Behavior Audit (uses conversation evidence)
 
-Read `agents/agent2-control.md` from this skill's directory for the full prompt.
-Paste these Step 1 sections inline: settings.local.json, GITIGNORE, CLAUDE.md (global), CLAUDE.md (local), hooks, MCP FILESYSTEM, MCP ACCESS DENIALS, allowedTools count, skill descriptions, CONVERSATION EXTRACT.
-
-Paste all data inline. Do not pass file paths.
-
-## Gotchas
-
-Known failure modes that produce misleading output. Check these before flagging as issues.
-
-**Data collection silent failures**
-- `jq` not installed: conversation extraction prints `(unavailable: jq not installed or parse error)` and continues. The BEHAVIOR section will be empty -- treat as [INSUFFICIENT DATA], not a finding.
-- `python3` not on PATH: all MCP/hooks/allowedTools sections print `(unavailable)`. Do not flag MCP or hook issues when the data source itself failed.
-- `settings.local.json` absent: hooks, MCP, and allowedTools all show `(unavailable)`. This is normal for projects that use global settings only -- not a misconfiguration.
-
-**MEMORY.md path construction**
-- The path is built with `sed 's|[/_]|-|g'` on `pwd`. Paths containing consecutive slashes or unusual characters produce the wrong project key. If MEMORY.md shows `(none)` but the user mentions prior sessions, verify the path manually before flagging missing memory as [!].
-
-**Skill self-exclusion**
-- The security scan excludes the health skill by frontmatter name. If the skill was installed with a non-default name, `SELF_SKILL` may be empty and the scan will include this skill's own content, producing false positives for patterns like `base64 -d` (used in the scan itself).
-
-**Conversation extract scope**
-- Only the 3 most recent `.jsonl` files are sampled, skipping the active session. Behavior findings from fewer than 3 files carry low signal -- always tag them [LOW CONFIDENCE].
-
-**MCP token estimate**
-- The estimate assumes ~25 tools/server and ~200 tokens/tool. Servers with many tools (e.g., filesystem MCP) or few tools (single-endpoint integrations) can cause large over/under-estimates. Treat the number as directional, not precise.
-
-**Tier misclassification edge cases**
-- Monorepos with many generated files (e.g., `dist/`, `node_modules/` not excluded from count) can falsely trigger COMPLEX tier. The bash block excludes common directories but not all generators. Recheck file count manually if the tier feels wrong.
+Read `agents/agent2-control.md` from this skill's directory. It specifies which Step 1 sections to paste and the full audit checklist.
 
 ## Step 3: Synthesize and present
 
