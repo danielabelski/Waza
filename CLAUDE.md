@@ -5,6 +5,7 @@ Configuration health audit skill for Claude Code.
 ## Communication
 
 - Do not use em dashes (U+2014) in any output. Use commas, periods, colons, or semicolons instead.
+- This also applies to skill templates, report examples, progress lines, and any example output embedded in `skills/health/`.
 
 ## Structure
 
