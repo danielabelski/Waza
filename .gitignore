@@ -1,5 +1,8 @@
 # AI Assistant Configuration
-.claude/settings.local.json
+.claude/
+.agent/
+.agents/
+.qoder/
 AGENTS.md
 skills-lock.json
 
