@@ -245,7 +245,7 @@ STANDARD/COMPLEX: output "Launching parallel analysis agents" above, then list c
   · Agent 2: hooks, allowedTools, behavior patterns, three-layer defense
 ```
 
-Launch **two subagents** in parallel. Paste all data inline -- do not pass file paths.
+Launch **two subagents** in parallel. Paste all data inline -- do not pass file paths. Before pasting, replace any credential values (API keys, tokens, passwords) with `[REDACTED]`; paste the structural data only.
 
 ### Agent 1 -- Context + Security Audit (no conversation needed)
 
