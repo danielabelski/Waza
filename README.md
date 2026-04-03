@@ -1,6 +1,6 @@
 <div align="center">
   <h1>Waza</h1>
-  <p><em>技: know the move before you need it.</em></p>
+  <p><em>🥷 know the move before you need it.</em></p>
   <a href="https://github.com/tw93/waza/stargazers"><img src="https://img.shields.io/github/stars/tw93/waza?style=flat-square" alt="Stars"></a>
   <a href="https://github.com/tw93/waza/releases"><img src="https://img.shields.io/github/v/tag/tw93/waza?label=version&style=flat-square" alt="Version"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square" alt="License"></a>
@@ -9,7 +9,7 @@
 
 <br/>
 
-Eight skills for everyday software work: requirements, architecture, code review, debugging, design, reading, writing, and config health. Each skill is a focused methodology, no framework overhead, no telemetry.
+A collection of [Claude Code skills](https://docs.anthropic.com/en/docs/claude-code/skills) for everyday software work. Skills are slash commands (`/think`, `/check`, `/hunt`, ...) that give Claude a focused methodology for a specific task: you type the command, Claude follows the playbook. Eight skills covering requirements, architecture, code review, debugging, frontend design, reading, writing, and config health. No framework overhead, no telemetry.
 
 ## Skills
 
