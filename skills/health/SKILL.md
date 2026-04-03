@@ -15,10 +15,10 @@ The goal is to find violations and identify the misaligned layer, calibrated to 
 **IMPORTANT:** Before the first tool call, output a progress block in the output language:
 
 ```
-Step 1/3: Collecting configuration data
+Step 1/3: Collecting configuration data [1/10]
   · CLAUDE.md (global + local) · rules/ · settings.local.json · hooks
   · MCP servers · skills inventory + security scan
-  · conversation history (up to 3 recent sessions)
+  · conversation history (up to 2 recent sessions)
 ```
 
 ## Step 0: Assess project tier
@@ -42,6 +42,7 @@ Run one block to collect data.
 P=$(pwd)
 SETTINGS="$P/.claude/settings.local.json"
 
+echo "[1/10] Tier metrics..."
 echo "=== TIER METRICS ==="
 echo "project_files: $(git -C "$P" ls-files 2>/dev/null | wc -l || find "$P" -type f -not -path "*/.git/*" -not -path "*/node_modules/*" -not -path "*/dist/*" -not -path "*/build/*" | wc -l)"
 echo "contributors: $(git -C "$P" log -n 500 --format='%ae' 2>/dev/null | sort -u | wc -l)"
@@ -49,11 +50,18 @@ echo "ci_workflows:  $(ls "$P/.github/workflows/"*.yml "$P/.github/workflows/"*.
 echo "skills:        $(find "$P/.claude/skills" -name "SKILL.md" 2>/dev/null | grep -v '/health/SKILL.md' | wc -l)"
 echo "claude_md_lines: $(wc -l < "$P/CLAUDE.md" 2>/dev/null)"
 
+echo "[2/10] CLAUDE.md (global + local)..."
 echo "=== CLAUDE.md (global) ===" ; cat ~/.claude/CLAUDE.md 2>/dev/null || echo "(none)"
 echo "=== CLAUDE.md (local) ===" ; cat "$P/CLAUDE.md" 2>/dev/null || echo "(none)"
+
+echo "[3/10] Settings, hooks, MCP..."
 echo "=== settings.local.json ===" ; cat "$SETTINGS" 2>/dev/null || echo "(none)"
+
+echo "[4/10] Rules + skill descriptions..."
 echo "=== rules/ ===" ; find "$P/.claude/rules" -name "*.md" 2>/dev/null | while IFS= read -r f; do echo "--- $f ---"; cat "$f"; done
 echo "=== skill descriptions ===" ; { [ -d "$P/.claude/skills" ] && grep -r "^description:" "$P/.claude/skills" 2>/dev/null; grep -r "^description:" ~/.claude/skills 2>/dev/null; } | sort -u
+
+echo "[5/10] Context budget estimate..."
 echo "=== STARTUP CONTEXT ESTIMATE ==="
 echo "global_claude_words: $(wc -w < ~/.claude/CLAUDE.md 2>/dev/null | tr -d ' ' || echo 0)"
 echo "local_claude_words: $(wc -w < "$P/CLAUDE.md" 2>/dev/null | tr -d ' ' || echo 0)"
@@ -101,6 +109,7 @@ else:
 print('=== allowedTools count ===')
 print(len(d.get('permissions', {}).get('allow', [])))
 " 2>/dev/null || echo "(unavailable)"
+echo "[6/10] Nested CLAUDE.md + gitignore..."
 echo "=== NESTED CLAUDE.md ===" ; find "$P" -maxdepth 4 -name "CLAUDE.md" -not -path "$P/CLAUDE.md" -not -path "*/.git/*" -not -path "*/node_modules/*" 2>/dev/null || echo "(none)"
 echo "=== GITIGNORE ==="
 _GITIGNORE_HIT=$(git -C "$P" check-ignore -v .claude/settings.local.json 2>/dev/null || true)
@@ -117,28 +126,30 @@ if [ -n "$_GITIGNORE_HIT" ]; then
 else
   echo "settings.local.json: NOT gitignored -- risk of committing tokens/credentials"
 fi
+echo "[7/10] HANDOFF.md + MEMORY.md..."
 echo "=== HANDOFF.md ===" ; cat "$P/HANDOFF.md" 2>/dev/null || echo "(none)"
 echo "=== MEMORY.md ===" ; cat "$HOME/.claude/projects/-$(pwd | sed 's|[/_]|-|g; s|^-||')/memory/MEMORY.md" 2>/dev/null | head -50 || echo "(none)"
 
+echo "[8/10] Conversation extract (up to 2 recent sessions)..."
 echo "=== CONVERSATION FILES ==="
 PROJECT_PATH=$(pwd | sed 's|[/_]|-|g; s|^-||')
 CONVO_DIR=~/.claude/projects/-${PROJECT_PATH}
 ls -lhS "$CONVO_DIR"/*.jsonl 2>/dev/null | head -10
 
-echo "=== CONVERSATION EXTRACT (up to 3 most recent, confidence improves with more files) ==="
+echo "=== CONVERSATION EXTRACT (up to 2 most recent, confidence improves with more files) ==="
 # Skip the active session, it may still be incomplete.
-_PREV_FILES=$(ls -t "$CONVO_DIR"/*.jsonl 2>/dev/null | tail -n +2 | head -3)
+_PREV_FILES=$(ls -t "$CONVO_DIR"/*.jsonl 2>/dev/null | tail -n +2 | head -2)
 if [ -n "$_PREV_FILES" ]; then
   echo "$_PREV_FILES" | while IFS= read -r F; do
     [ -f "$F" ] || continue
     echo "--- file: $F ---"
-    head -c 2M "$F" | jq -r '
+    head -c 500K "$F" | jq -r '
       if .type == "user" then "USER: " + ((.message.content // "") | if type == "array" then map(select(.type == "text") | .text) | join(" ") else . end)
       elif .type == "assistant" then
         "ASSISTANT: " + ((.message.content // []) | map(select(.type == "text") | .text) | join("\n"))
       else empty
       end
-    ' 2>/dev/null | grep -v "^ASSISTANT: $" | head -300 || echo "(unavailable: jq not installed or parse error)"
+    ' 2>/dev/null | grep -v "^ASSISTANT: $" | head -150 || echo "(unavailable: jq not installed or parse error)"
   done
 else
   echo "(no conversation files)"
@@ -154,10 +165,11 @@ done | head -20
 SELF_SKILL=$( (grep -rl '^name: health$' "$P/.claude/skills" "$HOME/.claude/skills" 2>/dev/null || true) | grep 'SKILL.md' | head -1)
 [ -z "$SELF_SKILL" ] && SELF_SKILL="health/SKILL.md"
 
+echo "[9/10] Skill inventory + frontmatter + provenance..."
 echo "=== SKILL INVENTORY ==="
 for DIR in "$P/.claude/skills" "$HOME/.claude/skills"; do
   [ -d "$DIR" ] || continue
-  find -L "$DIR" -name "SKILL.md" 2>/dev/null | grep -v "$SELF_SKILL" | while IFS= read -r f; do
+  find -L "$DIR" -maxdepth 4 -name "SKILL.md" 2>/dev/null | grep -v "$SELF_SKILL" | while IFS= read -r f; do
     WORDS=$(wc -w < "$f" | tr -d ' ')
     IS_LINK="no"; LINK_TARGET=""
     SKILL_DIR=$(dirname "$f")
@@ -171,7 +183,7 @@ done
 echo "=== SKILL FRONTMATTER ==="
 for DIR in "$P/.claude/skills" "$HOME/.claude/skills"; do
   [ -d "$DIR" ] || continue
-  find -L "$DIR" -name "SKILL.md" 2>/dev/null | grep -v "$SELF_SKILL" | while IFS= read -r f; do
+  find -L "$DIR" -maxdepth 4 -name "SKILL.md" 2>/dev/null | grep -v "$SELF_SKILL" | while IFS= read -r f; do
     if head -1 "$f" | grep -q '^---'; then
       echo "frontmatter=yes path=$f"
       sed -n '2,/^---$/p' "$f" | head -10
@@ -195,14 +207,15 @@ for DIR in "$P/.claude/skills" "$HOME/.claude/skills"; do
   done
 done
 
-echo "=== SKILL FULL CONTENT (sample: up to 5 skills, 80 lines each) ==="
+echo "[10/10] Skill content sample + security scan..."
+echo "=== SKILL FULL CONTENT (sample: up to 3 skills, 60 lines each) ==="
 { for DIR in "$P/.claude/skills" "$HOME/.claude/skills"; do
     [ -d "$DIR" ] || continue
-    find -L "$DIR" -name "SKILL.md" 2>/dev/null | grep -v "$SELF_SKILL"
+    find -L "$DIR" -maxdepth 4 -name "SKILL.md" 2>/dev/null | grep -v "$SELF_SKILL"
   done
-} | head -5 | while IFS= read -r f; do
+} | head -3 | while IFS= read -r f; do
   echo "--- FULL: $f ---"
-  head -80 "$f"
+  head -60 "$f"
 done
 ```
 
@@ -229,20 +242,21 @@ Before interpreting Step 1 output, check these known failure modes.
 
 ## Step 2: Analyze with tier-adjusted depth
 
-After Step 1 completes, output a summary line, then the step indicator:
+After Step 1 completes, output a data summary line, then the tier line, then the step indicator:
 
 ```
+Data collected: {X} CLAUDE.md words · {Y} rules words · {Z} skills found · {N} conversation files sampled
 Tier: {SIMPLE/STANDARD/COMPLEX} -- {file_count} files · {contributor_count} contributors · CI: {present/absent}
 Step 2/3: {SIMPLE: "Analyzing locally" | STANDARD/COMPLEX: "Launching parallel analysis agents"}
 ```
 
 SIMPLE: output "Analyzing locally" above. Do not launch subagents. Analyze from Step 1, prioritize core config checks, skip conversation-heavy cross-validation unless evidence is obvious.
 
-STANDARD/COMPLEX: output "Launching parallel analysis agents" above, then list coverage:
+STANDARD/COMPLEX: output "Launching parallel analysis agents" above, then list coverage with check counts:
 
 ```
-  · Agent 1: CLAUDE.md, rules, skills, MCP context + security scan
-  · Agent 2: hooks, allowedTools, behavior patterns, three-layer defense
+  · Agent 1: CLAUDE.md (6 checks) · rules (2) · skills (5) · MCP (3) · security (6)
+  · Agent 2: hooks (5 checks) · allowedTools (2) · behavior (6) · three-layer defense (3)
 ```
 
 Launch **two subagents** in parallel. Paste all data inline -- do not pass file paths. Before pasting, replace any credential values (API keys, tokens, passwords) with `[REDACTED]`; paste the structural data only.
