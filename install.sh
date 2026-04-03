@@ -1,5 +1,5 @@
 #!/bin/bash
-# Waza skill installer — symlinks all skills into ~/.claude/skills/
+# Waza skill installer: symlinks all skills into ~/.claude/skills/
 set -e
 
 WAZA_DIR="$(cd "$(dirname "$0")" && pwd)"
