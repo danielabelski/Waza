@@ -1,7 +1,7 @@
 {
   "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
-  "name": "claude-health",
-  "description": "Configuration health audit skill for Claude Code. Audits CLAUDE.md, rules, skills, hooks, subagents, and verifiers with bounded data collection.",
+  "name": "waza",
+  "description": "Personal skill collection for Claude Code: think, look, check, hunt, design, read, health, write.",
   "owner": {
     "name": "Tw93",
     "email": "hitw93@gmail.com"
@@ -9,12 +9,91 @@
   "plugins": [
     {
       "name": "health",
-      "description": "Audit Claude Code configuration health across all layers. Install into Claude Code and run when collaboration feels off.",
-      "version": "1.5.4",
+      "description": "Audit Claude Code configuration health across all layers. Run when collaboration feels off.",
+      "version": "1.6.0",
       "category": "development",
       "source": "./",
-      "skills": ["./skills/health"],
-      "homepage": "https://github.com/tw93/claude-health"
+      "skills": [
+        "./skills/health"
+      ],
+      "homepage": "https://github.com/tw93/waza"
+    },
+    {
+      "name": "think",
+      "description": "Brainstorm requirements and challenge assumptions from a CEO/founder perspective. Design-first.",
+      "version": "1.0.0",
+      "category": "development",
+      "source": "./",
+      "skills": [
+        "./skills/think"
+      ],
+      "homepage": "https://github.com/tw93/waza"
+    },
+    {
+      "name": "look",
+      "description": "Review architecture, data flow, and system design before coding.",
+      "version": "1.0.0",
+      "category": "development",
+      "source": "./",
+      "skills": [
+        "./skills/look"
+      ],
+      "homepage": "https://github.com/tw93/waza"
+    },
+    {
+      "name": "check",
+      "description": "Code review with fix-first approach. Analyzes diff, applies safe fixes, verifies with evidence.",
+      "version": "1.0.0",
+      "category": "development",
+      "source": "./",
+      "skills": [
+        "./skills/check"
+      ],
+      "homepage": "https://github.com/tw93/waza"
+    },
+    {
+      "name": "hunt",
+      "description": "Systematic debugging. Root cause investigation before any fix.",
+      "version": "1.0.0",
+      "category": "development",
+      "source": "./",
+      "skills": [
+        "./skills/hunt"
+      ],
+      "homepage": "https://github.com/tw93/waza"
+    },
+    {
+      "name": "design",
+      "description": "Build distinctive, production-grade frontend interfaces with a committed aesthetic direction.",
+      "version": "1.0.0",
+      "category": "development",
+      "source": "./",
+      "skills": [
+        "./skills/design"
+      ],
+      "homepage": "https://github.com/tw93/waza"
+    },
+    {
+      "name": "read",
+      "description": "Fetch any URL or PDF as clean Markdown. Supports WeChat, Feishu, and r.jina.ai cascade.",
+      "version": "1.1.0",
+      "category": "development",
+      "source": "./",
+      "skills": [
+        "./skills/read"
+      ],
+      "homepage": "https://github.com/tw93/waza"
+    },
+    {
+      "name": "write",
+      "description": "Write and edit prose in Tw93's natural style. Chinese and English supported.",
+      "version": "2.2.0",
+      "category": "development",
+      "source": "./",
+      "skills": [
+        "./skills/write"
+      ],
+      "homepage": "https://github.com/tw93/waza"
     }
   ]
 }
