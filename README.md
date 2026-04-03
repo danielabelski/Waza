@@ -1,6 +1,6 @@
 <div align="center">
   <h1>Waza</h1>
-  <p><em>🥷 A Claude Code skill collection. Know the move before you need it.</em></p>
+  <p><em>🥷 Claude Code skills: know the move before you need it.</em></p>
   <a href="https://github.com/tw93/waza/stargazers"><img src="https://img.shields.io/github/stars/tw93/waza?style=flat-square" alt="Stars"></a>
   <a href="https://github.com/tw93/waza/releases"><img src="https://img.shields.io/github/v/tag/tw93/waza?label=version&style=flat-square" alt="Version"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square" alt="License"></a>
