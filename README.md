@@ -20,7 +20,7 @@ Eight skills for everyday software work: requirements, architecture, code review
 | `/check` | After a task, before merging | Code review with fix-first approach. Auto-fixes safe issues, batches judgment calls, verifies with evidence. |
 | `/hunt` | Any bug or unexpected behavior | Systematic debugging. Root cause before any fix. Iron Law: no fixes without root cause investigation. |
 | `/design` | Building frontend interfaces | Produces distinctive UI with a committed aesthetic direction. Avoids generic AI aesthetics. |
-| `/read` | Any URL or PDF | Fetches content as clean Markdown. Routes WeChat/Feishu to dedicated scripts, everything else through r.jina.ai. |
+| `/read` | Any URL or PDF | Fetches content as clean Markdown. Routes WeChat to a dedicated script, everything else through a proxy cascade. |
 | `/write` | Writing or editing prose | Enforces natural style for Chinese and English. Strips AI writing patterns. |
 | `/health` | Config feels off | Audits Claude Code setup across six layers: CLAUDE.md, rules, skills, hooks, MCP, behavior. |
 
@@ -50,7 +50,7 @@ bash ~/www/waza/install.sh
 
 ## Background
 
-Built around patterns from real projects. The methodologies are distilled from [gstack](https://github.com/obra/gstack) and [superpowers](https://github.com/obra/superpowers), stripped of framework overhead, and tuned for Rust/Lua/shell work. The `/health` skill is based on the six-layer framework described in [this post](https://tw93.fun/en/2026-03-12/claude.html).
+Built from patterns accumulated across real projects. The `/health` skill is based on the six-layer framework described in [this post](https://tw93.fun/en/2026-03-12/claude.html).
 
 ## License
 
