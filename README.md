@@ -14,39 +14,54 @@ A Claude Code skill that systematically reviews your project's setup using the s
 
 ## Install
 
-Recommended, install globally for Claude Code:
-
-```bash
-npx skills add tw93/claude-health -a claude-code -s health -g -y
-```
-
-Install only in the current project:
-
-```bash
-npx skills add tw93/claude-health -a claude-code -s health -y
-```
-
-**Claude Plugin:**
+**Option 1: Claude Plugin (recommended)**
 
 ```bash
 claude plugin marketplace add tw93/claude-health
 claude plugin install health
 ```
 
+Then enable it in your `~/.claude/settings.json`:
+
+```json
+{
+  "enabledPlugins": {
+    "health@claude-health": true
+  }
+}
+```
+
+**Option 2: npx (global, works across all projects)**
+
+```bash
+npx skills add tw93/claude-health -a claude-code -s health -g -y
+```
+
+**Option 3: npx (current project only)**
+
+```bash
+npx skills add tw93/claude-health -a claude-code -s health -y
+```
+
+Restart Claude Code after installation.
+
 ## Usage
 
-Restart Claude Code after installation. Then in any Claude Code session, run `/health` or just say:
+In any Claude Code session, run:
 
-> "Run a health check on my Claude Code config"
+```
+/health
+```
 
-The skill automatically detects your project tier (Simple / Standard / Complex) and calibrates checks accordingly. It won't flag missing layers that aren't needed for your project size.
+Or just say: "Run a health check on my Claude Code config"
+
+The skill detects your project tier (Simple / Standard / Complex) and calibrates checks accordingly.
 
 ## Troubleshooting
 
-- `Unknown skill: health`: install to Claude Code explicitly with `-a claude-code`. Use `-g` if you want the skill available in every project. Restart Claude Code after installation.
-- Installer summary shows `./.agents/skills/health`: that summary is generic. For Claude Code, the installed path should end up at `./.claude/skills/health` or `~/.claude/skills/health`.
-- Claude Code currently mishandles `disable-model-invocation` for plugin skills. When that flag is set, explicit user invocation can fail with `Skill health cannot be used with Skill tool due to disable-model-invocation`. `health` does not use that flag for now so `/health` and explicit requests keep working.
-- Scope: this repository targets Claude Code only. Codex and OpenClaw are not supported here.
+- `Unknown skill: health` after plugin install: make sure `"health@claude-health": true` is in your `enabledPlugins` in `~/.claude/settings.json`, then restart Claude Code.
+- `Unknown skill: health` after npx install: use `-a claude-code` explicitly. Add `-g` for global install. Restart Claude Code.
+- Scope: this repository targets Claude Code only.
 
 ## What Gets Checked
 
