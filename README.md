@@ -23,13 +23,13 @@ Waza gives each of these habits a [Claude Code skill](https://docs.anthropic.com
 | Skill | When | What it does |
 | :--- | :--- | :--- |
 | [`/learn`](skills/learn) | Diving into an unfamiliar domain | Six-phase research workflow: collect, digest, outline, draft, refine, self-review and publish. |
-| [`/read`](skills/read) | Any URL or PDF | Fetches content as clean Markdown via proxy cascade. |
+| [`/read`](skills/read) | Any URL or PDF | Fetches content as clean Markdown. |
 | [`/think`](skills/think) | Before building anything new | Challenges the problem, pressure-tests the design, validates architecture before any code is written. |
 | [`/design`](skills/design) | Building frontend interfaces | Produces distinctive UI with a committed aesthetic direction. Avoids generic AI aesthetics. |
 | [`/hunt`](skills/hunt) | Any bug or unexpected behavior | Systematic debugging. Root cause confirmed before any fix is applied. |
 | [`/check`](skills/check) | After a task, before merging | Reviews the diff, auto-fixes safe issues, batches judgment calls, verifies with evidence before claiming done. |
 | [`/write`](skills/write) | Writing or editing prose | Enforces natural style for Chinese and English. Strips AI writing patterns. |
-| [`/health`](skills/health) | Config feels off | Audits Claude Code setup: CLAUDE.md, rules, skills, hooks, MCP, behavior. |
+| [`/health`](skills/health) | Auditing Claude Code setup | Checks CLAUDE.md, rules, skills, hooks, MCP, and behavior. Flags issues by severity. |
 | [`/english`](skills/english) | Writing English as a non-native speaker | Corrects grammar, explains each mistake, and highlights one pattern to remember. |
 
 ## Install
@@ -37,8 +37,7 @@ Waza gives each of these habits a [Claude Code skill](https://docs.anthropic.com
 **Single skill:**
 
 ```bash
-claude plugin marketplace add tw93/Waza
-claude plugin install health@waza
+npx skills add tw93/Waza -a claude-code -s health -y
 ```
 
 Replace `health` with any skill name.
