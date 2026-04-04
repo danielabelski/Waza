@@ -1,6 +1,6 @@
 ---
 name: check
-description: Use when completing a task, before merging, or when code needs review.
+description: Use after completing a task or before merging. Not for exploring ideas or debugging. Produces a signed-off checklist with verification command output.
 version: 1.0.0
 allowed-tools:
   - Bash

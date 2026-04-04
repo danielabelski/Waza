@@ -1,7 +1,7 @@
 ---
 name: health
 version: 1.6.0
-description: Run when Claude feels off, ignores rules, or hooks/MCP need auditing.
+description: Run when Claude ignores rules, hooks malfunction, or MCP needs auditing. Not for debugging code or reviewing PRs. Produces a tier-graded audit report with actionable fixes.
 ---
 
 # Claude Code Configuration Health Audit

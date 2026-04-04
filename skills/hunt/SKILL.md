@@ -1,6 +1,6 @@
 ---
 name: hunt
-description: Use when encountering any bug, crash, unexpected behavior, or test failure: before proposing fixes. Root cause first, always.
+description: Use when encountering a bug, crash, or test failure. Not for code review or new features. Produces a root-cause statement with fix and regression test.
 version: 1.0.0
 allowed-tools:
   - Bash

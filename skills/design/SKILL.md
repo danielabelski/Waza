@@ -1,6 +1,6 @@
 ---
 name: design
-description: Use when building frontend interfaces, components, pages, or any visual UI. Produces distinctive, production-grade code with a clear aesthetic direction. Avoids generic AI aesthetics.
+description: Use when building frontend UI, components, or pages. Not for backend logic or data pipelines. Produces distinctive, production-grade code with a committed aesthetic direction.
 version: 1.0.0
 allowed-tools:
   - Read
@@ -55,6 +55,22 @@ Backgrounds should have atmosphere: mesh gradients, subtle noise, geometric text
 - Contrast ratios that pass WCAG AA at minimum
 
 The implementation complexity must match the visual ambition. Do not write sparse code for a layered design, or over-engineer a minimal one.
+
+## Tech Stack Conflicts
+
+These combinations produce silent failures or incoherent output. Never combine them:
+
+| Never combine | Why |
+|---|---|
+| Tailwind + CSS Modules on the same element | Specificity conflicts, unpredictable cascade |
+| Framer Motion + CSS transitions on the same element | Double-animating the same property causes jank |
+| styled-components or emotion + Tailwind | Two competing class systems fighting for the same DOM node |
+| Heroicons + Lucide + Font Awesome in one project | Visual inconsistency, size mismatches, bundle bloat |
+| Multiple Google Font families as display fonts | Competing personalities cancel each other out |
+| Glassmorphism backdrop-filter + solid `border: 1px solid` | Solid borders shatter the layered depth illusion |
+| Dark background + `#ffffff` text at full opacity | Too harsh; use `rgba(255,255,255,0.85)` or `#f0f0f0` |
+
+Before writing the first component, name the single CSS strategy for the project: Tailwind only, CSS Modules only, or CSS-in-JS only. Do not drift from it.
 
 ## Common Traps
 

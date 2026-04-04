@@ -1,6 +1,6 @@
 ---
 name: learn
-description: Use when diving deep into an unfamiliar domain, working through a backlog of saved materials, or preparing to write a research article.
+description: Use when diving deep into an unfamiliar domain or preparing to write a research article. Not for quick lookups or single-file reads. Produces published output through a six-phase collect-to-publish workflow.
 version: 1.0.0
 allowed-tools:
   - Bash
@@ -20,6 +20,18 @@ Deep learning structured like engineering work. Six phases, each with a clear ro
 The measure of learning is not how much you read. It is how much you produce. Input that never becomes output is just consumption.
 
 AI is a tool in this process, not a replacement for your thinking. Never let AI read for you, decide for you, or write in your voice without your direction. The moment you outsource the thinking, the learning stops.
+
+## Choose Your Mode
+
+Before starting, name which mode fits the goal:
+
+| Mode | Goal | Entry point | Exit point |
+|------|------|-------------|------------|
+| **Deep Research** | Understand a domain well enough to write about it | Phase 1 | Phase 6: publish |
+| **Quick Reference** | Build a working mental model fast, no article planned | Phase 2 | Phase 2: cut and keep notes |
+| **Write to Learn** | Already have materials, want to force understanding through writing | Phase 3 | Phase 6: publish |
+
+If unsure, start with Quick Reference. The other modes will become obvious once the materials are in hand.
 
 ## Phase 1: Collect
 

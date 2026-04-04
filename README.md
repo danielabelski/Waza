@@ -1,6 +1,9 @@
+<p align="center">
+  <img src="https://gw.alipayobjects.com/zos/k/2h/waza.svg" width="120" />
+</p>
+<h1 align="center">Waza</h1>
+<p align="center"><b>🥷 Claude Code skills for the complete engineer: think, build, debug, write, learn.</b></p>
 <div align="center">
-  <h1>Waza</h1>
-  <p><b>🥷 Claude Code skills for the complete engineer: think, build, debug, write, learn.</b></p>
   <a href="https://github.com/tw93/Waza/stargazers"><img src="https://img.shields.io/github/stars/tw93/Waza?style=flat-square" alt="Stars"></a>
   <a href="https://github.com/tw93/Waza/releases"><img src="https://img.shields.io/github/v/tag/tw93/Waza?label=version&style=flat-square" alt="Version"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square" alt="License"></a>
@@ -21,13 +24,13 @@ Waza gives each of these habits a [Claude Code skill](https://docs.anthropic.com
 
 | Skill | When | What it does |
 | :--- | :--- | :--- |
-| [`/think`](skills/think) | Before building anything new | Challenges the problem, pressure-tests the design, validates architecture before any code is written. |
-| [`/check`](skills/check) | After a task, before merging | Reviews the diff, auto-fixes safe issues, batches judgment calls, verifies with evidence before claiming done. |
-| [`/hunt`](skills/hunt) | Any bug or unexpected behavior | Systematic debugging. Root cause confirmed before any fix is applied. |
-| [`/design`](skills/design) | Building frontend interfaces | Produces distinctive UI with a committed aesthetic direction. Avoids generic AI aesthetics. |
-| [`/read`](skills/read) | Any URL or PDF | Fetches content as clean Markdown via proxy cascade. |
-| [`/write`](skills/write) | Writing or editing prose | Enforces natural style for Chinese and English. Strips AI writing patterns. |
 | [`/learn`](skills/learn) | Diving into an unfamiliar domain | Six-phase research workflow: collect, digest, outline, draft, refine, self-review and publish. |
+| [`/read`](skills/read) | Any URL or PDF | Fetches content as clean Markdown via proxy cascade. |
+| [`/think`](skills/think) | Before building anything new | Challenges the problem, pressure-tests the design, validates architecture before any code is written. |
+| [`/design`](skills/design) | Building frontend interfaces | Produces distinctive UI with a committed aesthetic direction. Avoids generic AI aesthetics. |
+| [`/hunt`](skills/hunt) | Any bug or unexpected behavior | Systematic debugging. Root cause confirmed before any fix is applied. |
+| [`/check`](skills/check) | After a task, before merging | Reviews the diff, auto-fixes safe issues, batches judgment calls, verifies with evidence before claiming done. |
+| [`/write`](skills/write) | Writing or editing prose | Enforces natural style for Chinese and English. Strips AI writing patterns. |
 | [`/health`](skills/health) | Config feels off | Audits Claude Code setup: CLAUDE.md, rules, skills, hooks, MCP, behavior. |
 
 ## Install

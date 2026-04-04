@@ -1,6 +1,6 @@
 ---
 name: read
-description: Use when fetching content from any URL, web page, or PDF file.
+description: Use when fetching a URL, web page, or PDF as clean Markdown. Not for local files already in the repo. Produces saved Markdown with title, source, summary, and full content.
 version: 1.2.0
 allowed-tools:
   - Bash

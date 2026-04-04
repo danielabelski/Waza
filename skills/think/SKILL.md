@@ -1,6 +1,6 @@
 ---
 name: think
-description: Use before building anything new, when requirements are unclear, or when a plan needs pressure-testing before writing code.
+description: Use before building anything new or when a plan needs pressure-testing. Not for bug fixes or small edits. Produces an approved design doc with scope, approach, and architecture checklist.
 version: 2.0.0
 allowed-tools:
   - Read

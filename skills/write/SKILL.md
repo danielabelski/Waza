@@ -1,6 +1,6 @@
 ---
 name: write
-description: Use ONLY when explicitly asked to write or edit prose, Chinese or English. Enforces Tw93's natural style for Chinese, and eliminates AI writing patterns for English.
+description: Use only when explicitly asked to write or edit prose. Not for code comments, commit messages, or inline documentation. Produces natural-voice text stripped of AI writing patterns.
 version: 2.2.0
 disable-model-invocation: true
 ---
@@ -94,7 +94,7 @@ OK: 先说结论，再展开过程
 - 不用"首先...其次...最后"，用"一方面...另一方面..."
 - 段落可以长，但要一口气能读完
 - 不用强行断句
-- 禁止用 `——`，用逗号或分号代替
+- 禁止用破折号（双横线），用逗号或分号代替
 - 单独成段的一两句话，多半是上一段的收尾或下一段的引子，直接并进去，别让它孤零零
 - 四五个句号连发、每句都很短，读起来像在打电报，这时候把几句合成一个长句，或者用逗号连起来
 - 少用“先问问是不是 X”“你得先明白”这类起手，容易有训人感，改成“可以先看 X”“先确认 X”
@@ -436,7 +436,7 @@ NO: 值得注意的是
 NO: 综上所述
 NO: 随着...的发展
 NO: 非常 / 极其
-NO: `——`（用逗号/分号替代）
+NO: 破折号（用逗号/分号替代）
 NO: emoji（任何场合，包括列表、标题、状态标记）
 NO: 这篇是整理出来的结果（冗余，删掉）
 NO: 有一个大背景值得先说（直接说）
