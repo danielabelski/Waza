@@ -11,20 +11,24 @@
 
 ## Why
 
-Waza (技) is a Japanese martial arts term for technique: a move practiced until it becomes instinct. A good engineer does not just write code. They think through requirements, review their own work, debug systematically, design interfaces that feel intentional, read primary sources, write clearly, and learn new domains by producing output, not consuming content. Waza gives each of these habits a [Claude Code skill](https://docs.anthropic.com/en/docs/claude-code/skills): you type the slash command, Claude follows the playbook. No framework overhead, no telemetry.
+Waza (技) is a Japanese martial arts term for technique: a move practiced until it becomes instinct.
+
+A good engineer does not just write code. They think through requirements, review their own work, debug systematically, design interfaces that feel intentional, read primary sources, write clearly, and learn new domains by producing output, not consuming content.
+
+Waza gives each of these habits a [Claude Code skill](https://docs.anthropic.com/en/docs/claude-code/skills): you type the slash command, Claude follows the playbook. No framework overhead, no telemetry.
 
 ## Skills
 
 | Skill | When | What it does |
 | :--- | :--- | :--- |
-| `/think` | Before building anything new | Challenges the problem, pressure-tests the design, validates architecture before any code is written. |
-| `/check` | After a task, before merging | Reviews the diff, auto-fixes safe issues, batches judgment calls, verifies with evidence before claiming done. |
-| `/hunt` | Any bug or unexpected behavior | Systematic debugging. Root cause confirmed before any fix is applied. |
-| `/design` | Building frontend interfaces | Produces distinctive UI with a committed aesthetic direction. Avoids generic AI aesthetics. |
-| `/read` | Any URL or PDF | Fetches content as clean Markdown via proxy cascade. |
-| `/write` | Writing or editing prose | Enforces natural style for Chinese and English. Strips AI writing patterns. |
-| `/learn` | Diving into an unfamiliar domain | Six-phase research workflow: collect, digest, outline, draft, refine, self-review and publish. |
-| `/health` | Config feels off | Audits Claude Code setup: CLAUDE.md, rules, skills, hooks, MCP, behavior. |
+| [`/think`](skills/think) | Before building anything new | Challenges the problem, pressure-tests the design, validates architecture before any code is written. |
+| [`/check`](skills/check) | After a task, before merging | Reviews the diff, auto-fixes safe issues, batches judgment calls, verifies with evidence before claiming done. |
+| [`/hunt`](skills/hunt) | Any bug or unexpected behavior | Systematic debugging. Root cause confirmed before any fix is applied. |
+| [`/design`](skills/design) | Building frontend interfaces | Produces distinctive UI with a committed aesthetic direction. Avoids generic AI aesthetics. |
+| [`/read`](skills/read) | Any URL or PDF | Fetches content as clean Markdown via proxy cascade. |
+| [`/write`](skills/write) | Writing or editing prose | Enforces natural style for Chinese and English. Strips AI writing patterns. |
+| [`/learn`](skills/learn) | Diving into an unfamiliar domain | Six-phase research workflow: collect, digest, outline, draft, refine, self-review and publish. |
+| [`/health`](skills/health) | Config feels off | Audits Claude Code setup: CLAUDE.md, rules, skills, hooks, MCP, behavior. |
 
 ## Install
 
