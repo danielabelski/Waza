@@ -1,9 +1,7 @@
-<p align="center">
-  <img src="https://gw.alipayobjects.com/zos/k/2h/waza.svg" width="120" />
-</p>
-<h1 align="center">Waza</h1>
-<p align="center"><b>🥷 Claude Code skills for the complete engineer: think, build, debug, write, learn.</b></p>
 <div align="center">
+  <img src="https://gw.alipayobjects.com/zos/k/2h/waza.svg" width="120" />
+  <h1>Waza</h1>
+  <p><b>Claude Code skills for the complete engineer: think, build, debug, write, learn.</b></p>
   <a href="https://github.com/tw93/Waza/stargazers"><img src="https://img.shields.io/github/stars/tw93/Waza?style=flat-square" alt="Stars"></a>
   <a href="https://github.com/tw93/Waza/releases"><img src="https://img.shields.io/github/v/tag/tw93/Waza?label=version&style=flat-square" alt="Version"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square" alt="License"></a>
