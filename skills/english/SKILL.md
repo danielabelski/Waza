@@ -2,6 +2,8 @@
 name: english
 description: Use when writing English and wanting deep grammar correction, native phrasing, or professional communication coaching. Not for code comments or technical docs. Produces corrected text with annotated explanations and one pattern to practice.
 version: 1.2.0
+allowed-tools:
+  - AskUserQuestion
 ---
 
 # English: Sound Like You Belong in the Room
