@@ -30,6 +30,7 @@ Waza gives each of these habits a [Claude Code skill](https://docs.anthropic.com
 | [`/check`](skills/check) | After a task, before merging | Reviews the diff, auto-fixes safe issues, batches judgment calls, verifies with evidence before claiming done. |
 | [`/write`](skills/write) | Writing or editing prose | Enforces natural style for Chinese and English. Strips AI writing patterns. |
 | [`/health`](skills/health) | Config feels off | Audits Claude Code setup: CLAUDE.md, rules, skills, hooks, MCP, behavior. |
+| [`/english`](skills/english) | Writing English as a non-native speaker | Corrects grammar, explains each mistake, and highlights one pattern to remember. |
 
 ## Install
 
