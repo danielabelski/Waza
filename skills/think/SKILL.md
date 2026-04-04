@@ -1,6 +1,6 @@
 ---
 name: think
-description: Use before building anything new: brainstorm requirements, challenge assumptions, explore scope from a CEO/founder perspective. Design-first: no implementation until design is approved.
+description: Use before building anything new, when requirements are unclear, or when a plan needs pressure-testing before writing code.
 version: 1.0.0
 allowed-tools:
   - Read
@@ -18,6 +18,8 @@ Turn a rough idea into a clear, agreed-upon plan. Writing code before the design
 ## How It Works
 
 Read the relevant files and recent commits first: understand what already exists before asking anything. Then work through the idea with the user one question at a time, purpose first, constraints second, success criteria third.
+
+Give opinions directly. Avoid: "That's an interesting approach," "There are many ways to think about this," "You might want to consider." Take a position and state what evidence would change it.
 
 Before proposing a design, challenge whether it is the right design:
 - What does the user actually want to happen? Not the feature they described, the outcome they care about.

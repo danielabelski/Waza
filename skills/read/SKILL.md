@@ -1,6 +1,6 @@
 ---
 name: read
-description: Use when fetching content from any URL, web page, or PDF file. Routes by platform: WeChat uses a dedicated script, PDFs use local extraction, everything else goes through a proxy cascade. Saves clean Markdown locally.
+description: Use when fetching content from any URL, web page, or PDF file.
 version: 1.2.0
 allowed-tools:
   - Bash

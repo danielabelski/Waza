@@ -1,6 +1,6 @@
 ---
 name: check
-description: Use when completing a task, before merging, or when code needs review. Analyzes the diff for structural issues, applies fixes directly, and verifies with evidence before claiming done.
+description: Use when completing a task, before merging, or when code needs review.
 version: 1.0.0
 allowed-tools:
   - Bash
@@ -81,6 +81,8 @@ make test / npm test / pytest  # everything else
 ```
 
 Paste the full output. Report exact numbers. Done means: the command ran in this session and passed.
+
+If the urge to skip this arises: "should work now" means run it. "I'm confident" is not evidence. "It's a trivial change" is how trivial changes break things.
 
 ## Sign-off
 

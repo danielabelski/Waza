@@ -15,6 +15,8 @@ allowed-tools:
 
 Review a plan or design for structural problems before any implementation starts. The goal is an honest assessment, not a green light.
 
+Give direct judgments. Do not soften findings with "you might consider" or "one approach could be." If something is wrong, say it is wrong and say why. If a tradeoff is acceptable, say so and own the call.
+
 ## Before Anything Else: Scope
 
 Bloated scope is the most common architectural problem. Check it first:

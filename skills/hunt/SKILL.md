@@ -69,6 +69,10 @@ Once the root cause is confirmed:
 - Run the full test suite and paste the complete output, no summaries
 - If the change touches more than 5 files, pause and confirm the scope with the user
 
+**Self-regulation:** track how the fix is going. If you have reverted the same area twice, or if the current fix touches more than 3 files for what started as a single bug, stop. Do not keep patching. Describe what is known and unknown, and ask the user how to proceed. Continued patching past this point means the abstraction is wrong, not the code.
+
+After the fix lands, consider whether a second layer of defense makes sense: validate the same condition at the call site, the service boundary, or in a test. A bug that cannot be introduced again is better than a bug that was fixed once.
+
 ## Outcome
 
 End with a short summary:
