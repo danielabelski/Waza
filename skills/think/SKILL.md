@@ -60,21 +60,11 @@ Once a direction is approved, check structural correctness before implementation
 
 **Scope.** Grep for existing implementations of each sub-problem. Flag anything deferrable. More than 8 files or 2 new services? Acknowledge it explicitly.
 
-**Dependencies and data flow.** Draw an ASCII diagram for any non-trivial flow. Look for cycles and hidden coupling. Trace the main path, then break it: nil input, empty collection, upstream timeout, partial failure.
+**Dependencies and data flow.** If more than 3 components exchange data, draw an ASCII diagram. Look for cycles and hidden coupling. Trace the main path, then break it: nil input, empty collection, upstream timeout, partial failure.
 
-**Single points of failure.** Name every component whose loss degrades the system. Are those risks acceptable?
+**Test coverage.** List every meaningful path: happy path, error branches, edge cases. List gaps with file, assertion, test type. Any bug fix without a reproducing test is not done.
 
-**Test coverage.** List every meaningful path: happy path, error branches, edge cases. For each: does a test exist, how thorough is it? List gaps with file, assertion, test type. Any bug fix without a reproducing test is not done.
-
-**Quality signals.** Duplication that should be shared. Names that don't match the domain. Errors that are swallowed. Functions with more than 5 branches.
-
-**Performance exposure.** What grows with input size? Repeated calls in loops? Worst-case latency on the top 2-3 paths?
-
-Also ask:
-- If this goes wrong at 3am, what breaks and who notices?
-- Is the technology choice boring enough? Non-standard choices accumulate maintenance cost.
-- Can this be rolled back without touching data?
-- Where does untrusted input enter, and is it validated at that boundary?
+**Risk.** Name every component whose loss degrades the system. Can this be rolled back without touching data? Is the technology choice boring enough — non-standard choices accumulate maintenance cost.
 
 ## Output
 

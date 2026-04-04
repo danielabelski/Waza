@@ -92,6 +92,8 @@ make test / npm test / pytest  # everything else
 
 Paste the full output. Report exact numbers. Done means: the command ran in this session and passed.
 
+If no verification command exists or the command fails: halt. Do not claim done. Ask the user how to verify before proceeding.
+
 If the urge to skip this arises: "should work now" means run it. "I'm confident" is not evidence. "It's a trivial change" is how trivial changes break things.
 
 ## Sign-off

@@ -22,7 +22,7 @@ Convert any URL or local PDF to clean Markdown and save it.
 
 ## Proxy Cascade
 
-Try in order, stop at first success:
+Try in order. Success = non-empty output with readable content. If a proxy returns empty, an error page, or fewer than 5 lines, treat it as failed and try the next:
 
 ### 1. r.jina.ai
 
