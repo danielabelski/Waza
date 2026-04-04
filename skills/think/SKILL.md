@@ -64,7 +64,7 @@ Once a direction is approved, check structural correctness before implementation
 
 **Test coverage.** List every meaningful path: happy path, error branches, edge cases. List gaps with file, assertion, test type. Any bug fix without a reproducing test is not done.
 
-**Risk.** Name every component whose loss degrades the system. Can this be rolled back without touching data? Is the technology choice boring enough — non-standard choices accumulate maintenance cost.
+**Risk.** Name every component whose loss degrades the system. Can this be rolled back without touching data? Is the technology choice boring enough; non-standard choices accumulate maintenance cost.
 
 ## Output
 
