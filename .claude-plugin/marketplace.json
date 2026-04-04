@@ -1,7 +1,7 @@
 {
   "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
   "name": "waza",
-  "description": "Personal skill collection for Claude Code: think, check, hunt, design, read, write, health.",
+  "description": "Personal skill collection for Claude Code: think, check, hunt, design, read, write, learn, health.",
   "owner": {
     "name": "Tw93",
     "email": "hitw93@gmail.com"
@@ -81,6 +81,17 @@
       "source": "./",
       "skills": [
         "./skills/write"
+      ],
+      "homepage": "https://github.com/tw93/waza"
+    },
+    {
+      "name": "learn",
+      "description": "Deep learning from raw materials to published output. Six-phase process for researching and writing about an unfamiliar domain.",
+      "version": "1.0.0",
+      "category": "development",
+      "source": "./",
+      "skills": [
+        "./skills/learn"
       ],
       "homepage": "https://github.com/tw93/waza"
     }

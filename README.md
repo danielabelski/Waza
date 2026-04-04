@@ -9,7 +9,7 @@
 
 <br/>
 
-A collection of [Claude Code skills](https://docs.anthropic.com/en/docs/claude-code/skills) for everyday software work. Skills are slash commands (`/think`, `/check`, `/hunt`, ...) that give Claude a focused methodology for a specific task: you type the command, Claude follows the playbook. Seven skills covering requirements and architecture, code review, debugging, frontend design, reading, writing, and config health. No framework overhead, no telemetry.
+A collection of [Claude Code skills](https://docs.anthropic.com/en/docs/claude-code/skills) for everyday software work. Skills are slash commands (`/think`, `/check`, `/hunt`, ...) that give Claude a focused methodology for a specific task: you type the command, Claude follows the playbook. Eight skills covering requirements and architecture, code review, debugging, frontend design, reading, writing, deep learning, and config health. No framework overhead, no telemetry.
 
 ## Skills
 
@@ -21,6 +21,7 @@ A collection of [Claude Code skills](https://docs.anthropic.com/en/docs/claude-c
 | `/design` | Building frontend interfaces | Produces distinctive UI with a committed aesthetic direction. Avoids generic AI aesthetics. |
 | `/read` | Any URL or PDF | Fetches content as clean Markdown. Routes WeChat to a dedicated script, everything else through a proxy cascade. |
 | `/write` | Writing or editing prose | Enforces natural style for Chinese and English. Strips AI writing patterns. |
+| `/learn` | Diving into an unfamiliar domain | Six-phase process: collect sources, digest, outline, draft, refine with AI, self-review and publish. |
 | `/health` | Config feels off | Audits Claude Code setup across six layers: CLAUDE.md, rules, skills, hooks, MCP, behavior. |
 
 ## Install
