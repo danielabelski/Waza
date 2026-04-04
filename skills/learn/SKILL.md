@@ -49,6 +49,8 @@ At the end of this phase, cut roughly half of what you collected. If you cannot 
 
 For key concepts, try cutting across multiple angles: how did this idea evolve historically? What is the opposite claim? What does it look like in practice vs. in theory? What breaks if you remove it? This kind of multi-dimensional interrogation builds a real mental model, not just a definition.
 
+For fields with a research lineage, trace the intellectual genealogy: what problem was the foundational paper or idea responding to? What did it critique or improve on? Follow that chain backward two or three steps, then look forward at what built on top of it. Understanding a field as a sequence of problems being passed forward is more durable than understanding it as a set of current facts.
+
 Claude's role here: explain, translate, answer specific questions. Not summarize or evaluate on your behalf.
 
 ## Phase 3: Outline

@@ -557,7 +557,7 @@ Eliminate predictable AI writing patterns. Write like a human: varied, imperfect
 
 **Patronizing analogies:**
 > NO: "Think of it like a highway system for data." / "Think of it as a Swiss Army knife."
-> OK: Explain the concept directly. If an analogy helps, use it once and move on.
+> OK: Explain the concept directly. If an analogy helps, test it against three criteria before keeping it: (1) remove it and the paragraph collapses: it is load-bearing, not decorative; (2) push it one layer deeper and it still holds; (3) the reader gets it without further explanation. If it fails any of these, drop the analogy and state the idea directly.
 
 **Futurist invitation:**
 > NO: "Imagine a world where every tool you use has a quiet intelligence behind it..."

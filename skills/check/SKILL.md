@@ -67,6 +67,16 @@ Batch everything else into a single AskUserQuestion when the fix involves behavi
 2. ...
 ```
 
+## Judgment Quality
+
+Beyond correctness, ask three questions a senior reviewer would ask:
+
+- **Right problem?** Does the diff solve what was actually needed, or a slightly different version of it? A technically correct solution to the wrong problem is a bug with extra steps.
+- **Mature approach?** Is the implementation idiomatic for this codebase and language, or does it introduce a pattern that will confuse the next person? Clever code that nobody else can maintain is a liability.
+- **Honest edge cases?** Does the code handle failure modes and boundary conditions explicitly, or does it silently succeed in the happy path and silently corrupt in the others? Check what happens on nil, empty, zero, concurrent access, and upstream failure.
+
+These do not block a merge on their own, but a "no" on any of them is worth flagging explicitly.
+
 ## Regression Coverage
 
 For every new code path: trace it, check if a test covers it. If this change fixes a bug, a test that fails on the old code must exist before this is done.
