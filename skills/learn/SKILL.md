@@ -1,6 +1,6 @@
 ---
 name: learn
-description: Use when diving deep into an unfamiliar domain or preparing to write a research article. Not for quick lookups or single-file reads. Produces published output through a six-phase collect-to-publish workflow.
+description: Guides deep research through a six-phase collect-to-publish workflow. Use when diving into an unfamiliar domain or preparing to write a research article. Not for quick lookups or single-file reads.
 version: 1.0.0
 allowed-tools:
   - Bash

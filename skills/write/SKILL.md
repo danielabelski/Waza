@@ -1,6 +1,6 @@
 ---
 name: write
-description: Use only when explicitly asked to write or edit prose. Not for code comments, commit messages, or inline documentation. Produces natural-voice text stripped of AI writing patterns.
+description: Strips AI writing patterns and enforces natural voice for Chinese and English prose. Use only when explicitly asked to write or edit prose. Not for code comments, commit messages, or inline documentation.
 version: 2.3.0
 disable-model-invocation: true
 ---

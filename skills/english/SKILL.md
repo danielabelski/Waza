@@ -1,6 +1,6 @@
 ---
 name: english
-description: Use when writing English and wanting deep grammar correction, native phrasing, or professional communication coaching. Not for code comments or technical docs. Produces corrected text with annotated explanations and one pattern to practice.
+description: Corrects grammar, explains each mistake, and highlights one pattern to practice. Use when writing English as a non-native speaker or wanting native phrasing. Not for code comments or technical docs.
 version: 1.2.0
 allowed-tools:
   - AskUserQuestion

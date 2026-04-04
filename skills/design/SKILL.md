@@ -1,6 +1,6 @@
 ---
 name: design
-description: Use when building frontend UI, components, or pages. Not for backend logic or data pipelines. Produces distinctive, production-grade code with a committed aesthetic direction.
+description: Produces distinctive, production-grade frontend code with a committed aesthetic direction. Use when building UI, components, or pages. Not for backend logic or data pipelines.
 version: 1.0.0
 allowed-tools:
   - Read
