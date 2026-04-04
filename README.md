@@ -9,16 +9,15 @@
 
 <br/>
 
-A collection of [Claude Code skills](https://docs.anthropic.com/en/docs/claude-code/skills) for everyday software work. Skills are slash commands (`/think`, `/check`, `/hunt`, ...) that give Claude a focused methodology for a specific task: you type the command, Claude follows the playbook. Eight skills covering requirements, architecture, code review, debugging, frontend design, reading, writing, and config health. No framework overhead, no telemetry.
+A collection of [Claude Code skills](https://docs.anthropic.com/en/docs/claude-code/skills) for everyday software work. Skills are slash commands (`/think`, `/check`, `/hunt`, ...) that give Claude a focused methodology for a specific task: you type the command, Claude follows the playbook. Seven skills covering requirements and architecture, code review, debugging, frontend design, reading, writing, and config health. No framework overhead, no telemetry.
 
 ## Skills
 
 | Skill | Trigger | What it does |
 | :--- | :--- | :--- |
-| `/think` | Before building anything new | Challenges assumptions, explores scope from a CEO/founder perspective. Design-first gate: no code until design is approved. |
-| `/look` | Before coding, after design | Architecture review: dependency graph, data flow, test coverage, performance. Opinionated recommendations. |
+| `/think` | Before building anything new | Challenges the problem, pressure-tests the design, validates architecture before any code is written. |
 | `/check` | After a task, before merging | Code review with fix-first approach. Auto-fixes safe issues, batches judgment calls, verifies with evidence. |
-| `/hunt` | Any bug or unexpected behavior | Systematic debugging. Root cause before any fix. Iron Law: no fixes without root cause investigation. |
+| `/hunt` | Any bug or unexpected behavior | Systematic debugging. Root cause confirmed before any fix is applied. |
 | `/design` | Building frontend interfaces | Produces distinctive UI with a committed aesthetic direction. Avoids generic AI aesthetics. |
 | `/read` | Any URL or PDF | Fetches content as clean Markdown. Routes WeChat to a dedicated script, everything else through a proxy cascade. |
 | `/write` | Writing or editing prose | Enforces natural style for Chinese and English. Strips AI writing patterns. |

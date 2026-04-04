@@ -1,7 +1,7 @@
 {
   "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
   "name": "waza",
-  "description": "Personal skill collection for Claude Code: think, look, check, hunt, design, read, health, write.",
+  "description": "Personal skill collection for Claude Code: think, check, hunt, design, read, write, health.",
   "owner": {
     "name": "Tw93",
     "email": "hitw93@gmail.com"
@@ -20,23 +20,12 @@
     },
     {
       "name": "think",
-      "description": "Brainstorm requirements and challenge assumptions from a CEO/founder perspective. Design-first.",
-      "version": "1.0.0",
+      "description": "Design and validate before building: challenge assumptions, pressure-test the plan, review architecture.",
+      "version": "2.0.0",
       "category": "development",
       "source": "./",
       "skills": [
         "./skills/think"
-      ],
-      "homepage": "https://github.com/tw93/waza"
-    },
-    {
-      "name": "look",
-      "description": "Review architecture, data flow, and system design before coding.",
-      "version": "1.0.0",
-      "category": "development",
-      "source": "./",
-      "skills": [
-        "./skills/look"
       ],
       "homepage": "https://github.com/tw93/waza"
     },
@@ -75,7 +64,7 @@
     },
     {
       "name": "read",
-      "description": "Fetch any URL or PDF as clean Markdown. Supports WeChat, Feishu, and r.jina.ai cascade.",
+      "description": "Fetch any URL or PDF as clean Markdown. Supports WeChat and proxy cascade.",
       "version": "1.1.0",
       "category": "development",
       "source": "./",
