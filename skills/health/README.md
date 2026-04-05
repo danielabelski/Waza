@@ -1,23 +1,21 @@
 # /health
 
-Audit your Claude Code setup across six layers. Find what's misconfigured before it causes problems.
+Audit your Claude Code setup across six layers. Find what is misconfigured before it causes problems.
 
 ## Usage
 
-Type `/health` in any project. Claude will collect config data and produce a tiered report.
+Type `/health` in any project. Claude will collect config data, detect the project tier, and produce a structured report.
 
 ## Core Method
 
 - Six layers: CLAUDE.md, rules, skills, hooks, MCP, behavior
-- Tier detection: Simple / Standard / Complex (adjusts depth of checks)
-- Two parallel analysis agents: Context+Security audit, Control+Behavior audit
+- Tier detection: Simple / Standard / Complex (adjusts depth of checks automatically)
+- Two parallel analysis agents: Context and Security audit (Agent 1), Control and Behavior audit (Agent 2)
 - Report sections: [PASS] passing checks, [!] critical fixes, [~] structural fixes, [-] incremental improvements
-- Stop condition: asks before making any changes
+- Stop condition: Claude flags issues and asks before making any changes
 
 ## Install
 
-Single skill:
 ```bash
-claude plugin marketplace add tw93/waza
-claude plugin install health@waza
+npx skills add tw93/Waza -a claude-code -s health -y
 ```

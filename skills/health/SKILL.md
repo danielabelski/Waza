@@ -233,7 +233,7 @@ Before interpreting Step 1 output, check these known failure modes.
 - Path built with `sed 's|[/_]|-|g'` on `pwd`. Unusual characters produce the wrong project key. If MEMORY.md shows `(none)` but the user mentions prior sessions, verify the path manually before flagging as [!].
 
 **Conversation extract scope**
-- Only the 3 most recent `.jsonl` files are sampled, skipping the active session. Findings from fewer than 3 files carry low signal -- always tag [LOW CONFIDENCE].
+- Only the 2 most recent `.jsonl` files are sampled, skipping the active session. Findings from fewer than 2 files carry low signal, always tag [LOW CONFIDENCE].
 
 **MCP token estimate**
 - Assumes ~25 tools/server and ~200 tokens/tool. Servers with many or few tools cause large over/under-estimates. Treat as directional, not precise.
@@ -310,7 +310,7 @@ New patterns to add, outdated items to remove, global vs local placement, contex
 
 ---
 
-If all three issue sections are empty, output one short line in the output language like: `All relevant checks passed.. Nothing to fix.`
+If all three issue sections are empty, output one short line in the output language like: `All relevant checks passed. Nothing to fix.`
 
 ## Non-goals
 - Never auto-apply fixes without confirmation.

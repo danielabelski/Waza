@@ -15,7 +15,7 @@ allowed-tools:
 
 # Learn: From Raw Materials to Published Output
 
-Deep learning structured like engineering work. Six phases, each with a clear role for you and a clear role for AI.
+Deep research structured like engineering work. Six phases, each with a clear role for you and a clear role for AI.
 
 The measure of learning is not how much you read. It is how much you produce. Input that never becomes output is just consumption.
 

@@ -9,15 +9,15 @@ Type `/check` after completing a task or before merging. Point it at a file, dif
 ## Core Method
 
 - Iron Law: no completion claim without running the verification command
-- Two-pass review: CRITICAL issues first, then INFORMATIONAL
-- AUTO-FIX: safe mechanical fixes applied immediately (formatting, obvious bugs)
-- ASK: judgment calls batched and presented together, not one at a time
-- Evidence requirement: every finding includes file path and line number
+- Two-pass review: **Hard stops** (fix before merging) then **Soft signals** (flag, do not block)
+- Hard stops: injection, shared state races, external trust issues, missing match cases
+- Soft signals: magic literals, dead code, untested paths, loop queries
+- AUTO-FIX: unambiguous issues fixed directly (clear bugs, null checks, style inconsistencies)
+- ASK: behavior changes and architectural choices batched into one AskUserQuestion
+- Sign-off format: files changed, scope, hard stops, signals, new tests, verification result
 
 ## Install
 
-Single skill:
 ```bash
-claude plugin marketplace add tw93/waza
-claude plugin install check@waza
+npx skills add tw93/Waza -a claude-code -s check -y
 ```

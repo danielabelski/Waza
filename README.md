@@ -14,25 +14,24 @@
 
 Waza (技) is a Japanese martial arts term for technique: a move practiced until it becomes instinct.
 
-A good engineer does not just write code. They think through requirements, review their own work, debug systematically, design interfaces that feel intentional, read primary sources, write clearly, and learn new domains by producing output, not consuming content.
+A good engineer does not just write code. They think through requirements, review their own work, debug systematically, design interfaces that feel intentional, and read primary sources. They write clearly, and learn new domains by producing output, not consuming content.
 
-Waza gives each of these habits a [Claude Code skill](https://docs.anthropic.com/en/docs/claude-code/skills): you type the slash command, Claude follows the playbook. No framework overhead, no telemetry.
+![](https://gw.alipayobjects.com/zos/k/61/waza-overview.svg)
 
-<div align="center">
-  <img src="https://gw.alipayobjects.com/zos/k/61/waza-overview.svg" width="800" alt="Waza skills overview" />
-</div>
 
 ## Skills
 
+Waza gives each of these habits a [Claude Code skill](https://docs.anthropic.com/en/docs/claude-code/skills): you type the slash command, Claude follows the playbook. No framework overhead, no telemetry.
+
 | Skill | When | What it does |
 | :--- | :--- | :--- |
-| [`/learn`](skills/learn) | Diving into an unfamiliar domain | Six-phase research workflow: collect, digest, outline, draft, refine, self-review and publish. |
+| [`/learn`](skills/learn) | Diving into an unfamiliar domain | Six-phase research workflow: collect, digest, outline, fill in, refine, then self-review and publish. |
 | [`/read`](skills/read) | Any URL or PDF | Fetches content as clean Markdown. |
 | [`/think`](skills/think) | Before building anything new | Challenges the problem, pressure-tests the design, validates architecture before any code is written. |
-| [`/design`](skills/design) | Building frontend interfaces | Produces distinctive UI with a committed aesthetic direction. Avoids generic AI aesthetics. |
+| [`/design`](skills/design) | Building frontend interfaces | Produces distinctive UI with a committed aesthetic direction, not generic defaults. |
 | [`/hunt`](skills/hunt) | Any bug or unexpected behavior | Systematic debugging. Root cause confirmed before any fix is applied. |
 | [`/check`](skills/check) | After a task, before merging | Reviews the diff, auto-fixes safe issues, batches judgment calls, verifies with evidence before claiming done. |
-| [`/write`](skills/write) | Writing or editing prose | Enforces natural style for Chinese and English. Strips AI writing patterns. |
+| [`/write`](skills/write) | Writing or editing prose | Rewrites prose to sound natural in Chinese and English. Strips AI writing patterns. |
 | [`/health`](skills/health) | Auditing Claude Code setup | Checks CLAUDE.md, rules, skills, hooks, MCP, and behavior. Flags issues by severity. |
 | [`/english`](skills/english) | Writing English as a non-native speaker | Corrects grammar, explains each mistake, and highlights one pattern to remember. |
 
@@ -41,10 +40,11 @@ Waza gives each of these habits a [Claude Code skill](https://docs.anthropic.com
 **Single skill:**
 
 ```bash
+# example: install the health skill
 npx skills add tw93/Waza -a claude-code -s health -y
 ```
 
-Replace `health` with any skill name.
+Replace `health` with any skill name. Requires Node 18+ and Claude Code.
 
 **All skills:**
 
@@ -61,12 +61,12 @@ bash ~/www/waza/install.sh
 
 ## Background
 
-Built from patterns accumulated across real projects. The `/health` skill is based on the six-layer framework described in [this post](https://tw93.fun/en/2026-03-12/claude.html).
+Built from patterns accumulated across real projects. Each skill encodes a specific engineering habit as a repeatable playbook, so you do not have to remember the process, only trigger it. The `/health` skill is based on the six-layer framework described in [this post](https://tw93.fun/en/2026-03-12/claude.html).
 
 ## Support
 
 - If Waza helped you, star the repo or [share it](https://twitter.com/intent/tweet?url=https://github.com/tw93/Waza&text=Waza%20-%20Claude%20Code%20skills%20for%20the%20complete%20engineer.) with friends.
-- Got ideas or found bugs? Open an issue or PR.
+- Have ideas or found bugs? Open an issue or PR.
 - Like Waza? <a href="https://miaoyan.app/cats.html?name=Waza" target="_blank">Buy Tw93 a Coke</a> to support the project.
 
 <details>
@@ -78,4 +78,4 @@ Built from patterns accumulated across real projects. The `/health` skill is bas
 
 ## License
 
-MIT
+MIT License. Feel free to use Waza and contribute.

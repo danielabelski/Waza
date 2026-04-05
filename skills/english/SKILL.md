@@ -116,7 +116,7 @@ Avoid over-hedging: "I'm not sure but maybe possibly we could perhaps consider..
 
 | Pattern | Wrong | Right |
 |---|---|---|
-| Missing article | "add a skils" | "add a skill" |
+| Missing article | "add skill" | "add a skill" |
 | Wrong article | "a English" | "an English" |
 | Redundant preposition | "discuss about" | "discuss" |
 | Gerund vs. base verb | "good at speak" | "good at speaking" |

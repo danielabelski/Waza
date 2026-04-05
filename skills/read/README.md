@@ -4,19 +4,21 @@ Fetch any URL or PDF as clean Markdown. Routes by platform automatically.
 
 ## Usage
 
-Type `/read` followed by a URL or file path. Works with web pages, WeChat articles, Feishu docs, and PDFs.
+Type `/read` followed by a URL or file path. Works with web pages, WeChat public account articles, and PDFs.
 
 ## Core Method
 
-- Routing: WeChat uses Playwright script, Feishu uses API auth, PDFs use local extraction, everything else uses proxy cascade
+- Routing: WeChat (`mp.weixin.qq.com`) uses a local Playwright script; PDFs use local extraction tools; everything else uses the proxy cascade
 - Proxy cascade: r.jina.ai first, defuddle.md fallback, local agent-fetch as last resort
-- PDF options: marker (best quality), pdftotext (fast), pypdf (no deps)
-- Output: YAML frontmatter + Markdown body, saved to `~/Downloads/{title}.md`
+- PDF options: `marker` (best quality, layout-aware), `pdftotext` (fast), `pypdf` (no dependencies)
+- Output: plain text header (Title, Author, Source, URL) + summary + full Markdown body
+
+## Saving
+
+Saves to `~/Downloads/{title}.md` by default. Skipped only if you say "just preview" or "don't save".
 
 ## Install
 
-Single skill:
 ```bash
-claude plugin marketplace add tw93/waza
-claude plugin install read@waza
+npx skills add tw93/Waza -a claude-code -s read -y
 ```
