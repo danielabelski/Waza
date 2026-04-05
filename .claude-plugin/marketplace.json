@@ -1,7 +1,7 @@
 {
   "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
   "name": "waza",
-  "description": "Personal skill collection for Claude Code: think, check, hunt, design, read, write, learn, health.",
+  "description": "Personal skill collection for Claude Code: think, check, hunt, design, read, write, learn, english, health.",
   "owner": {
     "name": "Tw93",
     "email": "hitw93@gmail.com"
@@ -92,6 +92,17 @@
       "source": "./",
       "skills": [
         "./skills/learn"
+      ],
+      "homepage": "https://github.com/tw93/waza"
+    },
+    {
+      "name": "english",
+      "description": "English coaching for non-native speakers. Corrects grammar, explains mistakes, builds toward native-sounding professional writing.",
+      "version": "1.2.0",
+      "category": "development",
+      "source": "./",
+      "skills": [
+        "./skills/english"
       ],
       "homepage": "https://github.com/tw93/waza"
     }
