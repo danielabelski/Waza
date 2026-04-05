@@ -19,7 +19,7 @@ A good engineer does not just write code. They think through requirements, revie
 Waza gives each of these habits a [Claude Code skill](https://docs.anthropic.com/en/docs/claude-code/skills): you type the slash command, Claude follows the playbook. No framework overhead, no telemetry.
 
 <div align="center">
-  <img src="https://gw.alipayobjects.com/zos/k/w7/waza_bilateral_spine.svg" width="800" alt="Waza skills overview" />
+  <img src="https://gw.alipayobjects.com/zos/k/61/waza-overview.svg" width="800" alt="Waza skills overview" />
 </div>
 
 ## Skills
