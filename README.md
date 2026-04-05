@@ -16,7 +16,7 @@ Waza (技) is a Japanese martial arts term for technique: a move practiced until
 
 A good engineer does not just write code. They think through requirements, review their own work, debug systematically, design interfaces that feel intentional, and read primary sources. They write clearly, and learn new domains by producing output, not consuming content.
 
-![](https://gw.alipayobjects.com/zos/k/61/waza-overview.svg)
+<img src="https://gw.alipayobjects.com/zos/k/61/waza-overview.svg" width="800" />
 
 
 ## Skills
@@ -25,15 +25,15 @@ Waza gives each of these habits a [Claude Code skill](https://docs.anthropic.com
 
 | Skill | When | What it does |
 | :--- | :--- | :--- |
-| [`/learn`](skills/learn) | Diving into an unfamiliar domain | Six-phase research workflow: collect, digest, outline, fill in, refine, then self-review and publish. |
-| [`/read`](skills/read) | Any URL or PDF | Fetches content as clean Markdown. |
 | [`/think`](skills/think) | Before building anything new | Challenges the problem, pressure-tests the design, validates architecture before any code is written. |
 | [`/design`](skills/design) | Building frontend interfaces | Produces distinctive UI with a committed aesthetic direction, not generic defaults. |
-| [`/hunt`](skills/hunt) | Any bug or unexpected behavior | Systematic debugging. Root cause confirmed before any fix is applied. |
 | [`/check`](skills/check) | After a task, before merging | Reviews the diff, auto-fixes safe issues, batches judgment calls, verifies with evidence before claiming done. |
+| [`/hunt`](skills/hunt) | Any bug or unexpected behavior | Systematic debugging. Root cause confirmed before any fix is applied. |
 | [`/write`](skills/write) | Writing or editing prose | Rewrites prose to sound natural in Chinese and English. Strips AI writing patterns. |
-| [`/health`](skills/health) | Auditing Claude Code setup | Checks CLAUDE.md, rules, skills, hooks, MCP, and behavior. Flags issues by severity. |
+| [`/learn`](skills/learn) | Diving into an unfamiliar domain | Six-phase research workflow: collect, digest, outline, fill in, refine, then self-review and publish. |
+| [`/read`](skills/read) | Any URL or PDF | Fetches content as clean Markdown. |
 | [`/english`](skills/english) | Writing English as a non-native speaker | Corrects grammar, explains each mistake, and highlights one pattern to remember. |
+| [`/health`](skills/health) | Auditing Claude Code setup | Checks CLAUDE.md, rules, skills, hooks, MCP, and behavior. Flags issues by severity. |
 
 ## Install
 
