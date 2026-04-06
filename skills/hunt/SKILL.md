@@ -1,7 +1,7 @@
 ---
 name: hunt
 description: Use when encountering a bug, crash, or test failure. Not for code review or new features.
-version: 1.6.0
+version: 3.0.0
 allowed-tools:
   - Bash
   - Read
@@ -45,6 +45,7 @@ When a hypothesis is hard to form, match the symptom to a known shape:
 | Boundary failure | Timeout, wrong response shape | External APIs, service edges |
 | Environment mismatch | Local pass, CI fail | Env vars, feature flags, seeded data |
 | Stale value | Old data shown, refreshes on restart | In-memory cache, memoized result |
+| Condition wait | Sleeping for time instead of state | Replace fixed sleeps with polling: check file exists, port responds, or process exits |
 
 Also worth checking: existing TODOs near the failure site, and whether this area has been patched before. Recurring fixes in the same place mean the abstraction is wrong.
 
@@ -82,6 +83,18 @@ Stop and reassess if you catch yourself:
 - Writing a fix before you have finished tracing the flow
 - Thinking "let me just try this"
 - Finding that each fix surfaces a new problem in a different module
+
+## Rationalization Watch
+
+These phrases are diagnostic failures in disguise. When one surfaces, stop and re-examine:
+
+| What you're thinking | What it actually means | Rule |
+|---|---|---|
+| "I'll just try this one thing" | No hypothesis, random-walking | Stop. Write the hypothesis first. |
+| "I'm confident it's X" | Confidence is not evidence | Run an instrument that proves it. |
+| "Probably the same issue as before" | Treating a new symptom as a known pattern | Re-read the execution path from scratch. |
+| "It works on my machine" | Environment difference IS the bug | Enumerate every env difference before dismissing it. |
+| "One more restart should fix it" | Avoiding the error message | Read the last error verbatim. Never restart more than twice without new evidence. |
 
 ## Apply the Fix
 

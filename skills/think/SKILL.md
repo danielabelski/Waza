@@ -1,7 +1,7 @@
 ---
 name: think
 description: Use before building anything new or when a plan needs review. Not for bug fixes or small edits.
-version: 2.6.0
+version: 3.0.0
 allowed-tools:
   - Read
   - Grep
@@ -82,6 +82,8 @@ Once a direction is approved, check structural correctness before implementation
 **Risk.** Name every component whose loss degrades the system. Can this be rolled back without touching data? Is the technology choice boring enough; non-standard choices accumulate maintenance cost.
 
 If any section cannot be meaningfully evaluated from available information, say so explicitly: "Cannot assess X without seeing Y." Do not guess to fill the gap.
+
+**No placeholders in approved plans.** Before the user approves, every step must be concrete. Forbidden patterns: TBD, TODO, "implement later", "similar to step N", "details to be determined", "as needed". A plan with placeholders is not a plan. It is a promise to plan later.
 
 ## Gotchas
 

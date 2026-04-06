@@ -1,7 +1,7 @@
 ---
 name: write
 description: Use only when explicitly asked to write or edit prose. Not for code comments, commit messages, or inline docs.
-version: 2.5.0
+version: 3.0.0
 disable-model-invocation: true
 ---
 

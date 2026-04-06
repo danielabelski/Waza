@@ -1,7 +1,7 @@
 ---
 name: check
 description: Use after completing a task or before merging. Not for exploring ideas or debugging.
-version: 1.6.0
+version: 3.0.0
 allowed-tools:
   - Bash
   - Read
@@ -134,7 +134,15 @@ Paste the full output. Report exact numbers. Done means: the command ran in this
 
 If no verification command exists or the command fails: halt. Do not claim done. Ask the user how to verify before proceeding.
 
-If the urge to skip this arises: "should work now" means run it. "I'm confident" is not evidence. "It's a trivial change" is how trivial changes break things.
+If any of these phrases appear in your reasoning, stop and run the verification command before continuing:
+
+- "should work now" / "should be fine"
+- "probably correct" / "probably fixed"
+- "seems to be working" / "appears to work"
+- "I'm confident" / "clearly fixed"
+- "trivial change, no need to verify"
+
+These are rationalization patterns, not evidence. Verification ran and passed = done. Everything else = not done.
 
 ## Gotchas
 

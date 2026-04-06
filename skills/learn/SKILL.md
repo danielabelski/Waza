@@ -1,7 +1,7 @@
 ---
 name: learn
 description: Use when researching an unfamiliar domain or preparing a research article. Not for quick lookups or single-file reads.
-version: 1.2.0
+version: 3.0.0
 allowed-tools:
   - Bash
   - Read

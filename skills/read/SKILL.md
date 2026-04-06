@@ -1,7 +1,7 @@
 ---
 name: read
 description: Use when fetching a URL, web page, or PDF as Markdown. Not for local files already in the repo.
-version: 1.5.0
+version: 3.0.0
 allowed-tools:
   - Bash
   - Read

@@ -1,6 +1,6 @@
 ---
 name: health
-version: 1.9.0
+version: 3.0.0
 description: Run when Claude ignores rules, hooks malfunction, or MCP needs auditing. Not for debugging code or reviewing PRs.
 allowed-tools:
   - Bash

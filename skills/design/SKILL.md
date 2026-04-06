@@ -1,7 +1,7 @@
 ---
 name: design
 description: Use when building UI, components, or pages. Not for backend logic or data pipelines.
-version: 1.4.0
+version: 3.0.0
 allowed-tools:
   - Read
   - Write
