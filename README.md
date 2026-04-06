@@ -18,7 +18,7 @@ AI makes you faster, but not better:
 
 - Your UI looks like every other AI-generated interface. Same spacing, same components, same defaults.
 - Debugging becomes guess-and-retry. You patch symptoms instead of tracing root causes.
-- Your technical writing hedges every sentence and bloats every paragraph. Engineers can tell it wasn't thought through.
+- Your docs hedge every claim and bloat every paragraph. Engineers can tell it wasn't thought through.
 - You skim summaries instead of reading the source. Understanding stays shallow.
 
 Waza encodes the fix for each of these into a skill Claude can execute.
