@@ -36,6 +36,8 @@ Waza gives each of these habits a [Claude Code skill](https://docs.anthropic.com
 
 ## English Coaching
 
+English should be every engineer's first language when working with AI. The model thinks in English, the best resources are in English, and writing clearly in English is a skill that compounds over time.
+
 Passive grammar correction on every reply. Claude flags mistakes with the pattern name so you learn why.
 
 > 😇 I very like this feature → I really like this feature (Unnatural phrasing)
