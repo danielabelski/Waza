@@ -16,9 +16,6 @@ Waza (技) is a Japanese martial arts term for technique: a move practiced until
 
 A good engineer does not just write code. They think through requirements, review their own work, debug systematically, design interfaces that feel intentional, and read primary sources. They write clearly, and learn new domains by producing output, not consuming content.
 
-<img src="https://gw.alipayobjects.com/zos/k/qa/waza_repaired_v4.svg" width="800" />
-
-
 ## Skills
 
 Each engineering habit gets a [Claude Code skill](https://docs.anthropic.com/en/docs/claude-code/skills). Type the slash command, Claude follows the playbook.
@@ -34,13 +31,15 @@ Each engineering habit gets a [Claude Code skill](https://docs.anthropic.com/en/
 | [`/read`](skills/read/SKILL.md) | Any URL or PDF | Fetches content as clean Markdown via proxy cascade script. |
 | [`/health`](skills/health/SKILL.md) | Auditing Claude Code setup | Checks CLAUDE.md, rules, skills, hooks, MCP, and behavior. Flags issues by severity. |
 
+<img src="https://gw.alipayobjects.com/zos/k/qa/waza_repaired_v4.svg" width="800" />
+
 Each skill is a folder, not just a markdown file. Skills include reference docs, helper scripts, scoped hooks, and gotchas sections built from real project failures. See Anthropic's [skill best practices](https://x.com/trq212/status/2033949937936085378) for the philosophy behind this structure.
 
 ## Extras
 
 Two features that ship with Waza but live outside the skill system. Easy to miss, worth knowing about.
 
-## Statusline
+### Statusline
 
 A minimal Claude Code statusline that shows only what matters: context window usage, 5-hour quota, and 7-day quota, each with the time remaining until reset.
 
@@ -55,7 +54,7 @@ Color coding: green below 70%, yellow at 70-85%, red above 85% for context; blue
 
 Requires `jq`. No other dependencies.
 
-## English Coaching
+### English Coaching
 
 English should be every engineer's first language when working with AI. The model thinks in English, the best resources are in English, and writing clearly in English is a skill that compounds over time.
 
@@ -66,6 +65,14 @@ Passive grammar correction on every reply. Claude flags mistakes with the patter
 ```bash
 curl -sL https://raw.githubusercontent.com/tw93/Waza/main/templates/english-coaching.md >> ~/.claude/CLAUDE.md
 ```
+
+## Background
+
+Tools like Superpowers and gstack are impressive, but they are heavy. Too many skills, too much configuration, too steep a learning curve for engineers who just want to get things done.
+
+Waza is the opposite: eight skills that cover the habits that actually matter. Each one does one thing, has a clear trigger, and stays out of the way. The goal is not completeness. It is the right amount, done well.
+
+Built from patterns accumulated across real projects, then refined with 30 days of usage data (300+ sessions, 7 projects, 500 hours). Each gotcha in a skill traces back to a specific failure: a wrong code path that cost four rounds, a release announced before artifacts were uploaded, a server restarted eight times without reading the error. The `/health` skill is based on the six-layer framework described in [this post](https://tw93.fun/en/2026-03-12/claude.html).
 
 ## Install
 
@@ -83,15 +90,6 @@ npx skills add tw93/Waza -a claude-code -s health -y
 ```
 
 Replace `health` with any skill name. Requires Node 18+ and Claude Code.
-
-
-## Background
-
-Tools like Superpowers and gstack are impressive, but they are heavy. Too many skills, too much configuration, too steep a learning curve for engineers who just want to get things done.
-
-Waza is the opposite: eight skills that cover the habits that actually matter. Each one does one thing, has a clear trigger, and stays out of the way. The goal is not completeness. It is the right amount, done well.
-
-Built from patterns accumulated across real projects, then refined with 30 days of usage data (300+ sessions, 7 projects, 500 hours). Each gotcha in a skill traces back to a specific failure: a wrong code path that cost four rounds, a release announced before artifacts were uploaded, a server restarted eight times without reading the error. The `/health` skill is based on the six-layer framework described in [this post](https://tw93.fun/en/2026-03-12/claude.html).
 
 ## Support
 
