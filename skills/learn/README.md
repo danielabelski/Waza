@@ -12,7 +12,7 @@ Type `/learn` when diving into an unfamiliar domain or preparing to write a rese
 |:---|:---|:---|
 | Deep Research | Understand a domain well enough to write about it | Phase 6: publish |
 | Quick Reference | Build a working mental model fast, no article planned | Phase 2: cut and keep notes |
-| Write to Learn | Already have materials, want to force understanding through writing | Phase 3: outline |
+| Write to Learn | Already have materials, want to force understanding through writing | Phase 6: publish |
 
 ## Six phases
 

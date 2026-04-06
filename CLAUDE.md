@@ -1,46 +1,58 @@
-# Claude Health
+# Waza
 
-Configuration health audit skill for Claude Code.
+Personal skill collection for Claude Code. Nine skills covering the complete engineering workflow: think, design, check, hunt, write, learn, read, english, health.
 
 ## Communication
 
 - Do not use em dashes (U+2014) in any output. Use commas, periods, colons, or semicolons instead.
-- This also applies to skill templates, report examples, progress lines, and any example output embedded in `skills/health/`.
+- This applies to all skill templates, report examples, progress lines, and any example output embedded in skill files.
 
 ## Structure
 
 ```
-skills/health/
-├── SKILL.md                  -- orchestration: tier detection, data collection, synthesis
-├── agents/
-│   ├── agent1-context.md     -- Agent 1 prompt: CLAUDE.md, rules, skills, MCP, security audit
-│   └── agent2-control.md     -- Agent 2 prompt: hooks, behavior patterns, control layer audit
+skills/
+├── check/        -- code review before merging
+├── design/       -- production-grade frontend UI
+├── english/      -- grammar and phrasing coaching
+├── health/       -- Claude Code config audit
+│   └── agents/   -- agent1-context.md, agent2-control.md
+├── hunt/         -- systematic debugging
+├── learn/        -- research to published output
+├── read/         -- fetch URL or PDF as Markdown
+├── think/        -- design and validate before building
+└── write/        -- natural prose in Chinese and English
+    └── references/  -- write-zh.md, write-en.md
+.claude-plugin/
+└── marketplace.json  -- plugin registry for npx distribution
+install.sh            -- symlink installer
 ```
 
-SKILL.md owns the flow. Agent files are loaded on demand by STANDARD/COMPLEX tier only; SIMPLE tier never reads them.
+Each skill has a `SKILL.md` (loaded on demand) and a `README.md` (quick reference for humans).
 
 ## Verification
 
 ```bash
-# Syntax check: extract bash blocks from SKILL.md (macOS compatible)
-awk '/^```bash$/{p=1;next} /^```$/{p=0} p' skills/health/SKILL.md | bash -n
+# All SKILL.md files have valid frontmatter
+for f in skills/*/SKILL.md; do head -5 "$f" | grep -q "^name:" && echo "ok: $f" || echo "MISSING name: $f"; done
 
-# Word count: SKILL.md should stay under 3500 words; agent files under 750 words each
-wc -w skills/health/SKILL.md skills/health/agents/agent1-context.md skills/health/agents/agent2-control.md
+# Version consistency: SKILL.md must match marketplace.json
+for skill in check design english health hunt learn read think write; do
+  skill_ver=$(grep "^version:" "skills/$skill/SKILL.md" | awk '{print $2}')
+  market_ver=$(python3 -c "import json; d=json.load(open('.claude-plugin/marketplace.json')); print([p['version'] for p in d['plugins'] if p['name']=='$skill'][0])")
+  [ "$skill_ver" = "$market_ver" ] && echo "ok: $skill $skill_ver" || echo "MISMATCH: $skill SKILL=$skill_ver MARKET=$market_ver"
+done
 
-# Agent files must exist
-test -f skills/health/agents/agent1-context.md && test -f skills/health/agents/agent2-control.md && echo "agent files: ok"
+# Reference files exist for skills that use them
+test -f skills/english/references/english-phrases.md && \
+test -f skills/design/references/design-reference.md && \
+test -f skills/read/references/read-methods.md && \
+test -f skills/write/references/write-zh.md && \
+test -f skills/write/references/write-en.md && \
+test -f skills/health/agents/agent1-context.md && \
+test -f skills/health/agents/agent2-control.md && echo "references: ok"
 
-# Version: single source of truth is marketplace.json
-grep '"version"' .claude-plugin/marketplace.json
-
-# Claude Code install smoke test: project-local install should land in .claude/skills
-TMP_HOME=$(mktemp -d) && TMP_PROJ=$(mktemp -d) && \
-cd "$TMP_PROJ" && \
-HOME="$TMP_HOME" XDG_CONFIG_HOME="$TMP_HOME/.config" npx skills add tw93/claude-health -a claude-code -s health -y --copy && \
-test -f "$TMP_PROJ/.claude/skills/health/SKILL.md" && \
-test -f "$TMP_PROJ/.claude/skills/health/agents/agent1-context.md" && \
-test -f "$TMP_PROJ/.claude/skills/health/agents/agent2-control.md"
+# marketplace.json is valid JSON
+python3 -c "import json; json.load(open('.claude-plugin/marketplace.json'))" && echo "marketplace.json: ok"
 ```
 
 ## Commit Convention
@@ -54,4 +66,4 @@ test -f "$TMP_PROJ/.claude/skills/health/agents/agent2-control.md"
 - Body: HTML format, bilingual (English Changelog + 中文更新日志), one-to-one
 - Each item: `<li><strong>Category</strong>: description.</li>` -- bold label summarizes the change, description is one concise sentence, no filler words
 - Style: engineer-facing, no marketing language; lead with what changed, not why it matters
-- Footer: update command `npx skills add tw93/claude-health@latest` + star + repo link
+- Footer: update command `npx skills add tw93/Waza@latest` + star + repo link
