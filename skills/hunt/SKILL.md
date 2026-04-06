@@ -1,6 +1,6 @@
 ---
 name: hunt
-description: Diagnoses root cause before applying any fix, then produces a root-cause statement with a regression test. Use when encountering a bug, crash, or test failure. Not for code review or new features.
+description: Use when encountering a bug, crash, or test failure. Not for code review or new features.
 version: 1.0.0
 allowed-tools:
   - Bash

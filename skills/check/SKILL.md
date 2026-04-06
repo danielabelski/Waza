@@ -1,6 +1,6 @@
 ---
 name: check
-description: Reviews a diff, auto-fixes safe issues, and verifies with evidence before claiming done. Use after completing a task or before merging. Not for exploring ideas or debugging.
+description: Use after completing a task or before merging. Not for exploring ideas or debugging.
 version: 1.0.0
 allowed-tools:
   - Bash

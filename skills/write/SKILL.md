@@ -1,6 +1,6 @@
 ---
 name: write
-description: Strips AI writing patterns and enforces natural voice for Chinese and English prose. Use only when explicitly asked to write or edit prose. Not for code comments, commit messages, or inline documentation.
+description: Use only when explicitly asked to write or edit prose. Not for code comments, commit messages, or inline docs.
 version: 2.3.0
 disable-model-invocation: true
 ---
@@ -13,3 +13,5 @@ disable-model-invocation: true
 - English content: load `references/write-en.md`
 
 执行顺序: 读取对应规则文件，严格按规则处理，输出修改后的内容。
+
+输出修改后的内容后，停止。除非用户主动询问，否则不解释改动。

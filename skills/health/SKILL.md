@@ -1,7 +1,7 @@
 ---
 name: health
 version: 1.6.0
-description: Audits Claude Code setup across CLAUDE.md, rules, skills, hooks, and MCP. Run when Claude ignores rules, hooks malfunction, or MCP needs auditing. Not for debugging code or reviewing PRs.
+description: Run when Claude ignores rules, hooks malfunction, or MCP needs auditing. Not for debugging code or reviewing PRs.
 ---
 
 # Claude Code Configuration Health Audit
