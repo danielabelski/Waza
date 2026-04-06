@@ -1,7 +1,7 @@
 ---
 name: hunt
 description: Use when encountering a bug, crash, or test failure. Not for code review or new features.
-version: 1.4.0
+version: 1.5.0
 allowed-tools:
   - Bash
   - Read
@@ -82,6 +82,16 @@ Once the root cause is confirmed:
 **Self-regulation:** track how the fix is going. If you have reverted the same area twice, or if the current fix touches more than 3 files for what started as a single bug, stop. Do not keep patching. Describe what is known and unknown, and ask the user how to proceed. Continued patching past this point means the abstraction is wrong, not the code.
 
 After the fix lands, consider whether a second layer of defense makes sense: validate the same condition at the call site, the service boundary, or in a test. A bug that cannot be introduced again is better than a bug that was fixed once.
+
+## Gotchas
+
+Real failures from prior sessions, in order of frequency:
+
+- **Fixed the wrong code path.** Patched the client pane instead of the local pane because I guessed the location from the symptom. Trace the execution path from the symptom backward before touching any file.
+- **Same symptom, four patches.** Applied a fix, got the same error back, patched again. Each patch buried the real cause deeper. Same symptom after a fix = stop and re-read the whole execution path from scratch.
+- **Stated macOS version from memory.** Diagnosed a notarytool failure as "macOS 26 beta." It was a stable release. Run `sw_vers` first. A diagnosis built on assumed versions is not a diagnosis.
+- **Tried workarounds before diagnosing tool failure.** xcrawl MCP wasn't loading; I tried WebFetch instead of checking why. Check server status, API key validity, and config before switching methods.
+- **Wrote the fix before finishing the trace.** "Let me just try this" is a red flag. It means the hypothesis is incomplete. Stop, finish the trace, write the hypothesis in one sentence, then write the fix.
 
 ## Outcome
 

@@ -1,7 +1,7 @@
 ---
 name: think
 description: Use before building anything new or when a plan needs review. Not for bug fixes or small edits.
-version: 2.4.0
+version: 2.5.0
 allowed-tools:
   - Read
   - Grep
@@ -73,6 +73,16 @@ Once a direction is approved, check structural correctness before implementation
 **Risk.** Name every component whose loss degrades the system. Can this be rolled back without touching data? Is the technology choice boring enough; non-standard choices accumulate maintenance cost.
 
 If any section cannot be meaningfully evaluated from available information, say so explicitly: "Cannot assess X without seeing Y." Do not guess to fill the gap.
+
+## Gotchas
+
+Real failures from prior sessions, in order of frequency:
+
+- **Wrong path assumed.** Moved files to `~/project` when the repo was at `~/www/project`. Always run `pwd` or `git rev-parse --show-toplevel` before the first filesystem operation.
+- **Credentials surfaced mid-build.** Asked for DashScope API key after three implementation steps. List every dependency with a one-line explanation of why it is needed, before starting.
+- **Analyzed when execution was requested.** User said "帮我做" and got three options. "帮我做," "优化," "改回去" = execute immediately. No option framework.
+- **Designed around a tool that wasn't available.** Planned an MCP-dependent workflow without checking if the MCP server was loaded. Verify external tool availability before the first design step.
+- **Rejected design restarted from scratch.** User said the direction was wrong. Should have asked what specifically failed and re-entered Phase 2 with narrowed constraints, not a blank slate.
 
 ## Output
 

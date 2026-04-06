@@ -18,7 +18,7 @@ Convert any URL or local PDF to clean Markdown and save it.
 |-------|--------|
 | `mp.weixin.qq.com` | WeChat script |
 | `.pdf` URL or local PDF path | PDF extraction |
-| Everything else | Proxy cascade |
+| Everything else | Run `scripts/fetch.sh {url}` (proxy cascade with auto-fallback) |
 
 After routing, load `references/read-methods.md` to get the specific commands for the chosen method, then execute.
 

@@ -1,7 +1,7 @@
 ---
 name: check
 description: Use after completing a task or before merging. Not for exploring ideas or debugging.
-version: 1.4.0
+version: 1.5.0
 allowed-tools:
   - Bash
   - Read
@@ -11,6 +11,12 @@ allowed-tools:
   - Glob
   - Agent
   - AskUserQuestion
+hooks:
+  PreToolUse:
+    - matcher: Bash
+      hooks:
+        - type: command
+          command: "input=\"$CLAUDE_TOOL_INPUT\"; if echo \"$input\" | grep -qE 'git push --force|git push -f |rm -rf /|DROP TABLE|--no-verify'; then echo 'BLOCK: Destructive command during /check review. Confirm with user first.' >&2; exit 1; fi"
 ---
 
 # Check: Review Before You Ship
@@ -92,16 +98,10 @@ For every new code path: trace it, check if a test covers it. If this change fix
 
 ## Verification
 
-After all fixes are applied, detect and run the project's verification command:
+After all fixes are applied, run `scripts/verify.sh` from this skill's directory, or the project's known verification command:
 
 ```bash
-# Auto-detect: lint/typecheck first, then tests
-if [ -f Cargo.toml ]; then cargo check && cargo test
-elif [ -f tsconfig.json ]; then npx tsc --noEmit && npm test
-elif [ -f package.json ] && grep -q '"test"' package.json; then npm test
-elif [ -f Makefile ] && grep -q '^test:' Makefile; then make test
-elif [ -f pytest.ini ] || [ -f pyproject.toml ] || find . -maxdepth 2 -name "test_*.py" | grep -q .; then pytest
-else echo "(no test command detected)"; fi
+bash "$(dirname "$0")/../scripts/verify.sh"
 ```
 
 If nothing is detected, ask the user for the verification command before proceeding.
@@ -111,6 +111,16 @@ Paste the full output. Report exact numbers. Done means: the command ran in this
 If no verification command exists or the command fails: halt. Do not claim done. Ask the user how to verify before proceeding.
 
 If the urge to skip this arises: "should work now" means run it. "I'm confident" is not evidence. "It's a trivial change" is how trivial changes break things.
+
+## Gotchas
+
+Real failures from prior sessions, in order of frequency:
+
+- **Commented on the wrong issue.** Left a comment on #249 when the conversation was about #255. Run `gh issue view N` or `gh pr view N` to confirm title before commenting or closing.
+- **PR comments sounded like a report.** User had to iterate multiple times on comment tone. GitHub comments should be 1-2 sentences, natural, like a colleague, not a structured review output.
+- **Announced release done before uploading artifacts.** Pushed the GitHub release with no .dmg/.zip/.sha256 attached. Verify every artifact listed in the release template exists as a local file and has been uploaded.
+- **Language suffix doubled.** Placed `article.en.md` inside `_posts_en/`, generating a duplicate URL. Check the naming convention of existing files in the target directory first.
+- **Skipped verification on "trivial" changes.** "It's a one-line fix" is how trivial changes break things. If the urge to skip arises, run `scripts/verify.sh` anyway.
 
 ## Sign-off
 
