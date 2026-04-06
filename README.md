@@ -48,11 +48,10 @@ A minimal Claude Code statusline that shows only what matters: context window us
 Color coding: green below 70%, yellow at 70-85%, red above 85% for context; blue, magenta, red for quota thresholds. No progress bars, no noise.
 
 ```bash
-# Point Claude Code at the script in ~/.claude/settings.json:
-# "statusLine": { "type": "command", "command": "bash ~/www/waza/scripts/statusline.sh" }
+curl -sL https://raw.githubusercontent.com/tw93/Waza/main/scripts/setup-statusline.sh | bash
 ```
 
-Requires `jq`. No other dependencies.
+Requires `jq`. Restart Claude Code after running.
 
 ### English Coaching
 
