@@ -16,6 +16,8 @@ Waza (技) is a Japanese martial arts term for technique: a move practiced until
 
 A good engineer does not just write code. They think through requirements, review their own work, debug systematically, design interfaces that feel intentional, and read primary sources. They write clearly, and learn new domains by producing output, not consuming content.
 
+<img src="https://gw.alipayobjects.com/zos/k/qa/waza_repaired_v4.svg" width="800" />
+
 ## Skills
 
 Each engineering habit gets a [Claude Code skill](https://docs.anthropic.com/en/docs/claude-code/skills). Type the slash command, Claude follows the playbook.
@@ -31,13 +33,7 @@ Each engineering habit gets a [Claude Code skill](https://docs.anthropic.com/en/
 | [`/read`](skills/read/SKILL.md) | Any URL or PDF | Fetches content as clean Markdown via proxy cascade script. |
 | [`/health`](skills/health/SKILL.md) | Auditing Claude Code setup | Checks CLAUDE.md, rules, skills, hooks, MCP, and behavior. Flags issues by severity. |
 
-<img src="https://gw.alipayobjects.com/zos/k/qa/waza_repaired_v4.svg" width="800" />
-
 Each skill is a folder, not just a markdown file. Skills include reference docs, helper scripts, scoped hooks, and gotchas sections built from real project failures. See Anthropic's [skill best practices](https://x.com/trq212/status/2033949937936085378) for the philosophy behind this structure.
-
-## Extras
-
-Two features that ship with Waza but live outside the skill system. Easy to miss, worth knowing about.
 
 ### Statusline
 
@@ -65,16 +61,13 @@ curl -sL https://raw.githubusercontent.com/tw93/Waza/main/templates/english-coac
 
 ## Install
 
-**All skills:**
-
 ```bash
 npx skills add tw93/Waza -g -y
 ```
 
-**Single skill:**
+Install a single skill:
 
 ```bash
-# example: install the health skill
 npx skills add tw93/Waza -a claude-code -s health -y
 ```
 
