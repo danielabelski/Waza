@@ -43,10 +43,10 @@ Waza includes a passive English coaching template for non-native speakers. When 
 😇 I am very interest → I am very interested (Wrong verb form)
 ```
 
-The `install.sh` script will ask if you want to add it to your `~/.claude/CLAUDE.md`. You can also add it manually:
+The `install.sh` script will ask if you want to add it to your `~/.claude/CLAUDE.md`. If you installed via `npx`, add it manually:
 
 ```bash
-cat ~/www/waza/templates/english-coaching.md >> ~/.claude/CLAUDE.md
+curl -sL https://raw.githubusercontent.com/tw93/Waza/main/templates/english-coaching.md >> ~/.claude/CLAUDE.md
 ```
 
 ## Install
