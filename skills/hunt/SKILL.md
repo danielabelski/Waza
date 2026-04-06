@@ -1,7 +1,7 @@
 ---
 name: hunt
 description: Use when encountering a bug, crash, or test failure. Not for code review or new features.
-version: 1.3.0
+version: 1.4.0
 allowed-tools:
   - Bash
   - Read
@@ -61,6 +61,8 @@ After three failed hypotheses, stop. Do not guess a fourth time. Instead, surfac
 **Same symptom after a fix is a hard stop.** If the user reports the same symptom after a patch was applied, do not patch again. Treat it as a new investigation: the previous hypothesis was wrong. Re-read the execution path from scratch. Three rounds of "fixed but still broken" in the same area means the abstraction is wrong, not the specific line.
 
 **Never state environment details from memory.** Before diagnosing OS, compiler, SDK, or tool version issues, run the detection command first: `sw_vers`, `xcodebuild -version`, `node --version`, `rustc --version`, etc. State the actual output. A diagnosis built on an assumed version is not a diagnosis.
+
+**External tool or MCP failure: diagnose before switching.** When an MCP tool, CLI dependency, or external API is unavailable or returning errors, do not immediately try an alternative method. First determine why it failed: is the server running? Is the API key valid or expired? Is the config pointing to the right endpoint? Is a proxy needed? Switching to a workaround without diagnosing the root cause leaves the original problem intact and wastes the next session too.
 
 Stop and reassess if you catch yourself:
 - Writing a fix before you have finished tracing the flow
