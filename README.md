@@ -18,9 +18,9 @@ A good engineer does not just write code. They think through requirements, revie
 
 AI makes you faster, but not better:
 
-- Your UI looks like every other AI-generated interface. Same spacing, same components, same defaults.
-- Debugging becomes guess-and-retry. You patch symptoms instead of tracing root causes.
-- Your docs hedge every claim and bloat every paragraph. Engineers can tell it wasn't thought through.
+- You stop thinking before building. Prompts replace architecture decisions.
+- You accept the first output. Review becomes a formality.
+- You ship before verifying. Testing gets outsourced to the model.
 - You skim summaries instead of reading the source. Understanding stays shallow.
 
 Waza encodes the fix for each of these into a skill Claude can execute.
