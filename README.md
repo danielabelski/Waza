@@ -12,14 +12,14 @@
 
 ## Why
 
-Waza (技) is a Japanese martial arts term for technique: a move practiced until it becomes instinct. Good engineers think before building, verify before shipping, read primary sources, and learn by producing output. Waza turns each of these habits into a skill Claude can execute.
+Waza (技) is a Japanese martial arts term for technique: **a move practiced until it becomes instinct**. Good engineers think before building, verify before shipping, read primary sources, and learn by producing output. Waza turns each of these habits into a skill Claude can execute.
 
-AI makes you faster, but not better. The habits that separate good engineers from fast ones are the first to go:
+AI makes you faster, but **not better**. The habits that separate good engineers from fast ones are the first to go:
 
-- You stop thinking before building. Prompts feel faster than architecture decisions.
-- You accept the first output. The diff looks fine, so review becomes a formality.
-- You ship before verifying. The model said it works, so you trust it. Bugs find prod.
-- You skim summaries instead of reading the source. You get answers, never understanding.
+- You stop thinking before building. **Prompts feel faster than architecture decisions.**
+- You accept the first output. **The diff looks fine, so review becomes a formality.**
+- You ship before verifying. **The model said it works, so you trust it. Bugs find prod.**
+- You skim summaries instead of reading the source. **You get answers, never understanding.**
 
 <img src="https://gw.alipayobjects.com/zos/k/qa/waza_repaired_v4.svg" width="800" />
 
@@ -38,7 +38,7 @@ Each engineering habit gets a [Claude Code skill](https://docs.anthropic.com/en/
 | [`/read`](skills/read/SKILL.md) | Any URL or PDF | Fetches content as clean Markdown via proxy cascade script. Dedicated handlers for WeChat and Feishu. |
 | [`/health`](skills/health/SKILL.md) | Auditing Claude Code setup | Checks CLAUDE.md, rules, skills, hooks, MCP, and behavior. Flags issues by severity. |
 
-Each skill is a folder, not just a markdown file. Skills include reference docs, helper scripts, scoped hooks, and gotchas sections built from real project failures.
+Each skill is **a folder, not just a markdown file**. Skills include reference docs, helper scripts, scoped hooks, and gotchas sections built from real project failures.
 
 ## Extras
 
@@ -56,7 +56,7 @@ curl -sL https://raw.githubusercontent.com/tw93/Waza/main/scripts/setup-statusli
 
 **English Coaching**
 
-English should be every engineer's first language when working with AI. The model thinks in English, the best resources are in English, and writing clearly in English is a skill that compounds over time.
+English should be every engineer's first language when working with AI. The model thinks in English, the best resources are in English, and **writing clearly in English is a skill that compounds over time**.
 
 Passive grammar correction on every reply. Claude flags mistakes with the pattern name so you learn why.
 
@@ -84,9 +84,9 @@ Replace `health` with any skill name. Requires Node 18+ and Claude Code.
 
 Tools like Superpowers and gstack are impressive, but they are heavy. Too many skills, too much configuration, too steep a learning curve for engineers who just want to get things done.
 
-Waza is the opposite: eight skills that cover the habits that actually matter. Each one does one thing, has a clear trigger, and stays out of the way. The goal is not completeness. It is the right amount, done well.
+Waza is the opposite: **eight skills that cover the habits that actually matter**. Each one does one thing, has a clear trigger, and stays out of the way. The goal is not completeness. It is the right amount, done well.
 
-Built from patterns accumulated across real projects, then refined with real usage data. Every gotcha in a skill traces to a specific failure: a wrong code path that cost four rounds of debugging, a release announced before artifacts were uploaded, a server restarted eight times without reading the error. 30 days, 300+ sessions, 7 projects, 500 hours. The `/health` skill is based on the six-layer framework described in [this post](https://tw93.fun/en/2026-03-12/claude.html).
+Built from patterns accumulated across real projects, then refined with real usage data. Every gotcha in a skill traces to a specific failure: a wrong code path that cost four rounds of debugging, a release announced before artifacts were uploaded, a server restarted eight times without reading the error. **30 days, 300+ sessions, 7 projects, 500 hours.** The `/health` skill is based on the six-layer framework described in [this post](https://tw93.fun/en/2026-03-12/claude.html).
 
 ## Support
 
