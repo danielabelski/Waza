@@ -64,6 +64,10 @@ Replace `health` with any skill name. Requires Node 18+ and Claude Code.
 
 ## Background
 
+Tools like Superpowers and gstack are impressive, but they are heavy. Too many skills, too much configuration, too steep a learning curve for engineers who just want to get things done. They feel built for power users, not for someone starting out or working on a focused project.
+
+Waza is the opposite: a small set of skills that cover the habits that actually matter. Each one does one thing, has a clear trigger, and stays out of the way. The goal is not completeness. It is the right amount, done well.
+
 Built from patterns accumulated across real projects. Each skill encodes a specific engineering habit as a repeatable playbook, so you do not have to remember the process, only trigger it. The `/health` skill is based on the six-layer framework described in [this post](https://tw93.fun/en/2026-03-12/claude.html).
 
 ## Support
