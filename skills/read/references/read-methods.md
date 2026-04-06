@@ -74,7 +74,7 @@ Built-in script at `scripts/fetch_feishu.py`. Requires `requests` and Feishu app
 pip install requests  # one-time setup
 export FEISHU_APP_ID=your_app_id
 export FEISHU_APP_SECRET=your_app_secret
-python3 "$(dirname "$0")/scripts/fetch_feishu.py" "{url}"
+python3 ~/.claude/skills/read/scripts/fetch_feishu.py "{url}"
 ```
 
 Supports: docx, legacy docs, wiki pages. App needs `docx:document:readonly` and `wiki:wiki:readonly` permissions.
@@ -88,5 +88,5 @@ If the proxy is blocked, use the built-in Playwright script as a last resort (re
 
 ```bash
 pip install playwright beautifulsoup4 lxml && playwright install chromium
-python3 "$(dirname "$0")/scripts/fetch_weixin.py" "{url}"
+python3 ~/.claude/skills/read/scripts/fetch_weixin.py "{url}"
 ```
