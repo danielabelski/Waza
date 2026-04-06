@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="https://gw.alipayobjects.com/zos/k/y9/RUgevg.png" width="120" />
+  <img src="https://gw.alipayobjects.com/zos/k/2h/waza.svg" width="120" />
   <h1>Waza</h1>
   <p><b>Claude Code skills for the complete engineer: design, solve, express, grow.</b></p>
   <a href="https://github.com/tw93/Waza/stargazers"><img src="https://img.shields.io/github/stars/tw93/Waza?style=flat-square" alt="Stars"></a>
@@ -43,7 +43,7 @@ Two features that ship with Waza but live outside the skill system. Easy to miss
 
 A minimal Claude Code statusline that shows only what matters: context window usage, 5-hour quota, and 7-day quota, each with the time remaining until reset.
 
-<img src="https://gw.alipayobjects.com/zos/k/3a/2Vlazb.png" width="800" />
+<img src="https://gw.alipayobjects.com/zos/k/y9/RUgevg.png" width="800" />
 
 Color coding: green below 70%, yellow at 70-85%, red above 85% for context; blue, magenta, red for quota thresholds. No progress bars, no noise.
 
