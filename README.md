@@ -16,10 +16,7 @@ Waza (技) is a Japanese martial arts term for technique: a move practiced until
 
 **AI makes you faster. It does not make you think more clearly, ship more carefully, or understand more deeply.**
 
-- You stop thinking before building. Prompts feel faster than architecture decisions.
-- You accept the first output. The diff looks fine, so review becomes a formality.
-- You ship before verifying. The model said it works, so you trust it. Bugs find prod.
-- You skim summaries instead of reading the source. You get answers, never understanding.
+Eight skills, one for each habit:
 
 <img src="https://gw.alipayobjects.com/zos/k/qa/waza_repaired_v4.svg" width="800" />
 
