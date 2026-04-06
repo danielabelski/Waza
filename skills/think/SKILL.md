@@ -1,7 +1,7 @@
 ---
 name: think
 description: Use before building anything new or when a plan needs review. Not for bug fixes or small edits.
-version: 2.2.0
+version: 2.3.0
 allowed-tools:
   - Read
   - Grep
@@ -22,6 +22,10 @@ Give opinions directly. Avoid: "That's an interesting approach," "There are many
 ## Phase 1: Understand the Problem
 
 Start by running `git log --oneline -10` and reading CLAUDE.md (if present). Then read the files the user mentioned or that are obviously related to the idea (entry points, main modules). Ask if it is unclear which files are relevant. Then work through the idea one question at a time: purpose first, constraints second, success criteria third.
+
+**Confirm the working path before touching the filesystem.** Before creating, moving, or writing files, verify the absolute path with `pwd` or `git rev-parse --show-toplevel`. Do not assume `~/project` and `~/www/project` are the same. If the user gives a relative or ambiguous path, ask once to confirm the full absolute path.
+
+**State all dependencies before asking for credentials.** If the task requires API keys, tokens, or third-party accounts beyond what the user named, list every dependency with a one-line explanation of why it is needed, before asking for any of them. Do not surface credential requests mid-implementation.
 
 Challenge whether it is the right problem:
 - What does the user actually want to happen? Not the feature described, the outcome they care about.

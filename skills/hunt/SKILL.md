@@ -1,7 +1,7 @@
 ---
 name: hunt
 description: Use when encountering a bug, crash, or test failure. Not for code review or new features.
-version: 1.2.0
+version: 1.3.0
 allowed-tools:
   - Bash
   - Read
@@ -57,6 +57,10 @@ Add one targeted instrument: a log line, a failing assertion, or the smallest po
 If the evidence contradicts the hypothesis, discard it completely and re-orient with what was just learned. Do not preserve a hypothesis that the evidence disproves.
 
 After three failed hypotheses, stop. Do not guess a fourth time. Instead, surface the situation to the user: what was checked, what was ruled out, what is still unknown. Ask whether to add more instrumentation, escalate, or approach the problem differently.
+
+**Same symptom after a fix is a hard stop.** If the user reports the same symptom after a patch was applied, do not patch again. Treat it as a new investigation: the previous hypothesis was wrong. Re-read the execution path from scratch. Three rounds of "fixed but still broken" in the same area means the abstraction is wrong, not the specific line.
+
+**Never state environment details from memory.** Before diagnosing OS, compiler, SDK, or tool version issues, run the detection command first: `sw_vers`, `xcodebuild -version`, `node --version`, `rustc --version`, etc. State the actual output. A diagnosis built on an assumed version is not a diagnosis.
 
 Stop and reassess if you catch yourself:
 - Writing a fix before you have finished tracing the flow

@@ -1,7 +1,7 @@
 ---
 name: check
 description: Use after completing a task or before merging. Not for exploring ideas or debugging.
-version: 1.2.0
+version: 1.3.0
 allowed-tools:
   - Bash
   - Read
@@ -38,6 +38,10 @@ Before reading the code, check for scope drift:
 ### Hard stops (fix before merging)
 
 These are not negotiable:
+
+- **Destructive auto-execution**: any task flagged as "safe" or "auto-run" that modifies user-visible state (history files, config files, stored preferences, installed software, cache entries the user can inspect) must require explicit confirmation. "Safe" means no side effects, not "probably harmless." If a task deletes or rewrites something the user can see, it is not safe by default.
+- **Release artifacts missing**: a GitHub release with an empty body, missing assets, or unuploaded build files is not a completed release. Verify every artifact listed in the release template exists as a local file and has been uploaded before declaring done.
+- **Translated file naming collision**: when placing a file in a language-specific directory (e.g., `_posts_en/`, `en/`), the file name must not repeat the language suffix. Check the naming convention of existing files in the same directory first.
 
 - **Injection and validation**: SQL, command, path injection; inputs that bypass validation at system entry points
 - **Shared state**: unsynchronized writes, check-then-act races, missing locks
