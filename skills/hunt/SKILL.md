@@ -1,7 +1,7 @@
 ---
 name: hunt
 description: Use when encountering a bug, crash, or test failure. Not for code review or new features.
-version: 1.5.0
+version: 1.6.0
 allowed-tools:
   - Bash
   - Read
@@ -49,6 +49,20 @@ When a hypothesis is hard to form, match the symptom to a known shape:
 Also worth checking: existing TODOs near the failure site, and whether this area has been patched before. Recurring fixes in the same place mean the abstraction is wrong.
 
 Pay attention to deflection. When a developer or user says "that part doesn't matter" or "don't worry about that area," treat it as a signal rather than a clearance. The area someone is reluctant to examine is often where the actual problem lives.
+
+## Check for Known Issues
+
+Before deep investigation, check if this bug is already known:
+
+```bash
+# Search open issues for the symptom
+gh issue list --search "keyword from error" --state open
+
+# Check recent CI failures for the same pattern
+gh run list --status failure --limit 5
+```
+
+If `gh` is not installed: `brew install gh && gh auth login`.
 
 ## Confirm or Discard the Hypothesis
 

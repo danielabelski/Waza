@@ -1,7 +1,7 @@
 ---
 name: check
 description: Use after completing a task or before merging. Not for exploring ideas or debugging.
-version: 1.5.0
+version: 1.6.0
 allowed-tools:
   - Bash
   - Read
@@ -16,7 +16,8 @@ hooks:
     - matcher: Bash
       hooks:
         - type: command
-          command: "input=\"$CLAUDE_TOOL_INPUT\"; if echo \"$input\" | grep -qE 'git push --force|git push -f |rm -rf /|DROP TABLE|--no-verify'; then echo 'BLOCK: Destructive command during /check review. Confirm with user first.' >&2; exit 1; fi"
+          command: "bash ${CLAUDE_SKILL_DIR}/scripts/check-destructive.sh"
+          statusMessage: "Checking for destructive commands..."
 ---
 
 # Check: Review Before You Ship
@@ -81,6 +82,29 @@ Batch everything else into a single AskUserQuestion when the fix involves behavi
 1. [hard stop / signal] What: ... Suggested fix: ... Keep / Skip?
 2. ...
 ```
+
+## GitHub Operations
+
+Use `gh` CLI for all GitHub interactions. If `gh` is not installed, run `brew install gh && gh auth login` (or guide the user through their platform's install).
+
+```bash
+# Before commenting or closing issues, verify the number
+gh issue view 123 --json title,state --jq '.title'
+
+# Before merging, check CI status
+gh pr checks
+
+# Create PR with structured body
+gh pr create --title "..." --body "..."
+
+# Review PR diff
+gh pr diff 123
+
+# Leave a comment (keep it 1-2 sentences, natural tone)
+gh pr comment 123 --body "Looks good, one small fix applied."
+```
+
+Do not use the GitHub MCP or raw API when `gh` can do the same thing. `gh` handles auth, pagination, and error messages cleanly.
 
 ## Judgment Quality
 
