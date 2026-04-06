@@ -149,7 +149,7 @@ if [ -n "$_PREV_FILES" ]; then
   echo "$_PREV_FILES" | while IFS= read -r F; do
     [ -f "$F" ] || continue
     echo "--- file: $F ---"
-    head -c 500K "$F" | jq -r '
+    head -c 512000 "$F" | jq -r '
       if .type == "user" then "USER: " + ((.message.content // "") | if type == "array" then map(select(.type == "text") | .text) | join(" ") else . end)
       elif .type == "assistant" then
         "ASSISTANT: " + ((.message.content // []) | map(select(.type == "text") | .text) | join("\n"))
@@ -163,7 +163,7 @@ fi
 
 echo "=== MCP ACCESS DENIALS ==="
 ls -t "$CONVO_DIR"/*.jsonl 2>/dev/null | head -5 | while IFS= read -r F; do
-  head -c 1M "$F" | grep -Em 2 'Access denied - path outside allowed directories|tool-results/.+ not in ' 2>/dev/null
+  head -c 1048576 "$F" | grep -Em 2 'Access denied - path outside allowed directories|tool-results/.+ not in ' 2>/dev/null
 done | head -20
 
 # --- Skill scan ---
@@ -205,9 +205,10 @@ for DIR in "$P/.claude/skills" "$HOME/.claude/skills"; do
   find "$DIR" -maxdepth 1 -type l 2>/dev/null | while IFS= read -r link; do
     TARGET=$(readlink -f "$link")
     echo "link=$(basename "$link") target=$TARGET"
-    if [ -d "$TARGET/.git" ]; then
-      REMOTE=$(git -C "$TARGET" remote get-url origin 2>/dev/null || echo "unknown")
-      COMMIT=$(git -C "$TARGET" rev-parse --short HEAD 2>/dev/null || echo "unknown")
+    GIT_ROOT=$(git -C "$TARGET" rev-parse --show-toplevel 2>/dev/null || echo "")
+    if [ -n "$GIT_ROOT" ]; then
+      REMOTE=$(git -C "$GIT_ROOT" remote get-url origin 2>/dev/null || echo "unknown")
+      COMMIT=$(git -C "$GIT_ROOT" rev-parse --short HEAD 2>/dev/null || echo "unknown")
       echo "  git_remote=$REMOTE commit=$COMMIT"
     fi
   done
