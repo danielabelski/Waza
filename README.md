@@ -12,7 +12,7 @@
 
 ## Why
 
-Waza (技) is a Japanese martial arts term for technique: a move practiced until it becomes instinct. A good engineer does not just write code. They think through requirements, review their own work, debug systematically, design interfaces that feel intentional, and read primary sources. They write clearly, and learn new domains by producing output, not consuming content.
+Waza (技) is a Japanese martial arts term for technique: a move practiced until it becomes instinct. A good engineer thinks through requirements, reviews their own work, debugs systematically, designs interfaces that feel intentional, reads primary sources, writes clearly, and learns new domains by producing output. Waza turns each of these habits into a skill Claude can execute.
 
 AI makes you faster, but not better:
 
@@ -20,8 +20,6 @@ AI makes you faster, but not better:
 - You accept the first output. The diff looks fine, so review becomes a formality.
 - You ship before verifying. The model said it works, so you trust it. Bugs find prod.
 - You skim summaries instead of reading the source. You get answers, never understanding.
-
-Waza encodes the fix for each of these into a skill Claude can execute.
 
 <img src="https://gw.alipayobjects.com/zos/k/qa/waza_repaired_v4.svg" width="800" />
 
