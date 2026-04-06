@@ -75,29 +75,11 @@ Replace `health` with any skill name. Requires Node 18+ and Claude Code.
 
 ## Background
 
-I spent a day packaging the Claude Code skills I actually use into Waza. The name is Japanese for technique (わざ), a word from martial arts for a move practiced until it becomes instinct. It is the first thing I have open-sourced with no code at all, just Markdown. That would have felt embarrassing before AI.
+I tried Superpowers, uninstalled it the same day. Too heavy. Tried gstack, better, still too much. I wanted something that did exactly what I needed and nothing else.
 
-When Superpowers launched I installed it and uninstalled it the same day. Too heavy. People told me I was missing out. I found gstack later, which was better, but still more than I needed. I kept looking for something that did exactly what I needed and nothing else. So I built Waza for myself.
+So I spent a day packaging the skills I actually use into Waza. Eight habits a good engineer needs in the AI age: think before building, have taste, debug systematically, review your own work, read primary sources, write clearly, learn by producing, maintain your tools. One skill per habit. No more.
 
-Eight skills, no more. Each one maps to a habit I think a good engineer still needs in the AI age, and needs more than ever, because AI makes the gaps more visible:
-
-**Think before building.** AI writes fast, but the faster you move in the wrong direction, the farther you get. `/think` locks in the habit of questioning the problem before writing any code.
-
-**Have taste.** AI-generated interfaces are generic by default. `/design` enforces a committed aesthetic direction before a single line is written.
-
-**Debug systematically.** The worst AI loop is "change something, see what happens." `/hunt` requires a confirmed root cause before any fix is applied.
-
-**Review your own work.** AI code still needs a human to check it. `/check` reviews the diff, fixes what is unambiguous, and asks about the rest, with evidence not instinct.
-
-**Read primary sources.** Not summaries. `/read` converts any URL or PDF into clean Markdown so original material flows directly into your workflow.
-
-**Write clearly.** Technical work that cannot be communicated does not land. `/write` refines prose to reach the right audience in the right register.
-
-**Learn by producing.** Reading is not learning. `/learn` runs the full cycle: collect, digest, outline, draft, refine, publish. Output drives understanding.
-
-**Maintain your tools.** The codebase is not the only thing that needs care. When your Claude Code setup feels off, `/health` shows you which layer broke.
-
-Built from patterns accumulated across real projects, then refined with 30 days of usage data (300+ sessions, 7 projects, 500 hours). The `/health` skill is based on the six-layer framework described in [this post](https://tw93.fun/en/2026-03-12/claude.html).
+Built from real project failures, refined with 30 days of usage data. The `/health` skill is based on the six-layer framework described in [this post](https://tw93.fun/en/2026-03-12/claude.html).
 
 ## Support
 
