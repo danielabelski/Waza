@@ -36,14 +36,7 @@ Waza gives each of these habits a [Claude Code skill](https://docs.anthropic.com
 
 ## English Coaching
 
-Waza includes a passive English coaching template for non-native speakers. When enabled, Claude automatically corrects grammar and phrasing mistakes at the end of every reply, with the pattern name so you understand why.
-
-```
-😇 discuss about → discuss (Redundant preposition)
-😇 I am very interest → I am very interested (Wrong verb form)
-```
-
-If you used the local install (`bash install.sh`), the script will prompt you during setup. If you installed via `npx`, add it manually:
+Passive grammar correction on every reply. Claude flags mistakes with the pattern name so you learn why.
 
 ```bash
 curl -sL https://raw.githubusercontent.com/tw93/Waza/main/templates/english-coaching.md >> ~/.claude/CLAUDE.md
