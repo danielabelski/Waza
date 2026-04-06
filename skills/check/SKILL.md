@@ -1,7 +1,7 @@
 ---
 name: check
-description: Use after completing a task or before merging. Not for exploring ideas or debugging.
-version: 3.0.0
+description: Invoke after any implementation task completes or before merging. Reviews the diff, auto-fixes safe issues, runs specialist security and architecture reviewers on large diffs. Not for exploring ideas or debugging.
+version: 3.1.0
 allowed-tools:
   - Bash
   - Read
@@ -32,6 +32,22 @@ git diff origin/main
 ```
 
 If the base branch is not `main`, ask before running. Already on the base branch? Stop and ask which commits to review.
+
+## Scope the Review
+
+Count the diff and classify depth. This determines which reviewers activate.
+
+```bash
+git diff origin/main --stat | tail -1
+```
+
+| Depth | Criteria | Reviewers |
+|-------|----------|-----------|
+| **Quick** | Under 100 lines, 1-5 files | Base review only (this skill) |
+| **Standard** | 100-500 lines, or 6-10 files | Base + conditional specialists |
+| **Deep** | 500+ lines, or 10+ files, or touches auth/payments/data mutation | Base + all relevant specialists + adversarial pass |
+
+State the depth before proceeding. If the diff is Quick, skip to "Did We Build What Was Asked?" and run the standard single-pass flow. If Standard or Deep, continue to "Specialist Review" after completing the standard flow.
 
 ## Did We Build What Was Asked?
 
@@ -71,6 +87,43 @@ Worth noting but not merge-blocking:
 - Dead code, stale comments, style gaps relative to the surrounding code
 - Untested new paths
 - Loop queries, missing indexes, unbounded growth
+
+## Specialist Review (Standard and Deep only)
+
+Load `references/persona-catalog.md` to determine which specialists activate for this diff.
+
+For each specialist that activates: launch it via the Agent tool, passing the full diff and the relevant agent prompt from `agents/`. Run all activated specialists in parallel.
+
+After all agents complete, merge findings:
+- Deduplicate: if two specialists flag the same file and line, keep the more severe finding and note the agreement
+- Cross-reviewer agreement on the same issue raises its priority
+
+Then proceed to Autofix Routing before presenting findings.
+
+## Autofix Routing
+
+Classify each finding from the standard review and specialists:
+
+| Class | Definition | Action |
+|-------|------------|--------|
+| `safe_auto` | Unambiguous, risk-free: typos, missing imports, style inconsistencies | Apply immediately |
+| `gated_auto` | Likely correct but changes behavior: null checks on new paths, error handling additions | Batch into one AskUserQuestion |
+| `manual` | Requires judgment: architecture, behavior changes, security tradeoffs | Present in sign-off |
+| `advisory` | Informational, no code change warranted | Note in sign-off |
+
+Apply all `safe_auto` fixes before presenting anything. Batch all `gated_auto` items into one confirmation block. Never ask separately about each one.
+
+## Adversarial Pass (Deep only)
+
+After all findings are collected, run one focused adversarial pass. Ask: "If I were trying to break this system through this specific diff, what would I exploit?"
+
+Four angles to check (load `references/persona-catalog.md` for detail):
+1. **Assumption violation** -- what does this code assume is always true, and what breaks when it is not?
+2. **Composition failures** -- what breaks when this new code runs concurrently with the rest of the system?
+3. **Cascade construction** -- what sequence of valid operations leads to an invalid state?
+4. **Abuse cases** -- what happens on the 1000th request, during a deploy, or with concurrent mutations?
+
+Suppress adversarial findings below 0.60 confidence. Only file findings with a concrete scenario.
 
 ## How to Handle Findings
 
@@ -163,8 +216,10 @@ Real failures from prior sessions, in order of frequency:
 ```
 files changed:    N (+X -Y)
 scope:            on target / drift: [what]
+review depth:     quick / standard / deep
 hard stops:       N found, N fixed, N deferred
 signals:          N noted
+specialists:      [security, architecture] or none
 new tests:        N
-verification:     [command] → pass / fail
+verification:     [command] -> pass / fail
 ```

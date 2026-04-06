@@ -14,6 +14,6 @@ elif [ -f Makefile ] && grep -q '^test:' Makefile; then
 elif [ -f pytest.ini ] || [ -f pyproject.toml ] || find . -maxdepth 2 -name "test_*.py" | grep -q .; then
   pytest
 else
-  echo "(no test command detected — ask the user for the verification command)"
+  echo "(no test command detected - ask the user for the verification command)"
   exit 1
 fi

@@ -1,6 +1,6 @@
 ---
 name: design
-description: Use when building UI, components, or pages. Not for backend logic or data pipelines.
+description: Invoke when building any UI, component, page, or visual interface. Produces distinctive design with a committed aesthetic, not generic defaults. Not for backend logic or data pipelines.
 version: 3.0.0
 allowed-tools:
   - Read
@@ -68,7 +68,7 @@ Before submitting, reload `references/design-reference.md` and check the common 
 
 Real failures from prior sessions, in order of frequency:
 
-- **Used Inter as display font.** It was the path of least resistance. Inter is invisible — it communicates nothing about the design direction. Pick something with a personality.
+- **Used Inter as display font.** It was the path of least resistance. Inter is invisible: it communicates nothing about the design direction. Pick something with a personality.
 - **Generated a template, not a design.** Three cards with identical shadows, identical padding, identical rounded corners. Swapping content in and out left the layout unchanged. That is a template. Redo it.
 - **Claimed it looked right without opening a browser.** Code that renders correctly in your head can still look broken in the browser. Open it, confirm it, then hand off.
 - **Chose glassmorphism and ignored the mobile constraint.** `backdrop-filter` is expensive on low-power devices. Picked the direction without naming the tradeoff. Name conflicts explicitly and decide which wins.

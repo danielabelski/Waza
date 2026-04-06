@@ -12,6 +12,8 @@ Personal skill collection for Claude Code. Eight skills covering the complete en
 ```
 skills/
 ├── check/        -- code review before merging
+│   ├── agents/   -- reviewer-security.md, reviewer-architecture.md
+│   └── references/  -- persona-catalog.md
 ├── design/       -- production-grade frontend UI
 ├── health/       -- Claude Code config audit
 │   └── agents/   -- agent1-context.md, agent2-control.md
@@ -47,7 +49,10 @@ test -f skills/read/references/read-methods.md && \
 test -f skills/write/references/write-zh.md && \
 test -f skills/write/references/write-en.md && \
 test -f skills/health/agents/agent1-context.md && \
-test -f skills/health/agents/agent2-control.md && echo "references: ok"
+test -f skills/health/agents/agent2-control.md && \
+test -f skills/check/agents/reviewer-security.md && \
+test -f skills/check/agents/reviewer-architecture.md && \
+test -f skills/check/references/persona-catalog.md && echo "references: ok"
 
 # marketplace.json is valid JSON
 python3 -c "import json; json.load(open('.claude-plugin/marketplace.json'))" && echo "marketplace.json: ok"

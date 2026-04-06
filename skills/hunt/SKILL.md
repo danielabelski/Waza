@@ -1,7 +1,7 @@
 ---
 name: hunt
-description: Use when encountering a bug, crash, or test failure. Not for code review or new features.
-version: 3.0.0
+description: Invoke when debugging any error, crash, unexpected behavior, or failing test. Finds root cause before applying any fix. Not for code review or new features.
+version: 3.1.0
 allowed-tools:
   - Bash
   - Read
@@ -50,6 +50,16 @@ When a hypothesis is hard to form, match the symptom to a known shape:
 Also worth checking: existing TODOs near the failure site, and whether this area has been patched before. Recurring fixes in the same place mean the abstraction is wrong.
 
 Pay attention to deflection. When a developer or user says "that part doesn't matter" or "don't worry about that area," treat it as a signal rather than a clearance. The area someone is reluctant to examine is often where the actual problem lives.
+
+## Check the Knowledge Store
+
+Before deep investigation, search for prior solutions to the same or similar bug:
+
+```bash
+ls docs/solutions/ 2>/dev/null && grep -rl "keyword from error" docs/solutions/ | head -5 || true
+```
+
+If a match is found, read the solution file. It may contain the root cause, what approaches failed, and the fix. This can save an entire investigation.
 
 ## Check for Known Issues
 

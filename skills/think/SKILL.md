@@ -1,7 +1,7 @@
 ---
 name: think
-description: Use before building anything new or when a plan needs review. Not for bug fixes or small edits.
-version: 3.0.0
+description: Invoke before writing any code for a new feature, design, or architecture decision. Turns rough ideas into approved plans with validated structure. Not for bug fixes or small edits.
+version: 3.1.0
 allowed-tools:
   - Read
   - Grep
@@ -19,9 +19,33 @@ No code, no scaffolding, no implementation until the user has approved a design.
 
 Give opinions directly. Avoid: "That's an interesting approach," "There are many ways to think about this," "You might want to consider." Take a position and state what evidence would change it.
 
+## Phase 0: Assess Depth
+
+Before reading any files, assess the task scope from the user's description.
+
+| Depth | Characteristics | Work Units |
+|-------|----------------|------------|
+| **Lightweight** | Single file, config change, simple addition. Low ambiguity. | 2-4 |
+| **Standard** | Multi-file feature, integration, moderate complexity. | 3-6 |
+| **Deep** | New system, cross-cutting change, unfamiliar domain, or high risk. | 4-8+ |
+
+A "work unit" is one focused implementation step that produces a testable result.
+
+State the depth in one line: "Depth: Lightweight / Standard / Deep -- reason."
+
+**Auto-reclassification:** if Phase 1 or Phase 2 reveals an external contract surface (third-party API, undocumented system behavior, shared type exported to callers), bump up one depth level and note why.
+
 ## Phase 1: Understand the Problem
 
 Start by running `git log --oneline -10` and reading CLAUDE.md (if present). Then read the files the user mentioned or that are obviously related to the idea (entry points, main modules). Ask if it is unclear which files are relevant. Then work through the idea one question at a time: purpose first, constraints second, success criteria third.
+
+**Check the knowledge store first.** If the project has a `docs/solutions/` directory, search for prior decisions or related problems before proposing anything:
+
+```bash
+ls docs/solutions/ 2>/dev/null && grep -rl "keyword from task" docs/solutions/ | head -5 || true
+```
+
+If matches are found, read them before Phase 2. Prior solutions may contain decisions, tradeoffs, or known failure modes that eliminate false starts.
 
 **Confirm the working path before touching the filesystem.** Before creating, moving, or writing files, verify the absolute path with `pwd` or `git rev-parse --show-toplevel`. Do not assume `~/project` and `~/www/project` are the same. If the user gives a relative or ambiguous path, ask once to confirm the full absolute path.
 
@@ -84,6 +108,18 @@ Once a direction is approved, check structural correctness before implementation
 If any section cannot be meaningfully evaluated from available information, say so explicitly: "Cannot assess X without seeing Y." Do not guess to fill the gap.
 
 **No placeholders in approved plans.** Before the user approves, every step must be concrete. Forbidden patterns: TBD, TODO, "implement later", "similar to step N", "details to be determined", "as needed". A plan with placeholders is not a plan. It is a promise to plan later.
+
+## Phase 4: Confidence Check
+
+Before handing off to implementation, score confidence on three axes:
+
+1. **Problem understood?** Can I state in one sentence what the user actually needs and why?
+2. **Approach is the simplest that works?** Is there a cheaper path I have not considered?
+3. **Unknowns are resolved or explicitly deferred?** No TBDs hidden in the plan.
+
+If any axis is low: loop back. Low on (1) returns to Phase 1. Low on (2) returns to Phase 2. Low on (3) returns to Phase 3 and names each unresolved unknown explicitly.
+
+If all three are solid: state the confidence assessment in 2-3 sentences at the end of the approved design summary, then stop. Do not proceed into implementation.
 
 ## Gotchas
 

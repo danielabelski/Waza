@@ -1,6 +1,6 @@
 ---
 name: read
-description: Use when fetching a URL, web page, or PDF as Markdown. Not for local files already in the repo.
+description: Invoke when given any URL, web page link, or PDF to read. Fetches the content as clean Markdown via proxy cascade and saves to Downloads. Not for local files already in the repo.
 version: 3.0.0
 allowed-tools:
   - Bash

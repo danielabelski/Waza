@@ -19,15 +19,15 @@ _has_content() {
   [ "$(echo "$1" | wc -l)" -gt 5 ] && echo "$1" | grep -qv "Don't miss what's happening"
 }
 
-# 1. r.jina.ai — wide coverage, preserves image links
+# 1. r.jina.ai - wide coverage, preserves image links
 OUT=$(_curl "https://r.jina.ai/$URL" 2>/dev/null || true)
 if _has_content "$OUT"; then echo "$OUT"; exit 0; fi
 
-# 2. defuddle.md — cleaner output with YAML frontmatter
+# 2. defuddle.md - cleaner output with YAML frontmatter
 OUT=$(_curl "https://defuddle.md/$URL" 2>/dev/null || true)
 if _has_content "$OUT"; then echo "$OUT"; exit 0; fi
 
-# 3. agent-fetch — last resort local tool
+# 3. agent-fetch - last resort local tool
 OUT=$(npx --yes agent-fetch "$URL" --json 2>/dev/null || true)
 if [ -n "$OUT" ]; then echo "$OUT"; exit 0; fi
 
