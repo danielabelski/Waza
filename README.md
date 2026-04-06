@@ -14,7 +14,7 @@
 
 Waza (技) is a Japanese martial arts term for technique: a move practiced until it becomes instinct. Good engineers think before building, verify before shipping, read primary sources, and learn by producing output. Waza turns each of these habits into a skill Claude can execute.
 
-AI makes you faster, but **not better**:
+**AI makes you faster. It does not make you think more clearly, ship more carefully, or understand more deeply.**
 
 - You stop thinking before building. Prompts feel faster than architecture decisions.
 - You accept the first output. The diff looks fine, so review becomes a formality.
