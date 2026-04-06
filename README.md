@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="https://gw.alipayobjects.com/zos/k/2h/waza.svg" width="120" />
+  <img src="https://gw.alipayobjects.com/zos/k/y9/RUgevg.png" width="120" />
   <h1>Waza</h1>
   <p><b>Claude Code skills for the complete engineer: design, solve, express, grow.</b></p>
   <a href="https://github.com/tw93/Waza/stargazers"><img src="https://img.shields.io/github/stars/tw93/Waza?style=flat-square" alt="Stars"></a>
