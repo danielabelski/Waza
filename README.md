@@ -38,6 +38,8 @@ Waza gives each of these habits a [Claude Code skill](https://docs.anthropic.com
 
 Passive grammar correction on every reply. Claude flags mistakes with the pattern name so you learn why.
 
+> 😇 discuss about → discuss (Redundant preposition)
+
 ```bash
 curl -sL https://raw.githubusercontent.com/tw93/Waza/main/templates/english-coaching.md >> ~/.claude/CLAUDE.md
 ```
