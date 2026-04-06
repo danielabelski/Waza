@@ -1,6 +1,6 @@
 ---
 name: health
-version: 1.7.0
+version: 1.8.0
 description: Run when Claude ignores rules, hooks malfunction, or MCP needs auditing. Not for debugging code or reviewing PRs.
 allowed-tools:
   - Bash
@@ -324,6 +324,6 @@ If all three issue sections are empty, output one short line in the output langu
 
 
 **Stop condition:** After the report, ask in the output language:
-> "Should I draft the changes? I can handle each layer separately: global CLAUDE.md / local CLAUDE.md / hooks / skills."
+> "Should I draft the changes? I can handle each layer separately: global CLAUDE.md / local CLAUDE.md / rules / hooks / skills / MCP."
 
 Do not make any edits without explicit confirmation.

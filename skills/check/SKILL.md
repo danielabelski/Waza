@@ -1,7 +1,7 @@
 ---
 name: check
 description: Use after completing a task or before merging. Not for exploring ideas or debugging.
-version: 1.1.0
+version: 1.2.0
 allowed-tools:
   - Bash
   - Read
@@ -21,10 +21,10 @@ Read the diff, find the problems, fix what can be fixed safely, ask about the re
 
 ```bash
 git fetch origin
-git diff origin/$(git symbolic-ref --short HEAD 2>/dev/null || echo main)
+git diff origin/main
 ```
 
-Already on the base branch? Stop and ask which commits to review.
+If the base branch is not `main`, ask before running. Already on the base branch? Stop and ask which commits to review.
 
 ## Did We Build What Was Asked?
 
@@ -43,6 +43,7 @@ These are not negotiable:
 - **Shared state**: unsynchronized writes, check-then-act races, missing locks
 - **External trust**: output from LLMs, APIs, or user input fed into commands or queries without sanitization; credentials hardcoded or logged
 - **Missing cases**: enum or match exhaustiveness; use grep on sibling values outside the diff to confirm
+- **Dependency changes**: unexpected additions or version bumps in `package.json`, `Cargo.toml`, `go.mod`, or `requirements.txt`. Flag any new dependency not obviously required by the diff.
 
 ### Soft signals (flag, do not block)
 
@@ -86,8 +87,9 @@ For every new code path: trace it, check if a test covers it. If this change fix
 After all fixes are applied, detect and run the project's verification command:
 
 ```bash
-# Auto-detect: check for project files in order
-if [ -f Cargo.toml ]; then cargo test
+# Auto-detect: lint/typecheck first, then tests
+if [ -f Cargo.toml ]; then cargo check && cargo test
+elif [ -f tsconfig.json ]; then npx tsc --noEmit && npm test
 elif [ -f package.json ] && grep -q '"test"' package.json; then npm test
 elif [ -f Makefile ] && grep -q '^test:' Makefile; then make test
 elif [ -f pytest.ini ] || [ -f pyproject.toml ] || find . -maxdepth 2 -name "test_*.py" | grep -q .; then pytest

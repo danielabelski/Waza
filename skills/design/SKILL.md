@@ -1,7 +1,7 @@
 ---
 name: design
 description: Use when building UI, components, or pages. Not for backend logic or data pipelines.
-version: 1.2.0
+version: 1.3.0
 allowed-tools:
   - Read
   - Write
@@ -42,11 +42,15 @@ Build a system, not a collection of hex values. Use CSS variables. A single domi
 
 One coordinated entrance beats ten scattered hover states. If using React, reach for a motion library. For plain HTML, CSS transitions and `@keyframes` are enough. Put animation budget where attention is: the first thing the user sees, and the most important interaction state.
 
+Timing: entrance animations 200-400ms, exits 150-250ms. Ease-out for entrances, ease-in for exits. The test: if removing the animation changes nothing about how the page feels to use, the animation is decoration. Remove it.
+
 ## Layout
 
 The grid is a starting point, not a rule. Controlled asymmetry, overlapping elements, and diagonal emphasis create interfaces that feel designed. Choose a spatial approach: generous breathing room or tight information density. Do not split the difference.
 
 Backgrounds should have atmosphere: mesh gradients, subtle noise, geometric texture, layered depth. Flat white or flat black is rarely the right choice.
+
+If the aesthetic direction conflicts with mobile constraints (e.g., glassmorphism on low-power devices, dense editorial on small screens), name the tradeoff explicitly and decide which wins.
 
 ## Code Quality
 
@@ -58,7 +62,7 @@ Backgrounds should have atmosphere: mesh gradients, subtle noise, geometric text
 
 The implementation complexity must match the visual ambition. Do not write sparse code for a layered design, or over-engineer a minimal one.
 
-Before submitting, reload `references/design-reference.md` and check the common traps list.
+Before submitting, reload `references/design-reference.md` and check the common traps list. Then ask the user to open the result in a browser and confirm it looks right. Code that looks correct in your head but wrong in the browser is not done.
 
 ## Handoff
 

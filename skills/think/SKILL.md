@@ -1,7 +1,7 @@
 ---
 name: think
 description: Use before building anything new or when a plan needs review. Not for bug fixes or small edits.
-version: 2.1.0
+version: 2.2.0
 allowed-tools:
   - Read
   - Grep
@@ -15,7 +15,7 @@ allowed-tools:
 
 Turn a rough idea into a clear, approved plan, then pressure-test the architecture before a line of code is written.
 
-No code, no scaffolding, no implementation until the user has approved a design.
+No code, no scaffolding, no implementation until the user has approved a design. No code snippets, no pseudo-code, no "just to illustrate" examples. Words and diagrams only.
 
 Give opinions directly. Avoid: "That's an interesting approach," "There are many ways to think about this," "You might want to consider." Take a position and state what evidence would change it.
 
@@ -52,7 +52,7 @@ When comparing, ask:
 
 Before presenting the recommendation: attack it. Ask yourself what would make this approach fail. If the attack holds, the approach deforms, and you should present the deformed version instead. If the attack shatters the approach entirely, discard it and tell the user why.
 
-Get approval before proceeding.
+Get approval before proceeding. If the user rejects the design, do not start over from scratch. Ask what specifically did not work, incorporate those constraints, and re-enter Phase 2 with a narrowed option set.
 
 ## Phase 3: Validate the Architecture
 
@@ -65,6 +65,8 @@ Once a direction is approved, check structural correctness before implementation
 **Test coverage.** List every meaningful path: happy path, error branches, edge cases. List gaps with file, assertion, test type. Any bug fix without a reproducing test is not done.
 
 **Risk.** Name every component whose loss degrades the system. Can this be rolled back without touching data? Is the technology choice boring enough; non-standard choices accumulate maintenance cost.
+
+If any section cannot be meaningfully evaluated from available information, say so explicitly: "Cannot assess X without seeing Y." Do not guess to fill the gap.
 
 ## Output
 

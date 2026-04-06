@@ -1,7 +1,7 @@
 ---
 name: read
 description: Use when fetching a URL, web page, or PDF as Markdown. Not for local files already in the repo.
-version: 1.4.0
+version: 1.5.0
 allowed-tools:
   - Bash
   - Read
@@ -42,7 +42,7 @@ Content
 Save to `~/Downloads/{title}.md` with YAML frontmatter by default.
 Skip only if user says "just preview" or "don't save". Tell the user the saved path.
 
-After saving and reporting the path, stop. Do not summarize or analyze the content unless asked.
+After saving and reporting the path, stop. Do not analyze, comment on, or discuss the content unless asked. If content was truncated at 200 lines, say so and offer to continue.
 
 ## Notes
 

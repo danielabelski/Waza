@@ -1,7 +1,7 @@
 ---
 name: learn
 description: Use when researching an unfamiliar domain or preparing a research article. Not for quick lookups or single-file reads.
-version: 1.1.0
+version: 1.2.0
 allowed-tools:
   - Bash
   - Read
@@ -49,6 +49,8 @@ For each source: download it, convert to Markdown, clean, and file it into a str
 
 The goal at the end of Phase 1: a local, organized repository of raw materials.
 
+For a blog post or article, 5-10 strong sources is usually enough. For a deep technical survey, 15-20. If you have been collecting for an hour and have not started reading, you are collecting to avoid the harder work. Stop and move to Phase 2.
+
 ## Phase 2: Digest
 
 Work through the materials yourself. For each piece:
@@ -81,6 +83,8 @@ Work through the outline section by section. This is the repetition phase: revis
 
 You will end up with a long, somewhat rambling draft. That is correct. Do not edit while writing. Get it all down first.
 
+If a section is hard to write, it usually means the mental model is still weak in that area. Go back to Phase 2 for that sub-topic rather than forcing through. The outline may need to change, and that is fine.
+
 ## Phase 5: Refine with AI
 
 Now hand the draft to Claude with a specific brief:
@@ -90,6 +94,8 @@ Now hand the draft to Claude with a specific brief:
 - Identify gaps: places where a concept is used before it is explained, or where a claim needs a source
 
 Work through the suggestions yourself. Accept, reject, or modify each one. Do not accept blindly. This phase often surfaces things you missed in Phase 2, which means more learning.
+
+Before accepting Claude's edits, run `/write` on the refined draft to strip any AI patterns that crept in during the refinement process.
 
 ## Phase 6: Self-Review and Publish
 

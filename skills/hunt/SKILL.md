@@ -1,7 +1,7 @@
 ---
 name: hunt
 description: Use when encountering a bug, crash, or test failure. Not for code review or new features.
-version: 1.1.0
+version: 1.2.0
 allowed-tools:
   - Bash
   - Read
@@ -30,6 +30,8 @@ Start by building a complete picture of what happened:
 
 Before going further, commit to a testable claim:
 > "I believe the root cause is [X] because [evidence]."
+
+The claim must name a specific file, function, line, or condition. "A state management issue" is not testable. "Stale cache in `useUser` at `src/hooks/user.ts:42` because the dependency array is missing `userId`" is testable. If you cannot be that specific, you do not have a hypothesis yet.
 
 ## Known Failure Shapes
 
@@ -67,8 +69,8 @@ Once the root cause is confirmed:
 
 - Fix the cause, not the symptom it produces
 - Keep the diff small: fewest files, fewest lines
-- Write one regression test that fails on the unfixed code and passes after the fix
-- Run the full test suite and paste the complete output, no summaries
+- Write one regression test that fails on the unfixed code and passes after the fix. If the bug is non-testable (timing, environment-specific, UI rendering), document why and add the best available guard instead.
+- For large projects, run the targeted subset first (tests in the affected module). Run the full suite only after the targeted tests pass. Paste the full output, no summaries.
 - If the change touches more than 5 files, pause and confirm the scope with the user
 
 **Self-regulation:** track how the fix is going. If you have reverted the same area twice, or if the current fix touches more than 3 files for what started as a single bug, stop. Do not keep patching. Describe what is known and unknown, and ask the user how to proceed. Continued patching past this point means the abstraction is wrong, not the code.
