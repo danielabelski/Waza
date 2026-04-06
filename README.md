@@ -83,7 +83,9 @@ Tools like Superpowers and gstack are impressive, but they are heavy. Too many s
 
 Waza is the opposite: eight skills that cover the habits that actually matter. Each one does one thing, has a clear trigger, and stays out of the way. The goal is not completeness. It is the right amount, done well.
 
-Built from patterns accumulated across real projects, then refined with real usage data. Every gotcha in a skill traces to a specific failure: a wrong code path that cost four rounds of debugging, a release announced before artifacts were uploaded, a server restarted eight times without reading the error. 30 days, 300+ sessions, 7 projects, 500 hours. The `/health` skill is based on the six-layer framework described in [this post](https://tw93.fun/en/2026-03-12/claude.html).
+Built from patterns accumulated across real projects, then refined with real usage data. Every gotcha in a skill traces to a specific failure: a wrong code path that cost four rounds of debugging, a release announced before artifacts were uploaded, a server restarted eight times without reading the error. 30 days, 300+ sessions, 7 projects, 500 hours.
+
+The `/health` skill is based on the six-layer framework described in [this post](https://tw93.fun/en/2026-03-12/claude.html).
 
 ## Support
 
