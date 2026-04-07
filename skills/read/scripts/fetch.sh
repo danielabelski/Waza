@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # Fetch a URL as Markdown via proxy cascade.
+# Inspired by joeseesun/markdown-proxy (https://github.com/joeseesun/qiaomu-markdown-proxy).
 # Usage: fetch.sh <url> [proxy_url]
 # Example: fetch.sh https://example.com http://127.0.0.1:7890
 set -euo pipefail
