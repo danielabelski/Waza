@@ -1,7 +1,7 @@
 ---
 name: design
 description: Invoke when building any UI, component, page, or visual interface. Produces distinctive design with a committed aesthetic, not generic defaults. Not for backend logic or data pipelines.
-version: 3.0.0
+version: 3.2.0
 allowed-tools:
   - Read
   - Write

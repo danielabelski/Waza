@@ -1,7 +1,7 @@
 ---
 name: check
 description: Invoke after any implementation task completes or before merging. Reviews the diff, auto-fixes safe issues, runs specialist security and architecture reviewers on large diffs. Not for exploring ideas or debugging.
-version: 3.1.0
+version: 3.2.0
 allowed-tools:
   - Bash
   - Read
