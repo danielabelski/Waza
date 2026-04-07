@@ -71,18 +71,18 @@ curl -sL https://raw.githubusercontent.com/tw93/Waza/main/templates/coaching-en.
 npx skills add tw93/Waza -a claude-code -g -y
 ```
 
-**Other agents:** run without the `-a` flag to pick your agent interactively.
+**Other agents:** pick your agent interactively.
 
 ```bash
 npx skills add tw93/Waza
 ```
 
-Requires Node 18+. Skills are also available at `.agents/skills/` for agents that discover from that path automatically.
+Requires Node 18+. Skills are also available at `.agents/skills/` for agents that auto-discover from that path.
 
 Install a single skill:
 
 ```bash
-npx skills add tw93/Waza -s health -y
+npx skills add tw93/Waza -a claude-code -s health -y
 ```
 
 Replace `health` with any skill name.
