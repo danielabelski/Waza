@@ -65,33 +65,19 @@ curl -sL https://raw.githubusercontent.com/tw93/Waza/main/templates/coaching-en.
 
 ## Install
 
-**Claude Code:**
-
 ```bash
 npx skills add tw93/Waza -g -y
 ```
 
-**Codex CLI:**
-
-```bash
-npx skills add tw93/Waza -a codex -g -y
-```
-
-**OpenCode:**
-
-```bash
-npx skills add tw93/Waza -a opencode -g -y
-```
-
-Skills are also available at `.agents/skills/` in this repo for agents that discover skills from that path automatically.
+Requires Node 18+. Run without flags to pick your agent interactively. Skills are also available at `.agents/skills/` for agents that discover from that path automatically.
 
 Install a single skill:
 
 ```bash
-npx skills add tw93/Waza -a claude-code -s health -y
+npx skills add tw93/Waza -s health -y
 ```
 
-Replace `health` with any skill name. Requires Node 18+.
+Replace `health` with any skill name.
 
 **Compatibility:** Core instruction skills `/think`, `/hunt`, `/learn`, `/write`, `/design` run on any agent. Claude Code-specific features are skipped on other platforms: `/check` loses hook-based destructive command blocking and sub-agent reviewers; `/health` and `/read` lose their shell scripts for URL fetching and config auditing.
 
