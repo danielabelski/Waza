@@ -95,12 +95,7 @@ The `/health` skill is based on the six-layer framework described in [this post]
 - Have ideas or found bugs? Open an issue or PR.
 - Like Waza? <a href="https://miaoyan.app/cats.html?name=Waza" target="_blank">Buy Tw93 a Coke</a> to support the project.
 
-<details>
-<summary>🥤 Supporters</summary>
-
 <a href="https://miaoyan.app/cats.html?name=Waza"><img src="https://rawcdn.githack.com/tw93/MiaoYan/vercel/assets/sponsors.svg" width="1000" loading="lazy" /></a>
-
-</details>
 
 ## License
 
