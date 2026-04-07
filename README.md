@@ -102,10 +102,6 @@ The `/health` skill is based on the six-layer framework described in [this post]
 
 </details>
 
-## Acknowledgements
-
-The `/read` skill's proxy cascade scripts are inspired by [joeseesun/qiaomu-markdown-proxy](https://github.com/joeseesun/qiaomu-markdown-proxy). Special thanks to joeseesun for the clean fetch architecture.
-
 ## License
 
 MIT License. Feel free to use Waza and contribute.
