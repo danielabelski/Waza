@@ -60,7 +60,7 @@ Passive grammar correction on every reply. Claude flags mistakes with the patter
 > 😇 it is not good to be read → it's hard to read (Unnatural phrasing)
 
 ```bash
-curl -sL https://raw.githubusercontent.com/tw93/Waza/main/templates/english-coaching.md >> ~/.claude/CLAUDE.md
+curl -sL https://raw.githubusercontent.com/tw93/Waza/main/templates/coaching-en.md >> ~/.claude/CLAUDE.md
 ```
 
 ## Install

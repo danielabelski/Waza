@@ -177,10 +177,10 @@ For every new code path: trace it, check if a test covers it. If this change fix
 
 ## Verification
 
-After all fixes are applied, run `scripts/verify.sh` from this skill via `CLAUDE_SKILL_DIR`, or the project's known verification command:
+After all fixes are applied, run `scripts/run-tests.sh` from this skill via `CLAUDE_SKILL_DIR`, or the project's known verification command:
 
 ```bash
-bash "$CLAUDE_SKILL_DIR/scripts/verify.sh"
+bash "$CLAUDE_SKILL_DIR/scripts/run-tests.sh"
 ```
 
 If nothing is detected, ask the user for the verification command before proceeding.
@@ -207,7 +207,7 @@ Real failures from prior sessions, in order of frequency:
 - **PR comments sounded like a report.** User had to iterate multiple times on comment tone. GitHub comments should be 1-2 sentences, natural, like a colleague, not a structured review output.
 - **Announced release done before uploading artifacts.** Pushed the GitHub release with no .dmg/.zip/.sha256 attached. Verify every artifact listed in the release template exists as a local file and has been uploaded.
 - **Language suffix doubled.** Placed `article.en.md` inside `_posts_en/`, generating a duplicate URL. Check the naming convention of existing files in the target directory first.
-- **Skipped verification on "trivial" changes.** "It's a one-line fix" is how trivial changes break things. If the urge to skip arises, run `scripts/verify.sh` anyway.
+- **Skipped verification on "trivial" changes.** "It's a one-line fix" is how trivial changes break things. If the urge to skip arises, run `scripts/run-tests.sh` anyway.
 - **Deployed without env vars.** Pushed to Vercel while API keys only existed in local `.env.local`. Site returned 401 on every request. Run `vercel env ls` or equivalent and diff against local keys before deploying.
 - **Git push failed from auth mismatch.** Two failed pushes before discovering remote was HTTPS but local expected SSH. Run `git remote -v` and verify auth method before the first push in a new project.
 
