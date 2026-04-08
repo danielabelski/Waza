@@ -20,7 +20,6 @@ skills/
     └── references/  -- write-zh.md, write-en.md
 .claude-plugin/
 └── marketplace.json  -- plugin registry for npx distribution
-install.sh            -- symlink installer
 ```
 
 Each skill has a `SKILL.md` (loaded on demand by Claude). Supporting content lives in subdirectories.

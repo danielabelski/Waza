@@ -28,14 +28,14 @@ Each engineering habit gets a [Claude Code skill](https://docs.anthropic.com/en/
 | :--- | :--- | :--- |
 | [`/think`](skills/think/SKILL.md) | Before building anything new | Challenges the problem, pressure-tests the design, validates architecture before any code is written. |
 | [`/design`](skills/design/SKILL.md) | Building frontend interfaces | Produces distinctive UI with a committed aesthetic direction, not generic defaults. |
-| [`/check`](skills/check/SKILL.md) | After a task, before merging | Reviews the diff, auto-fixes safe issues, blocks destructive commands via hooks, verifies with evidence. |
+| [`/check`](skills/check/SKILL.md) | After a task, before merging | Reviews the diff, auto-fixes safe issues, blocks destructive commands, verifies with evidence. |
 | [`/hunt`](skills/hunt/SKILL.md) | Any bug or unexpected behavior | Systematic debugging. Root cause confirmed before any fix is applied. |
 | [`/write`](skills/write/SKILL.md) | Writing or editing prose | Rewrites prose to sound natural in Chinese and English. Cuts stiff, formulaic phrasing. |
 | [`/learn`](skills/learn/SKILL.md) | Diving into an unfamiliar domain | Six-phase research workflow: collect, digest, outline, fill in, refine, then self-review and publish. |
 | [`/read`](skills/read/SKILL.md) | Any URL or PDF | Fetches content as clean Markdown via proxy cascade script. Dedicated handlers for WeChat and Feishu. |
 | [`/health`](skills/health/SKILL.md) | Auditing Claude Code setup | Checks CLAUDE.md, rules, skills, hooks, MCP, and behavior. Flags issues by severity. |
 
-Each skill is a folder, not just a markdown file. Skills include reference docs, helper scripts, scoped hooks, and gotchas sections built from real project failures.
+Each skill is a folder, not just a markdown file. Skills include reference docs, helper scripts, and gotchas sections built from real project failures.
 
 ## Extras
 
@@ -87,7 +87,9 @@ npx skills add tw93/Waza -a claude-code -s health -y
 
 Replace `health` with any skill name.
 
-**Compatibility:** Core instruction skills `/think`, `/hunt`, `/learn`, `/write`, `/design` run on any agent. Claude Code-specific features are skipped on other platforms: `/check` loses hook-based destructive command blocking and sub-agent reviewers; `/health` and `/read` lose their shell scripts for URL fetching and config auditing.
+To protect against destructive git commands (`git push -f`, `git checkout .`, `git clean -f`), add them to the `deny` list in your `~/.claude/settings.json`.
+
+**Compatibility:** Core instruction skills `/think`, `/hunt`, `/learn`, `/write`, `/design` run on any agent. Claude Code-specific features are skipped on other platforms: `/check` loses sub-agent reviewers; `/health` and `/read` lose their shell scripts for URL fetching and config auditing.
 
 ## Background
 
