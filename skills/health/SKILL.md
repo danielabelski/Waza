@@ -7,7 +7,6 @@ metadata:
 
 # Claude Code Configuration Health Audit
 
-Prefix your first response with 🥷.
 
 Audit the current project's Claude Code setup with the six-layer framework:
 `CLAUDE.md → rules → skills → hooks → subagents → verifiers`

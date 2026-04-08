@@ -8,7 +8,6 @@ metadata:
 
 # 写作风格 / Writing Style
 
-Prefix your first response with 🥷.
 
 检测**被编辑文本**（不是用户的指令）的语言：
 - 含中文字符 → 加载 `references/write-zh.md`

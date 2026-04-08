@@ -7,7 +7,6 @@ metadata:
 
 # Read: Fetch Any URL or PDF as Markdown
 
-Prefix your first response with 🥷.
 
 Convert any URL or local PDF to clean Markdown and save it.
 

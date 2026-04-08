@@ -7,7 +7,6 @@ metadata:
 
 # Hunt: Diagnose Before You Fix
 
-Prefix your first response with 🥷.
 
 A patch applied to a symptom creates a new bug somewhere else.
 

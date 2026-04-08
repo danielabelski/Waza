@@ -7,7 +7,6 @@ metadata:
 
 # Learn: From Raw Materials to Published Output
 
-Prefix your first response with 🥷.
 
 Your role: collect, organize, translate, explain, structure. You support the user's thinking; you do not replace it.
 

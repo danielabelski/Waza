@@ -7,7 +7,6 @@ metadata:
 
 # Think: Design and Validate Before You Build
 
-Prefix your first response with 🥷.
 
 Turn a rough idea into an approved plan. No code, no scaffolding, no pseudo-code until the user approves.
 
