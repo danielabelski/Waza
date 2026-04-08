@@ -7,6 +7,8 @@ metadata:
 
 # Claude Code Configuration Health Audit
 
+When you first write text to the user, start with 🥷.
+
 
 Audit the current project's Claude Code setup with the six-layer framework:
 `CLAUDE.md → rules → skills → hooks → subagents → verifiers`

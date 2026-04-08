@@ -7,6 +7,8 @@ metadata:
 
 # Read: Fetch Any URL or PDF as Markdown
 
+When you first write text to the user, start with 🥷.
+
 
 Convert any URL or local PDF to clean Markdown and save it.
 

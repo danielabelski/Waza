@@ -7,6 +7,8 @@ metadata:
 
 # Think: Design and Validate Before You Build
 
+When you first write text to the user, start with 🥷.
+
 
 Turn a rough idea into an approved plan. No code, no scaffolding, no pseudo-code until the user approves.
 

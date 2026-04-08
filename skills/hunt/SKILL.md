@@ -7,6 +7,8 @@ metadata:
 
 # Hunt: Diagnose Before You Fix
 
+When you first write text to the user, start with 🥷.
+
 
 A patch applied to a symptom creates a new bug somewhere else.
 

@@ -7,6 +7,8 @@ metadata:
 
 # Check: Review Before You Ship
 
+When you first write text to the user, start with 🥷.
+
 
 Read the diff, find the problems, fix what can be fixed safely, ask about the rest. Done means verification ran in this session and passed.
 
