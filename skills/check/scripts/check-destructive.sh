@@ -16,12 +16,12 @@ DESTRUCTIVE_PATTERNS=(
   'TRUNCATE '
   '--no-verify'
   'git reset --hard'
-  'git checkout \.'
+  'git checkout .'
   'git clean -f'
 )
 
 for pattern in "${DESTRUCTIVE_PATTERNS[@]}"; do
-  if echo "$INPUT" | grep -qF "$pattern"; then
+  if echo "$INPUT" | grep -qF -- "$pattern"; then
     echo "BLOCK: Destructive command detected during /check review: $pattern" >&2
     echo "Confirm with user before proceeding." >&2
     exit 2

@@ -14,6 +14,7 @@ Convert any URL or local PDF to clean Markdown and save it.
 | Input | Method |
 |-------|--------|
 | `feishu.cn`, `larksuite.com` | Feishu API script |
+| `mp.weixin.qq.com` | WeChat article script (Playwright fallback) |
 | `.pdf` URL or local PDF path | PDF extraction |
 | Everything else | Run `scripts/fetch.sh {url}` (proxy cascade with auto-fallback) |
 

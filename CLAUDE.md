@@ -33,7 +33,7 @@ for f in skills/*/SKILL.md; do head -5 "$f" | grep -q "^name:" && echo "ok: $f" 
 
 # Version consistency: SKILL.md must match marketplace.json
 for skill in check design health hunt learn read think write; do
-  skill_ver=$(grep "version:" "skills/$skill/SKILL.md" | tr -d '"' | awk '{print $2}')
+  skill_ver=$(grep -m1 "version:" "skills/$skill/SKILL.md" | tr -d '"' | awk '{print $2}')
   market_ver=$(python3 -c "import json; d=json.load(open('.claude-plugin/marketplace.json')); print([p['version'] for p in d['plugins'] if p['name']=='$skill'][0])")
   [ "$skill_ver" = "$market_ver" ] && echo "ok: $skill $skill_ver" || echo "MISMATCH: $skill SKILL=$skill_ver MARKET=$market_ver"
 done
