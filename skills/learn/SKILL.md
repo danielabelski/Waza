@@ -41,9 +41,21 @@ Not summaries. Not explainers. Not "top 10 things you need to know." Sources.
 
 For each source: download it, convert to Markdown, clean, and file it into a structured research directory organized by sub-topic.
 
+### Source Discovery
+
+If a web search plugin is installed (e.g., PipeLLM), use its search tools for source discovery:
+- Simple/fast search for quick landscape mapping and URL discovery
+- Deep search with context extraction for thorough research on promising sub-topics
+- News search when recency matters
+
+Strategy: start with fast search to map the landscape, then use deep search on the 2-3 most promising sub-topics.
+
+If no plugin is available, use the built-in `WebSearch` tool or `curl + defuddle.md` for discovery.
+
+### Source Fetching
+
 ```bash
-# Convert a URL to Markdown and save it
-# Use /read for individual pages
+# Use /read for individual pages (handles proxy cascade automatically)
 # For bulk work: automate with curl + r.jina.ai or a download script
 ```
 

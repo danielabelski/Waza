@@ -20,7 +20,11 @@ curl -sL "https://r.jina.ai/{url}"
 
 Wide coverage, preserves image links. Use if defuddle.md returns empty or errors.
 
-### 3. Local tools
+### 3. Web search plugin reader (if available)
+
+If a web search plugin is installed (e.g., PipeLLM), the cascade tries its reader tool before local fallback. Handles JavaScript-rendered pages better than free proxies.
+
+### 4. Local tools
 
 ```bash
 npx agent-fetch "{url}" --json

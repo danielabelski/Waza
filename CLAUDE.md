@@ -2,11 +2,6 @@
 
 Personal skill collection for Claude Code. Eight skills covering the complete engineering workflow: think, design, check, hunt, write, learn, read, health.
 
-## Communication
-
-- Do not use em dashes (U+2014) in any output. Use commas, periods, colons, or semicolons instead.
-- This applies to all skill templates, report examples, progress lines, and any example output embedded in skill files.
-
 ## Structure
 
 ```
