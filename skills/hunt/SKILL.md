@@ -1,16 +1,8 @@
 ---
 name: hunt
 description: Invoke when debugging any error, crash, unexpected behavior, or failing test. Finds root cause before applying any fix. Not for code review or new features.
-version: 3.2.0
-allowed-tools:
-  - Bash
-  - Read
-  - Edit
-  - Write
-  - Grep
-  - Glob
-  - WebSearch
-  - AskUserQuestion
+metadata:
+  version: "3.2.0"
 ---
 
 # Hunt: Diagnose Before You Fix

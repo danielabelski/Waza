@@ -1,8 +1,9 @@
 ---
 name: write
 description: Invoke only when explicitly asked to write, edit, or polish prose in Chinese or English. Strips AI writing patterns and rewrites to sound natural. Not for code comments, commit messages, or inline docs.
-version: 3.2.0
 disable-model-invocation: true
+metadata:
+  version: "3.2.0"
 ---
 
 # 写作风格 / Writing Style

@@ -1,11 +1,8 @@
 ---
 name: read
 description: Invoke when given any URL, web page link, or PDF to read. Fetches the content as clean Markdown via proxy cascade and saves to Downloads. Not for local files already in the repo.
-version: 3.2.0
-allowed-tools:
-  - Bash
-  - Read
-  - Write
+metadata:
+  version: "3.2.0"
 ---
 
 # Read: Fetch Any URL or PDF as Markdown

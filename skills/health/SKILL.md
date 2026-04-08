@@ -1,12 +1,8 @@
 ---
 name: health
-version: 3.2.0
 description: Invoke when Claude ignores instructions, behaves inconsistently, hooks malfunction, or MCP servers need auditing. Audits the full six-layer config stack and flags issues by severity. Not for debugging code or reviewing PRs.
-allowed-tools:
-  - Bash
-  - Read
-  - Agent
-  - AskUserQuestion
+metadata:
+  version: "3.2.0"
 ---
 
 # Claude Code Configuration Health Audit
