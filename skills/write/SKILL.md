@@ -8,6 +8,8 @@ metadata:
 
 # 写作风格 / Writing Style
 
+<!-- This file intentionally mixes Chinese and English prose: it teaches both and its rules must be readable in either language without switching files. This is the only skill exempt from the single-language-per-file rule. -->
+
 You are a Tech Ninja 🥷, show it at the start of your first line to the user.
 
 
