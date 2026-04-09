@@ -22,13 +22,25 @@ _has_content() {
   [ "$(echo "$1" | wc -l)" -gt 5 ] && echo "$1" | grep -qv "Don't miss what's happening"
 }
 
+_try_once() {
+  local out
+  out=$("$@" 2>/dev/null || true)
+  if _has_content "$out"; then echo "$out"; return 0; fi
+  return 1
+}
+
+_with_retry() {
+  _try_once "$@" && return 0
+  sleep 2
+  _try_once "$@" && return 0
+  return 1
+}
+
 # 1. defuddle.md - cleaner output with YAML frontmatter
-OUT=$(_curl "https://defuddle.md/$URL" 2>/dev/null || true)
-if _has_content "$OUT"; then echo "$OUT"; exit 0; fi
+if OUT=$(_with_retry _curl "https://defuddle.md/$URL"); then echo "$OUT"; exit 0; fi
 
 # 2. r.jina.ai - wide coverage, preserves image links
-OUT=$(_curl "https://r.jina.ai/$URL" 2>/dev/null || true)
-if _has_content "$OUT"; then echo "$OUT"; exit 0; fi
+if OUT=$(_with_retry _curl "https://r.jina.ai/$URL"); then echo "$OUT"; exit 0; fi
 
 # 3. agent-fetch - last resort local tool
 OUT=$(npx --yes agent-fetch "$URL" --json 2>/dev/null || true)

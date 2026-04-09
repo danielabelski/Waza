@@ -34,6 +34,20 @@ defuddle parse "{url}" -m -j
 
 Last resort if both proxies fail.
 
+## GitHub URLs
+
+GitHub file URLs (`github.com/user/repo/blob/...`) render heavy HTML. The proxy cascade often returns partial or nav-heavy content. Prefer:
+
+```bash
+# Raw file content (fastest)
+curl -sL "https://raw.githubusercontent.com/{user}/{repo}/{branch}/{path}"
+
+# Via gh CLI (works with private repos)
+gh api repos/{user}/{repo}/contents/{path} --jq '.content' | base64 -d
+```
+
+Use the proxy cascade only as a fallback for GitHub pages that are not raw file views (e.g., issue threads, README renders).
+
 ## PDF to Markdown
 
 ### Remote PDF URL
