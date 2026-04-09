@@ -48,6 +48,7 @@ Get approval before proceeding. If the user rejects, ask specifically what did n
 | Rejected design restarted from scratch | Ask what specifically failed, re-enter with narrowed constraints |
 | Built against wrong regional API (Shengwang vs Agora) | List all regional differences before writing integration code |
 | Added FastAPI backend to a Next.js project | Never add a new language or runtime without explicit approval |
+| User said "just do it" before approving the design | Treat as approval of the last option presented. State which option was selected, then proceed. |
 
 ## Output
 

@@ -44,7 +44,7 @@ Do not proceed until all four are answered. State the chosen direction in one se
 
 ## Handoff
 
-Before writing the handoff summary: reload `references/design-reference.md` and check the common traps list. Then ask the user to open the result in a browser and confirm it looks right. Do not hand off until visual confirmation is received.
+Before writing the handoff summary: reload `references/design-reference.md` and check the common traps list. Then ask the user to open the result in a browser and confirm it looks right at full width. Also check at 375px width: resize the browser or use DevTools device emulation. If the layout breaks, content overflows, or text is unreadable at mobile width, fix it before handing off. Do not hand off until both checks pass.
 
 End with:
 - Aesthetic direction, named and justified in 2-3 sentences

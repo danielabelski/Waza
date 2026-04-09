@@ -66,7 +66,7 @@ Pass the draft with a specific brief:
 
 Do not summarize sections the user has not written. Do not draft new sections from scratch. Edits only.
 
-Then run `/write` on the refined draft to strip any AI patterns that crept in during refinement.
+Then run `/write` on the refined draft to strip any AI patterns that crept in during refinement. (Intentional cross-skill dependency: `/write` must be installed separately.)
 
 ## Phase 6: Self-review and Publish
 
