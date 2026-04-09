@@ -13,6 +13,7 @@ Eliminate predictable AI writing patterns. Write like a human: varied, imperfect
 7. **Trust readers.** State facts directly. Skip softening, justification, hand-holding.
 8. **Cut quotables.** If it sounds like a pull-quote, rewrite it.
 9. **Do not replace one formula with another.** “Human” does not mean slangy, quirky, or performatively casual.
+10. **No emoji.** Remove any emoji from the text being edited.
 
 ### Word Choice
 
@@ -170,6 +171,7 @@ Eliminate predictable AI writing patterns. Write like a human: varied, imperfect
 - Meta-joiners ("The rest of this essay...")? Delete. Let the essay move.
 - Any bullet starting with bold label? Reconsider the format.
 - Any "In conclusion" or "To sum up"? Cut it.
+- Any emoji? Remove it.
 
 ### Scoring
 
