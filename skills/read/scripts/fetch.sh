@@ -12,9 +12,9 @@ PROXY="${2:-}"
 
 _curl() {
   if [ -n "$PROXY" ]; then
-    https_proxy="$PROXY" http_proxy="$PROXY" curl -sL "$@"
+    https_proxy="$PROXY" http_proxy="$PROXY" curl -sfL "$@"
   else
-    curl -sL "$@"
+    curl -sfL "$@"
   fi
 }
 
