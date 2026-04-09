@@ -45,6 +45,8 @@ For key claims, ask before including in the outline:
 
 Generic wisdom is not worth distilling. Passes two or three: belongs in the outline. Passes one: background material. Passes zero: cut it.
 
+When two sources contradict on a factual claim, note both positions and the evidence each gives. Do not silently pick one.
+
 ## Phase 3: Outline
 
 Write the outline for the article. For each section: note the source materials it draws from. If a section has no sources, either it does not belong or a source needs to be found first.
