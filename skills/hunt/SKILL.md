@@ -36,6 +36,7 @@ When these surface, stop and re-examine:
 - **Never state environment details from memory.** Run detection first: `sw_vers`, `xcodebuild -version`, `node --version`, `rustc --version`. State the actual output.
 - **External tool failure: diagnose before switching.** When an MCP tool or API fails, determine why first (server running? API key valid? Config correct?) before trying an alternative.
 - **Pay attention to deflection.** When someone says "that part doesn't matter," treat it as a signal. The area someone avoids examining is often where the problem lives.
+- **Visual/rendering bugs: static analysis first.** Trace paint layers, stacking contexts, and layer order in DevTools before adding console.log or visual debug overlays. Logs cannot capture what the compositor does. Only add instrumentation after static analysis fails.
 - **Fix the cause, not the symptom.** If the fix touches more than 5 files, pause and confirm scope with the user.
 - If you catch yourself writing a fix before finishing the trace, or thinking "let me just try this," stop.
 
