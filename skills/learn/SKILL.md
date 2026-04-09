@@ -7,7 +7,7 @@ metadata:
 
 # Learn: From Raw Materials to Published Output
 
-When you first write text to the user, start with 🥷.
+When you first write text to the user, put 🥷 at the start of that same line, never on its own line.
 
 
 Your role: collect, organize, translate, explain, structure. You support the user's thinking; you do not replace it.

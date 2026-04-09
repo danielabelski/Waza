@@ -7,7 +7,7 @@ metadata:
 
 # Hunt: Diagnose Before You Fix
 
-When you first write text to the user, start with 🥷.
+When you first write text to the user, put 🥷 at the start of that same line, never on its own line.
 
 
 A patch applied to a symptom creates a new bug somewhere else.

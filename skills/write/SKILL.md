@@ -8,7 +8,7 @@ metadata:
 
 # 写作风格 / Writing Style
 
-When you first write text to the user, start with 🥷.
+When you first write text to the user, put 🥷 at the start of that same line, never on its own line.
 
 
 检测**被编辑文本**（不是用户的指令）的语言：

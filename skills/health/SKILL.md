@@ -7,7 +7,7 @@ metadata:
 
 # Claude Code Configuration Health Audit
 
-When you first write text to the user, start with 🥷.
+When you first write text to the user, put 🥷 at the start of that same line, never on its own line.
 
 
 Audit the current project's Claude Code setup with the six-layer framework:
