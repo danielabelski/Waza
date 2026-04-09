@@ -43,12 +43,12 @@ Get approval before proceeding. If the user rejects, ask specifically what did n
 |---------------|------|
 | Moved files to `~/project`, repo was at `~/www/project` | Run `pwd` before the first filesystem operation |
 | Asked for API key after 3 implementation steps | List every dependency before starting |
-| User said "帮我做" and got 3 options | "帮我做," "优化," "改回去" = execute immediately, no option framework |
+| User said "帮我做" and got 3 options | Stay in planning mode. Lead with the recommended option, and treat user acceptance as plan approval, not implementation approval. |
 | Planned MCP workflow without checking if MCP was loaded | Verify tool availability before the first design step |
 | Rejected design restarted from scratch | Ask what specifically failed, re-enter with narrowed constraints |
 | Built against wrong regional API (Shengwang vs Agora) | List all regional differences before writing integration code |
 | Added FastAPI backend to a Next.js project | Never add a new language or runtime without explicit approval |
-| User said "just do it" before approving the design | Treat as approval of the last option presented. State which option was selected, then proceed. |
+| User said "just do it" before approving the design | Treat it as approval of the last option presented. State which option was selected, then finish the plan. Do not implement inside `/think`. |
 
 ## Output
 

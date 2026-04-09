@@ -32,7 +32,7 @@ Each engineering habit gets a [Claude Code skill](https://docs.anthropic.com/en/
 | [`/hunt`](skills/hunt/SKILL.md) | Any bug or unexpected behavior | Systematic debugging. Root cause confirmed before any fix is applied. |
 | [`/write`](skills/write/SKILL.md) | Writing or editing prose | Rewrites prose to sound natural in Chinese and English. Cuts stiff, formulaic phrasing. |
 | [`/learn`](skills/learn/SKILL.md) | Diving into an unfamiliar domain | Six-phase research workflow: collect, digest, outline, fill in, refine, then self-review and publish. |
-| [`/read`](skills/read/SKILL.md) | Any URL or PDF | Fetches content as clean Markdown via proxy cascade script. Dedicated handlers for WeChat and Feishu. |
+| [`/read`](skills/read/SKILL.md) | Any URL or PDF | Fetches content as clean Markdown with platform-specific routing. Special handling for GitHub, PDFs, WeChat, and Feishu. |
 | [`/health`](skills/health/SKILL.md) | Auditing Claude Code setup | Checks CLAUDE.md, rules, skills, hooks, MCP, and behavior. Flags issues by severity. |
 
 Each skill is a folder, not just a markdown file. Skills include reference docs, helper scripts, and gotchas sections built from real project failures.
@@ -77,7 +77,7 @@ npx skills add tw93/Waza -a claude-code -g -y
 npx skills add tw93/Waza
 ```
 
-Requires Node 18+. Skills are also available at `.agents/skills/` for agents that auto-discover from that path.
+Requires Node 18+.
 
 Install a single skill:
 
