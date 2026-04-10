@@ -27,6 +27,7 @@ Each skill has a `SKILL.md` (loaded on demand by Claude). Supporting content liv
 ## Verification
 
 Run all checks below before any commit. Use `/check` if the diff is non-trivial.
+Prefer `make test`; expanded checks:
 
 ```bash
 # All SKILL.md files have valid frontmatter

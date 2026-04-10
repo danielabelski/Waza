@@ -149,20 +149,40 @@ previous_conversation_files() {
   list_conversation_files | tail -n +2 | head -2
 }
 
+sample_jsonl_prefix() {
+  local file="$1"
+  local limit="${2:-512000}"
+  LC_ALL=C awk -v limit="$limit" '
+    {
+      line = $0 ORS
+      next_bytes = bytes + length(line)
+      if (next_bytes > limit) {
+        exit
+      }
+      printf "%s", line
+      bytes = next_bytes
+    }
+  ' "$file"
+}
+
 extract_messages_from_file() {
   local file="$1"
-  head -c 512000 "$file" | jq -r '
+  sample_jsonl_prefix "$file" | jq -r '
     def flatten:
-      (.message.content // .content // .text // "")
-      | if type == "array" then
-          [ .[] | if type == "object" and .type == "text" then .text elif type == "string" then . else empty end ] | join(" ")
-        elif type == "string" then .
-        else empty
-        end
-      | gsub("[\\r\\n]+"; " ")
-      | gsub("  +"; " ")
-      | sub("^ "; "")
-      | sub(" $"; "");
+      if (.isMeta // false) or (.toolUseResult? != null) then
+        empty
+      else
+        (.message.content // .content // .text // "")
+        | if type == "array" then
+            [ .[] | if type == "object" and .type == "text" then .text elif type == "string" then . else empty end ] | join(" ")
+          elif type == "string" then .
+          else empty
+          end
+        | gsub("[\\r\\n]+"; " ")
+        | gsub("  +"; " ")
+        | sub("^ "; "")
+        | sub(" $"; "")
+      end;
     (.type // .role // "") as $kind
     | (flatten) as $text
     | if ($text | length) == 0 then
@@ -181,25 +201,33 @@ extract_messages_from_file() {
 
 extract_signals_from_file() {
   local file="$1"
-  head -c 512000 "$file" | jq -r '
+  sample_jsonl_prefix "$file" | jq -r '
     def flatten:
-      (.message.content // .content // .text // "")
-      | if type == "array" then
-          [ .[] | if type == "object" and .type == "text" then .text elif type == "string" then . else empty end ] | join(" ")
-        elif type == "string" then .
-        else empty
-        end
-      | gsub("[\\r\\n]+"; " ")
-      | gsub("  +"; " ")
-      | sub("^ "; "")
-      | sub(" $"; "");
+      if (.isMeta // false) or (.toolUseResult? != null) then
+        empty
+      else
+        (.message.content // .content // .text // "")
+        | if type == "array" then
+            [ .[] | if type == "object" and .type == "text" then .text elif type == "string" then . else empty end ] | join(" ")
+          elif type == "string" then .
+          else empty
+          end
+        | gsub("[\\r\\n]+"; " ")
+        | gsub("  +"; " ")
+        | sub("^ "; "")
+        | sub(" $"; "")
+      end;
+    def is_correction:
+      test("(?i)(\\bdon'\''t\\b|\\bdo not\\b|\\bplease don'\''t\\b|\\binstead\\b|\\bnext time\\b|\\bremember\\b|\\buse\\b.*\\binstead\\b|\\bnot\\b.*\\bbut\\b)")
+      or test("(不要再|请不要|不要|别再|下次|记得|改成|改为|而不是|别用|去掉|统一成)");
     (.type // .role // "") as $kind
     | (flatten) as $text
     | if ($text | length) == 0 then
         empty
       elif ($text | test("(?i)(conversation was compressed|context limit|context window|truncat|/compact|context management|token limit|window is full|compaction)")) then
         "CONTEXT SIGNAL: " + $text
-      elif $kind == "user" and ($text | test("(?i)(\\bdon.?t\\b|\\bdo not\\b|\\bplease\\b|\\binstead\\b|\\bavoid\\b|\\bremember\\b|\\bnext time\\b|\\bremove\\b|\\bfix\\b|\\bkeep\\b|\\bmust\\b|\\bshould\\b|不要|别再|请不要|请|改成|改为|修复|去掉|保持|统一|必须|直接)")) then
+      # Keep this conservative: false positives pollute enforcement-gap analysis.
+      elif $kind == "user" and ($text | is_correction) then
         "USER CORRECTION: " + $text
       else
         empty

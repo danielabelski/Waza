@@ -42,9 +42,14 @@ cache_file_mtime() {
 parsed=""
 [ -n "$input" ] && parsed=$(printf '%s' "$input" | jq -r "$jq_full" 2>/dev/null)
 
-IFS="$tab" read -r used_tokens window_size five_pct five_reset seven_pct seven_reset <<EOF
+IFS="$tab" read -r used_tokens window_size live_five_pct live_five_reset live_seven_pct live_seven_reset <<EOF
 $parsed
 EOF
+
+five_pct="${live_five_pct:-}"
+five_reset="${live_five_reset:-}"
+seven_pct="${live_seven_pct:-}"
+seven_reset="${live_seven_reset:-}"
 
 # If rate_limits missing from live input, read from cache
 if [ "$five_pct" = "null" ] || [ -z "$five_pct" ]; then
@@ -60,8 +65,8 @@ EOF
   fi
 fi
 
-# Persist rate_limits when present (atomic write)
-if [ "$five_pct" != "null" ] && [ -n "$five_pct" ] && [ -n "$input" ]; then
+# Persist live rate_limits only when present (atomic write)
+if [ "${live_five_pct:-}" != "null" ] && [ -n "${live_five_pct:-}" ] && [ -n "$input" ]; then
   mkdir -p "$CACHE_DIR"
   printf '%s' "$input" | jq '{rate_limits: .rate_limits}' \
     > "${CACHE_FILE}.tmp" 2>/dev/null \
