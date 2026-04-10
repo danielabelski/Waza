@@ -16,8 +16,13 @@ if ! command -v jq &>/dev/null; then
   fi
 fi
 
+if ! command -v curl &>/dev/null; then
+  echo "Error: curl is required but not installed." >&2
+  exit 1
+fi
+
 # Download statusline script
-curl -sL "$RAW" -o "$DEST"
+curl -fsSL "$RAW" -o "$DEST"
 chmod +x "$DEST"
 
 # Check for existing statusLine (skip if already Waza)

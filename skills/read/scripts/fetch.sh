@@ -36,6 +36,33 @@ _with_retry() {
   return 1
 }
 
+_agent_fetch_markdown() {
+  local raw
+  raw=$(npx --yes agent-fetch "$URL" --json 2>/dev/null || true)
+  [ -n "$raw" ] || return 1
+  command -v python3 >/dev/null 2>&1 || return 1
+  printf '%s' "$raw" | python3 -c '
+import json
+import sys
+
+try:
+    data = json.load(sys.stdin)
+except Exception:
+    raise SystemExit(1)
+
+if not isinstance(data, dict):
+    raise SystemExit(1)
+
+for key in ("markdown", "content", "text", "body"):
+    value = data.get(key)
+    if isinstance(value, str) and value.strip():
+        sys.stdout.write(value)
+        raise SystemExit(0)
+
+raise SystemExit(1)
+' 2>/dev/null
+}
+
 # 1. defuddle.md - cleaner output with YAML frontmatter
 if OUT=$(_with_retry _curl "https://defuddle.md/$URL"); then echo "$OUT"; exit 0; fi
 
@@ -43,8 +70,7 @@ if OUT=$(_with_retry _curl "https://defuddle.md/$URL"); then echo "$OUT"; exit 0
 if OUT=$(_with_retry _curl "https://r.jina.ai/$URL"); then echo "$OUT"; exit 0; fi
 
 # 3. agent-fetch - last resort local tool
-OUT=$(npx --yes agent-fetch "$URL" --json 2>/dev/null || true)
-if [ -n "$OUT" ]; then echo "$OUT"; exit 0; fi
+if OUT=$(_agent_fetch_markdown); then printf '%s\n' "$OUT"; exit 0; fi
 
 echo "ERROR: All fetch methods failed for: $URL" >&2
 exit 1

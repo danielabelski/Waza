@@ -32,7 +32,7 @@ npx agent-fetch "{url}" --json
 defuddle parse "{url}" -m -j
 ```
 
-Last resort if both proxies fail.
+Last resort if both proxies fail. These commands may return JSON, so extract the Markdown-bearing field before returning or saving the result. Raw JSON is not a valid final output for `/read`.
 
 ## GitHub URLs
 

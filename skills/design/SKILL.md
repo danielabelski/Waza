@@ -21,14 +21,12 @@ Before writing any code, use AskUserQuestion:
 3. **What is the one thing this leaves in memory?** A typeface, color system, unexpected motion, asymmetric layout. Pick one and make it obvious.
 4. **What are the hard constraints?** Framework, bundle size, contrast minimums, keyboard accessibility.
 
-Do not proceed until all four are answered. State the chosen direction in one sentence. Then load `references/design-reference.md` and check the tech stack conflicts table. Name the single CSS strategy before writing the first component.
+Do not proceed until all four are answered. State the chosen direction in one sentence, then load `references/design-reference.md` and check the tech stack conflicts table. Name the single CSS strategy before writing the first component.
 
-Before writing any code, write three things:
-- **Visual thesis**: one sentence describing mood, material, and energy (e.g. "warm brutalist editorial with high-contrast ink type and rough paper texture")
-- **Content plan**: hero → support → detail → final CTA, one line each
+Summarize the direction as three lines before writing any code:
+- **Visual thesis**: mood, material, and energy in one sentence (e.g. "warm brutalist editorial with high-contrast ink type and rough paper texture")
+- **Content plan**: hero -> support -> detail -> final CTA, one line each. For **app/dashboard surfaces**: skip the marketing structure, default to utility mode (orient, show status, enable action), no hero unless explicitly requested.
 - **Interaction thesis**: 2-3 specific motion ideas that change how the page feels (e.g. "hero text slides in on load, section headers pin while content scrolls beneath, CTA pulses on hover")
-
-For **app/dashboard surfaces** (not landing pages): skip the marketing structure. Default to utility mode: orient the user, show status, enable action. No hero section unless explicitly requested. Every heading should name what the user can do or see, not what the product promises.
 
 ## Non-Negotiable Constraints
 
@@ -68,7 +66,7 @@ Run these litmus checks before writing the handoff summary:
 - Does motion improve hierarchy or atmosphere, or is it ornamental?
 - Would the design still feel premium if all decorative shadows were removed?
 
-If any check fails, fix it first. Then reload `references/design-reference.md` and check the common traps list. Then ask the user to open the result in a browser and confirm it looks right at full width. Also check at 375px width: resize the browser or use DevTools device emulation. If the layout breaks, content overflows, or text is unreadable at mobile width, fix it before handing off. Do not hand off until both checks pass.
+If any check fails, fix it first. Then revisit the common traps list from `references/design-reference.md` (already loaded during direction lock; do not re-read the file). Then ask the user to open the result in a browser and confirm it looks right at full width. Also check at 375px width: resize the browser or use DevTools device emulation. If the layout breaks, content overflows, or text is unreadable at mobile width, fix it before handing off. Do not hand off until both checks pass.
 
 End with:
 - Aesthetic direction, named and justified in 2-3 sentences

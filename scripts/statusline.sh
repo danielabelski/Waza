@@ -28,6 +28,16 @@ jq_rl='[
   (.rate_limits.seven_day.resets_at // "" | tostring)
 ] | @tsv'
 
+cache_file_mtime() {
+  local path="$1"
+  local ts=""
+  ts=$(stat -f %m "$path" 2>/dev/null || true)
+  if [ -z "$ts" ]; then
+    ts=$(stat -c %Y "$path" 2>/dev/null || true)
+  fi
+  printf '%s\n' "${ts:-0}"
+}
+
 # Single jq pass for live input
 parsed=""
 [ -n "$input" ] && parsed=$(printf '%s' "$input" | jq -r "$jq_full" 2>/dev/null)
@@ -39,7 +49,7 @@ EOF
 # If rate_limits missing from live input, read from cache
 if [ "$five_pct" = "null" ] || [ -z "$five_pct" ]; then
   if [ -f "$CACHE_FILE" ]; then
-    cache_mtime=$(stat -f %m "$CACHE_FILE" 2>/dev/null || echo 0)
+    cache_mtime=$(cache_file_mtime "$CACHE_FILE")
     cache_age=$(( $(date +%s) - cache_mtime ))
     if [ "$cache_age" -lt "$CACHE_MAX_AGE" ]; then
       cached=$(jq -r "$jq_rl" "$CACHE_FILE" 2>/dev/null)

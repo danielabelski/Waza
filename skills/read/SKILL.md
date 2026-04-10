@@ -20,7 +20,7 @@ Convert any URL or local PDF to clean Markdown and save it.
 | `mp.weixin.qq.com` | WeChat article script (Playwright fallback) |
 | `.pdf` URL or local PDF path | PDF extraction |
 | GitHub URLs (`github.com`, `raw.githubusercontent.com`) | Prefer raw content or `gh` first. Use the proxy cascade only as fallback. |
-| Everything else | Run `scripts/fetch.sh {url}` (proxy cascade with auto-fallback) |
+| Everything else | Run `scripts/fetch.sh {url}` (proxy cascade with Markdown-only fallback) |
 
 After routing, load `references/read-methods.md` to get the exact commands for the chosen method, then execute them.
 
@@ -53,3 +53,4 @@ After saving and reporting the path, stop. Do not analyze, comment on, or discus
 - Network failures: prepend local proxy env vars if available
 - Long content: `| head -n 200` to preview first
 - GitHub URLs: prefer raw content or `gh` CLI. Use `scripts/fetch.sh` only as fallback.
+- Local fallback tools may return JSON internally, but the final output and saved file must still be Markdown.
