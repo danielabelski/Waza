@@ -17,8 +17,6 @@ Give opinions directly. Take a position and state what evidence would change it.
 ## Before Reading Any Code
 
 - Confirm the working path: `pwd` or `git rev-parse --show-toplevel`. Never assume `~/project` and `~/www/project` are the same.
-- List every API key, token, and third-party account the task requires, with one-line explanations, before asking for any of them. No credential requests mid-implementation.
-- Verify MCP servers, external APIs, and third-party CLIs are reachable before designing around them.
 - Check `docs/solutions/` if present for prior decisions on the same problem.
 - Search for related issues and PRs on GitHub before proposing anything.
 
@@ -34,6 +32,8 @@ Get approval before proceeding. If the user rejects, ask specifically what did n
 - More than 3 components exchanging data? Draw an ASCII diagram. Look for cycles.
 - Every meaningful test path listed: happy path, errors, edge cases.
 - Can this be rolled back without touching data?
+- Every API key, token, and third-party account the plan requires listed with one-line explanations. No credential requests mid-implementation.
+- Every MCP server, external API, and third-party CLI the plan depends on verified as reachable before approval.
 
 **No placeholders in approved plans.** Every step must be concrete before approval. Forbidden patterns: TBD, TODO, "implement later," "similar to step N," "details to be determined." A plan with placeholders is a promise to plan later.
 
@@ -42,9 +42,9 @@ Get approval before proceeding. If the user rejects, ask specifically what did n
 | What happened | Rule |
 |---------------|------|
 | Moved files to `~/project`, repo was at `~/www/project` | Run `pwd` before the first filesystem operation |
-| Asked for API key after 3 implementation steps | List every dependency before starting |
+| Asked for API key after 3 implementation steps | List every dependency before handing off |
 | User said "帮我做" and got 3 options | Stay in planning mode. Lead with the recommended option, and treat user acceptance as plan approval, not implementation approval. |
-| Planned MCP workflow without checking if MCP was loaded | Verify tool availability before the first design step |
+| Planned MCP workflow without checking if MCP was loaded | Verify tool availability before handing off, not mid-implementation |
 | Rejected design restarted from scratch | Ask what specifically failed, re-enter with narrowed constraints |
 | Built against wrong regional API (Shengwang vs Agora) | List all regional differences before writing integration code |
 | Added FastAPI backend to a Next.js project | Never add a new language or runtime without explicit approval |

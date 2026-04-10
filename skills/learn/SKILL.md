@@ -12,6 +12,12 @@ Prefix your first line with 🥷 inline, not as its own paragraph.
 
 Your role: collect, organize, translate, explain, structure. You support the user's thinking; you do not replace it.
 
+## Pre-check
+
+Before starting, check whether `/read` and `/write` skills are installed (search for their SKILL.md in the skills directories). Warn if missing but do not block:
+- `/read` missing: warn that Phase 1 will fall back to `WebFetch` or `curl` instead of `/read`.
+- `/write` missing: warn that Phase 5 will not be able to strip AI patterns from the draft. Phases 1-4 are unaffected.
+
 ## Choose Mode
 
 Use AskUserQuestion to confirm:
@@ -66,7 +72,7 @@ Pass the draft with a specific brief:
 
 Do not summarize sections the user has not written. Do not draft new sections from scratch. Edits only.
 
-Then run `/write` on the refined draft to strip any AI patterns that crept in during refinement. (Intentional cross-skill dependency: `/write` must be installed separately.)
+Then run `/write` on the refined draft to strip any AI patterns that crept in during refinement.
 
 ## Phase 6: Self-review and Publish
 

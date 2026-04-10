@@ -6,6 +6,7 @@ set -euo pipefail
 
 P=$(pwd)
 SETTINGS="$P/.claude/settings.local.json"
+TIER="${1:-auto}"
 
 echo "[1/10] Tier metrics..."
 echo "=== TIER METRICS ==="
@@ -14,6 +15,23 @@ echo "contributors: $(git -C "$P" log -n 500 --format='%ae' 2>/dev/null | sort -
 echo "ci_workflows:  $(ls "$P/.github/workflows/"*.yml "$P/.github/workflows/"*.yaml 2>/dev/null | wc -l)"
 echo "skills:        $(find "$P/.claude/skills" -name "SKILL.md" 2>/dev/null | grep -v '/health/SKILL.md' | wc -l)"
 echo "claude_md_lines: $(wc -l < "$P/CLAUDE.md" 2>/dev/null)"
+
+# Auto-detect tier if not passed as argument.
+# Matches SKILL.md definition: Simple = <500 files AND <=1 contributor AND no CI.
+if [ "$TIER" = "auto" ]; then
+  _FC=$(git -C "$P" ls-files 2>/dev/null | wc -l | tr -d ' ')
+  [ -z "$_FC" ] || [ "$_FC" -eq 0 ] && _FC=$(find "$P" -type f -not -path "*/.git/*" -not -path "*/node_modules/*" -not -path "*/dist/*" -not -path "*/build/*" 2>/dev/null | wc -l | tr -d ' ')
+  _CC=$(git -C "$P" log -n 500 --format='%ae' 2>/dev/null | sort -u | wc -l | tr -d ' ')
+  _CI=$(ls "$P/.github/workflows/"*.yml "$P/.github/workflows/"*.yaml 2>/dev/null | wc -l | tr -d ' ' || echo 0)
+  if [ "${_FC:-0}" -lt 500 ] && [ "${_CC:-0}" -le 1 ] && [ "${_CI:-0}" -eq 0 ]; then
+    TIER="simple"
+  elif [ "${_FC:-0}" -lt 5000 ]; then
+    TIER="standard"
+  else
+    TIER="complex"
+  fi
+fi
+echo "detected_tier: $TIER"
 
 echo "[2/10] CLAUDE.md (global + local)..."
 echo "=== CLAUDE.md (global) ===" ; cat ~/.claude/CLAUDE.md 2>/dev/null || echo "(none)"
@@ -101,9 +119,11 @@ PROJECT_PATH=$(pwd | sed 's|[/_]|-|g; s|^-||')
 CONVO_DIR=~/.claude/projects/-${PROJECT_PATH}
 ls -lhS "$CONVO_DIR"/*.jsonl 2>/dev/null | head -10
 
-echo "=== CONVERSATION EXTRACT (up to 2 most recent, confidence improves with more files) ==="
 # Skip the active session, it may still be incomplete.
 _PREV_FILES=$(ls -t "$CONVO_DIR"/*.jsonl 2>/dev/null | tail -n +2 | head -2)
+
+if [ "$TIER" != "simple" ]; then
+echo "=== CONVERSATION EXTRACT (up to 2 most recent, confidence improves with more files) ==="
 if [ -n "$_PREV_FILES" ]; then
   echo "$_PREV_FILES" | while IFS= read -r F; do
     [ -f "$F" ] || continue
@@ -124,6 +144,10 @@ echo "=== MCP ACCESS DENIALS ==="
 ls -t "$CONVO_DIR"/*.jsonl 2>/dev/null | head -5 | while IFS= read -r F; do
   head -c 1048576 "$F" | grep -Em 2 'Access denied - path outside allowed directories|tool-results/.+ not in ' 2>/dev/null
 done | head -20
+else
+  echo "=== CONVERSATION EXTRACT ===" ; echo "(skipped: simple tier)"
+  echo "=== MCP ACCESS DENIALS ===" ; echo "(skipped: simple tier)"
+fi
 
 # --- Skill scan ---
 # Exclude self by frontmatter name, stable across install paths.
@@ -174,6 +198,7 @@ for DIR in "$P/.claude/skills" "$HOME/.claude/skills"; do
 done
 
 echo "[10/10] Skill content sample + security scan..."
+if [ "$TIER" != "simple" ]; then
 echo "=== SKILL FULL CONTENT (sample: up to 3 skills, 60 lines each) ==="
 { for DIR in "$P/.claude/skills" "$HOME/.claude/skills"; do
     [ -d "$DIR" ] || continue
@@ -183,3 +208,6 @@ echo "=== SKILL FULL CONTENT (sample: up to 3 skills, 60 lines each) ==="
   echo "--- FULL: $f ---"
   head -60 "$f"
 done
+else
+  echo "=== SKILL FULL CONTENT ===" ; echo "(skipped: simple tier)"
+fi
