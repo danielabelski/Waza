@@ -46,7 +46,7 @@ Skip only if user says "just preview" or "don't save". Tell the user the saved p
 
 After saving and reporting the path, stop. Do not analyze, comment on, or discuss the content unless asked. If content was truncated at 200 lines, say so and offer to continue.
 
-## Notes
+## Gotchas
 
 - If a web search plugin is installed (e.g., PipeLLM search), use it for URL discovery before fetching.
 - r.jina.ai and defuddle.md require no API key

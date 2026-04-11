@@ -18,7 +18,8 @@ verify-scripts:
 	rg -n "^=== CONVERSATION SIGNALS ===$$|^=== CONVERSATION EXTRACT ===$$|^=== MCP ACCESS DENIALS ===$$" /tmp/waza-collect-data.out
 
 smoke-statusline:
-	@tmpdir=$$(mktemp -d); \
+	@set -e; \
+	tmpdir=$$(mktemp -d); \
 	json1='{"context_window":{"current_usage":{"input_tokens":10},"context_window_size":100},"rate_limits":{"five_hour":{"used_percentage":12,"resets_at":2000000000},"seven_day":{"used_percentage":34,"resets_at":2000003600}}}'; \
 	json2='{"context_window":{"current_usage":{"input_tokens":20},"context_window_size":100}}'; \
 	printf '%s' "$$json1" | HOME="$$tmpdir" bash scripts/statusline.sh >/dev/null; \
@@ -32,11 +33,15 @@ smoke-statusline:
 	echo "statusline smoke: ok"
 
 smoke-statusline-installer:
-	@tmpdir=$$(mktemp -d); \
-			home_dir="$$tmpdir/home"; \
+	@set -e; \
+		tmpdir=$$(mktemp -d); \
+		home_dir="$$tmpdir/home"; \
 		bin_dir="$$tmpdir/bin"; \
 		mkdir -p "$$home_dir/.claude" "$$bin_dir"; \
-		printf '%s\n' '{invalid json' > "$$home_dir/.claude/settings.json"; \
+		ln -s "$$(command -v python3)" "$$bin_dir/python3"; \
+		ln -s "$$(command -v jq)" "$$bin_dir/jq"; \
+		ln -s /bin/chmod "$$bin_dir/chmod"; \
+		ln -s /bin/mkdir "$$bin_dir/mkdir"; \
 		printf '%s\n' '#!/bin/bash' \
 			'outfile=""' \
 			'while [ "$$#" -gt 0 ]; do' \
@@ -44,20 +49,29 @@ smoke-statusline-installer:
 			'done' \
 			'printf "%s\n" "#!/bin/bash" "echo statusline" > "$$outfile"' \
 			> "$$bin_dir/curl"; \
-		chmod +x "$$bin_dir/curl"; \
-		if PATH="$$bin_dir:$$PATH" HOME="$$home_dir" bash scripts/setup-statusline.sh >"$$tmpdir/install.out" 2>"$$tmpdir/install.err"; then \
+		printf '%s\n' '#!/bin/bash' \
+			'echo "brew should not be called" >&2' \
+			'echo "$$*" >>"$$BREW_LOG"' \
+			'exit 99' \
+			> "$$bin_dir/brew"; \
+		chmod +x "$$bin_dir/curl" "$$bin_dir/brew"; \
+		printf '%s\n' '{invalid json' > "$$home_dir/.claude/settings.json"; \
+		if BREW_LOG="$$tmpdir/brew.log" PATH="$$bin_dir" HOME="$$home_dir" /bin/bash scripts/setup-statusline.sh >"$$tmpdir/install.out" 2>"$$tmpdir/install.err"; then \
 			echo "setup-statusline should refuse invalid JSON"; exit 1; \
 		fi; \
 		grep -q 'Refusing to modify it' "$$tmpdir/install.err"; \
 		grep -q 'invalid json' "$$home_dir/.claude/settings.json"; \
+		test ! -f "$$tmpdir/brew.log"; \
 		printf '%s\n' '{"theme":"dark"}' > "$$home_dir/.claude/settings.json"; \
-		PATH="$$bin_dir:$$PATH" HOME="$$home_dir" bash scripts/setup-statusline.sh >"$$tmpdir/install-valid.out" 2>"$$tmpdir/install-valid.err"; \
+		BREW_LOG="$$tmpdir/brew.log" PATH="$$bin_dir" HOME="$$home_dir" /bin/bash scripts/setup-statusline.sh >"$$tmpdir/install-valid.out" 2>"$$tmpdir/install-valid.err"; \
 		python3 -c "import json, sys; data=json.load(open(sys.argv[1])); assert data['theme'] == 'dark'; assert data['statusLine']['command'] == 'bash ~/.claude/statusline.sh'" "$$home_dir/.claude/settings.json"; \
 		test -x "$$home_dir/.claude/statusline.sh"; \
+		test ! -f "$$tmpdir/brew.log"; \
 		echo "statusline installer smoke: ok"
 
 smoke-verify-skills:
-	@tmpdir=$$(mktemp -d); \
+	@set -e; \
+		tmpdir=$$(mktemp -d); \
 		cp -R . "$$tmpdir/repo"; \
 		python3 -c "from pathlib import Path; p=Path('$$tmpdir/repo/skills/check/SKILL.md'); t=p.read_text(); t=t.replace('---\n', '', 1); i=t.find('\n---\n'); p.write_text(t[:i] + t[i+5:])"; \
 		if (cd "$$tmpdir/repo" && ./scripts/verify-skills.sh >"$$tmpdir/frontmatter.out" 2>"$$tmpdir/frontmatter.err"); then \
@@ -70,10 +84,17 @@ smoke-verify-skills:
 			echo "verify-skills should reject marketplace-only entries"; exit 1; \
 		fi; \
 		grep -q 'MISSING SKILL DIRECTORY: ghost' "$$tmpdir/market.err"; \
+		cp -R . "$$tmpdir/repo3"; \
+		python3 -c "import json; p='$$tmpdir/repo3/marketplace.json'; d=json.load(open(p)); [entry.update({'source':'./skills/read'}) for entry in d['plugins'] if entry['name']=='check']; open(p,'w').write(json.dumps(d, indent=2) + '\n')"; \
+		if (cd "$$tmpdir/repo3" && ./scripts/verify-skills.sh >"$$tmpdir/source.out" 2>"$$tmpdir/source.err"); then \
+			echo "verify-skills should reject wrong source paths"; exit 1; \
+		fi; \
+		grep -q 'WRONG SOURCE: check' "$$tmpdir/source.err"; \
 		echo "verify-skills smoke: ok"
 
 smoke-health:
-	@tmpdir=$$(mktemp -d); \
+	@set -e; \
+		tmpdir=$$(mktemp -d); \
 	convo_dir="$$tmpdir/.claude/projects/-$(PROJECT_KEY)"; \
 	mkdir -p "$$convo_dir"; \
 	printf '%s\n' '{"type":"user","message":{"content":"Please build a dashboard for sales data."}}' > "$$convo_dir/2-old.jsonl"; \

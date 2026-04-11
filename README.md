@@ -91,6 +91,22 @@ npx skills add tw93/Waza -a codex -g -y
 
 `/health` is Claude Code only. The other skills are written to use the host environment's native question, search, fetch, and agent mechanisms. `/check` runs parallel specialist reviewers when the host supports them; otherwise it performs the same passes inline.
 
+## Uninstall
+
+```bash
+# Remove all skills
+npx skills remove tw93/Waza -g
+
+# Remove statusline
+rm -f ~/.claude/statusline.sh
+# Then remove the statusLine key from ~/.claude/settings.json
+
+# Remove English Coaching (Claude Code)
+rm -f ~/.claude/rules/english.md
+
+# Remove English Coaching (Codex): remove the English Coaching block from ~/.codex/AGENTS.md
+```
+
 ## Background
 
 Tools like Superpowers and gstack are impressive, but they are heavy. Too many skills, too much configuration, too steep a learning curve for engineers who just want to get things done.

@@ -34,7 +34,7 @@ Pick tier:
 
 ## Step 1: Collect all data
 
-Run `bash "$CLAUDE_SKILL_DIR/scripts/collect-data.sh"` to collect all configuration data. The script outputs labeled sections covering: tier metrics, CLAUDE.md (global + local), settings/hooks/MCP, rules, skill inventory, context budget, conversation history, conversation signals, and skill security content.
+Run `bash "${CLAUDE_SKILL_DIR:-$HOME/.agents/skills/health}/scripts/collect-data.sh"` to collect all configuration data. The script outputs labeled sections covering: tier metrics, CLAUDE.md (global + local), settings/hooks/MCP, rules, skill inventory, context budget, conversation history, conversation signals, and skill security content.
 
 ## Step 1b: MCP Live Check
 

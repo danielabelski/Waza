@@ -13,7 +13,7 @@
       "version": "3.8.0",
       "category": "development",
       "source": "./skills/health",
-      "homepage": "https://github.com/tw93/waza"
+      "homepage": "https://github.com/tw93/Waza"
     },
     {
       "name": "think",
@@ -21,7 +21,7 @@
       "version": "3.8.0",
       "category": "development",
       "source": "./skills/think",
-      "homepage": "https://github.com/tw93/waza"
+      "homepage": "https://github.com/tw93/Waza"
     },
     {
       "name": "check",
@@ -29,7 +29,7 @@
       "version": "3.8.0",
       "category": "development",
       "source": "./skills/check",
-      "homepage": "https://github.com/tw93/waza"
+      "homepage": "https://github.com/tw93/Waza"
     },
     {
       "name": "hunt",
@@ -37,7 +37,7 @@
       "version": "3.8.0",
       "category": "development",
       "source": "./skills/hunt",
-      "homepage": "https://github.com/tw93/waza"
+      "homepage": "https://github.com/tw93/Waza"
     },
     {
       "name": "design",
@@ -45,7 +45,7 @@
       "version": "3.8.0",
       "category": "development",
       "source": "./skills/design",
-      "homepage": "https://github.com/tw93/waza"
+      "homepage": "https://github.com/tw93/Waza"
     },
     {
       "name": "read",
@@ -53,7 +53,7 @@
       "version": "3.8.0",
       "category": "development",
       "source": "./skills/read",
-      "homepage": "https://github.com/tw93/waza"
+      "homepage": "https://github.com/tw93/Waza"
     },
     {
       "name": "write",
@@ -61,7 +61,7 @@
       "version": "3.8.0",
       "category": "development",
       "source": "./skills/write",
-      "homepage": "https://github.com/tw93/waza"
+      "homepage": "https://github.com/tw93/Waza"
     },
     {
       "name": "learn",
@@ -69,7 +69,7 @@
       "version": "3.8.0",
       "category": "development",
       "source": "./skills/learn",
-      "homepage": "https://github.com/tw93/waza"
+      "homepage": "https://github.com/tw93/Waza"
     }
   ]
 }

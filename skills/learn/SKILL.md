@@ -79,3 +79,13 @@ Then run `/write` on the refined draft to strip any AI patterns that crept in du
 The user reads the entire article linearly before publishing. Not with AI. Mark everything that feels off, fix it, read again. Two passes minimum.
 
 When it reads clean from start to finish, publish it.
+
+## Gotchas
+
+| What happened | Rule |
+|---------------|------|
+| Collected 30 secondary explainers instead of primary sources | Phase 1 targets papers, official blogs, and repos by builders. Summaries are not sources. |
+| Treated a convincing explainer as ground truth | Ask: does this appear in at least two different contexts from the same source? |
+| Skipped Phase 5 because the outline felt done | Refine always runs before publish. "Good enough" is Phase 4 thinking. |
+| Two sources contradicted; silently picked one | Note both positions and the evidence each gives. Never silently resolve a contradiction. |
+| Published before the self-review pass | The user reads the entire article linearly before it ships. AI does not do this step. |

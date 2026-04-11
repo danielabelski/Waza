@@ -36,9 +36,6 @@ Before reading code, check scope drift: do the diff and the stated goal match? L
 
 - **Destructive auto-execution**: any task marked "safe" or "auto-run" that modifies user-visible state (history files, config, preferences, installed software) must require explicit confirmation.
 - **Release artifacts missing**: verify every artifact listed in the release template exists as a local file and has been uploaded before declaring done.
-- **Translated file naming collision**: file names must not repeat the language suffix of the directory they're in. Check naming of existing files in the target directory first.
-- **GitHub issue/PR number mismatch**: run `gh issue view N` or `gh pr view N` to confirm the title matches before commenting, closing, or acting. Never rely on memory.
-- **GitHub comment style**: comments must be 1-2 sentences, natural, like a colleague. Not a structured report. Not AI-sounding.
 - **Unknown identifiers in diff**: any function, variable, or type introduced in the diff that does not exist in the codebase is a hard stop. Grep before writing or approving any reference: `grep -r "name" .` -- no results outside the diff = does not exist.
 - **Injection and validation**: SQL, command, path injection at system entry points. Credentials hardcoded or logged.
 - **Dependency changes**: unexpected additions or version bumps in package.json, Cargo.toml, go.mod, requirements.txt. Flag any new dependency not obviously required by the diff.
@@ -81,6 +78,11 @@ If any of these phrases appear in your reasoning, stop and run verification firs
 
 | What happened | Rule |
 |---------------|------|
+| Commented on #249 when discussing #255 | Run `gh issue view N` to confirm title before acting |
+| PR comment sounded like a report | 1-2 sentences, natural, like a colleague. Not structured, not AI-sounding. |
+| PR comment used bullet points | Write as paragraphs; thank the contributor first |
+| article.en.md inside _posts_en/ doubled the suffix | Check naming convention of existing files in the target directory first |
+| Released with no artifacts attached | Verify every artifact exists locally and is uploaded |
 | "Trivial one-line fix" broke things | If the urge to skip verification arises, run tests anyway |
 | Deployed without env vars set | Run `vercel env ls` before deploying; diff against local keys |
 | Push failed from auth mismatch | Run `git remote -v` before the first push in a new project |

@@ -7,17 +7,6 @@ DEST="$CLAUDE_DIR/statusline.sh"
 SETTINGS_FILE="$CLAUDE_DIR/settings.json"
 RAW="https://raw.githubusercontent.com/tw93/Waza/main/scripts/statusline.sh"
 
-# Ensure jq is available
-if ! command -v jq &>/dev/null; then
-  if command -v brew &>/dev/null; then
-    echo "Installing jq via Homebrew..."
-    brew install jq
-  else
-    echo "Error: jq is required but not installed. Install it first: https://jqlang.github.io/jq/" >&2
-    exit 1
-  fi
-fi
-
 if ! command -v curl &>/dev/null; then
   echo "Error: curl is required but not installed." >&2
   exit 1
@@ -26,6 +15,16 @@ fi
 if ! command -v python3 &>/dev/null; then
   echo "Error: python3 is required but not installed." >&2
   exit 1
+fi
+
+if ! command -v jq &>/dev/null; then
+  if command -v brew &>/dev/null; then
+    echo "Installing jq via Homebrew..."
+    brew install jq
+  else
+    echo "Error: jq is required but not installed. Run: brew install jq" >&2
+    exit 1
+  fi
 fi
 
 mkdir -p "$CLAUDE_DIR"
