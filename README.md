@@ -57,13 +57,11 @@ curl -sL https://raw.githubusercontent.com/tw93/Waza/main/scripts/setup-statusli
 
 ### English Coaching
 
-English is the native language of most AI models and nearly all technical writing. Working in it builds a habit that pays off over time.
+Most AI models were trained on far more English than any other language, so every prompt in your native tongue goes through an invisible translation layer. Switch to English and the reasoning sharpens, answers get more precise, and every session doubles as language practice.
 
-Claude quietly corrects grammar and phrasing on every reply, noting the pattern name so you understand the reason, not just the fix.
+Claude corrects your mistakes in place, tagging each one with its pattern name so you learn the rule, not just the fix.
 
-> 😇 it is not good to be read → it's hard to read (Unnatural phrasing)
-
-Claude Code loads everything in `~/.claude/rules/` automatically, so one file drop is all it takes.
+> 😇 I look forward to see you → I look forward to seeing you (Gerund vs. base verb)
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/tw93/Waza/main/rules/english.md -o ~/.claude/rules/english.md
