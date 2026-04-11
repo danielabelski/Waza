@@ -59,8 +59,10 @@ Passive grammar correction on every reply. Claude flags mistakes with the patter
 
 > 😇 it is not good to be read → it's hard to read (Unnatural phrasing)
 
+Claude Code auto-loads all files in `~/.claude/rules/`, so install is one file drop, no `CLAUDE.md` editing.
+
 ```bash
-curl -sL https://raw.githubusercontent.com/tw93/Waza/main/templates/coaching-en.md >> ~/.claude/CLAUDE.md
+curl -fsSL https://raw.githubusercontent.com/tw93/Waza/main/rules/english.md -o ~/.claude/rules/english.md
 ```
 
 ## Install

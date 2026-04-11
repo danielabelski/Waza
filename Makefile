@@ -22,6 +22,7 @@ verify-docs:
 	test -f skills/check/agents/reviewer-security.md
 	test -f skills/check/agents/reviewer-architecture.md
 	test -f skills/check/references/persona-catalog.md
+	test -f rules/english.md
 	echo "references: ok"
 	python3 -c "import json; json.load(open('.claude-plugin/marketplace.json'))"
 	echo "marketplace.json: ok"
