@@ -19,7 +19,7 @@ A good engineer does not just write code. They think through requirements, revie
 AI makes you faster. It doesn't make you think more clearly, ship more carefully, or understand more deeply. Waza packages these habits into skills Claude can run.
 
 <div align="center">
-  <img src="https://gw.alipayobjects.com/zos/k/qa/waza_repaired_v4.svg" width="800" />
+  <img src="https://gw.alipayobjects.com/zos/k/qa/waza_repaired_v4.svg" width="1000" />
 </div>
 
 ## Skills
@@ -46,7 +46,7 @@ Each skill is a folder, not just a markdown file. Skills include reference docs,
 A minimal Claude Code statusline that shows only what matters: context window usage, 5-hour quota, and 7-day quota, each with the time remaining until reset.
 
 <div align="center">
-  <img src="https://gw.alipayobjects.com/zos/k/y9/RUgevg.png" width="800" />
+  <img src="https://gw.alipayobjects.com/zos/k/y9/RUgevg.png" width="1000" />
 </div>
 
 Color coding: green below 70%, yellow at 70-85%, red above 85% for context; blue, magenta, red for quota thresholds. No progress bars, no noise.
@@ -59,11 +59,11 @@ curl -sL https://raw.githubusercontent.com/tw93/Waza/main/scripts/setup-statusli
 
 Most AI models were trained on far more English than any other language, so every prompt in your native tongue goes through an invisible translation layer. Switch to English and the reasoning sharpens, answers get more precise, and every session doubles as language practice.
 
-Claude corrects your mistakes in place, tagging each one with its pattern name so you learn the rule, not just the fix.
-
 <div align="center">
-  <img src="https://gw.alipayobjects.com/zos/k/24/vfkGOi.png" width="800" />
+  <img src="https://gw.alipayobjects.com/zos/k/24/vfkGOi.png" width="1000" />
 </div>
+
+Claude corrects your mistakes in place, tagging each one with its pattern name so you learn the rule, not just the fix.
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/tw93/Waza/main/rules/english.md -o ~/.claude/rules/english.md
