@@ -83,10 +83,6 @@ npx skills add tw93/Waza -a claude-code -g -y
 npx skills add tw93/Waza -a codex -g -y
 ```
 
-**Safety**
-
-To protect against destructive git commands (`git push -f`, `git checkout .`, `git clean -f`), add them to the `deny` list in your `~/.claude/settings.json`.
-
 **Compatibility**
 
 `/think`, `/hunt`, `/learn`, `/write`, `/design`, `/read` work identically on Claude Code and Codex. `/check` runs on both; Claude Code spawns specialist sub-agent reviewers in parallel, Codex runs the review inline. `/health` is Claude Code only: it audits `CLAUDE.md`, rules, hooks, skills, and MCP, which are specific to Claude Code's config stack.
