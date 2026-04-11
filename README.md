@@ -18,7 +18,9 @@ A good engineer does not just write code. They think through requirements, revie
 
 AI makes you faster. It doesn't make you think more clearly, ship more carefully, or understand more deeply. Waza packages these habits into skills Claude can run.
 
-<img src="https://gw.alipayobjects.com/zos/k/qa/waza_repaired_v4.svg" width="800" />
+<div align="center">
+  <img src="https://gw.alipayobjects.com/zos/k/qa/waza_repaired_v4.svg" width="800" />
+</div>
 
 ## Skills
 
@@ -28,7 +30,7 @@ Each engineering habit gets a [Claude Code skill](https://docs.anthropic.com/en/
 | :--- | :--- | :--- |
 | [`/think`](skills/think/SKILL.md) | Before building anything new | Challenges the problem, pressure-tests the design, validates architecture before any code is written. |
 | [`/design`](skills/design/SKILL.md) | Building frontend interfaces | Produces distinctive UI with a committed aesthetic direction, not generic defaults. |
-| [`/check`](skills/check/SKILL.md) | After a task, before merging | Reviews the diff, auto-fixes safe issues, blocks destructive commands, verifies with evidence. |
+| [`/check`](skills/check/SKILL.md) | After a task, before merging | Reviews the diff, auto-fixes safe issues, flags destructive commands, verifies with evidence. |
 | [`/hunt`](skills/hunt/SKILL.md) | Any bug or unexpected behavior | Systematic debugging. Root cause confirmed before any fix is applied. |
 | [`/write`](skills/write/SKILL.md) | Writing or editing prose | Rewrites prose to sound natural in Chinese and English. Cuts stiff, formulaic phrasing. |
 | [`/learn`](skills/learn/SKILL.md) | Diving into an unfamiliar domain | Six-phase research workflow: collect, digest, outline, fill in, refine, then self-review and publish. |
@@ -39,11 +41,13 @@ Each skill is a folder, not just a markdown file. Skills include reference docs,
 
 ## Extras
 
-**Statusline**
+### Statusline
 
 A minimal Claude Code statusline that shows only what matters: context window usage, 5-hour quota, and 7-day quota, each with the time remaining until reset.
 
-<img src="https://gw.alipayobjects.com/zos/k/y9/RUgevg.png" width="800" />
+<div align="center">
+  <img src="https://gw.alipayobjects.com/zos/k/y9/RUgevg.png" width="800" />
+</div>
 
 Color coding: green below 70%, yellow at 70-85%, red above 85% for context; blue, magenta, red for quota thresholds. No progress bars, no noise.
 
@@ -51,15 +55,15 @@ Color coding: green below 70%, yellow at 70-85%, red above 85% for context; blue
 curl -sL https://raw.githubusercontent.com/tw93/Waza/main/scripts/setup-statusline.sh | bash
 ```
 
-**English Coaching**
+### English Coaching
 
-Working with AI in English just works better. The model thinks in English, most of the good resources are in English, and clear writing compounds over time.
+English is the native language of most AI models and nearly all technical writing. Working in it builds a habit that pays off over time.
 
-Passive grammar correction on every reply. Claude flags mistakes with the pattern name so you learn why.
+Claude quietly corrects grammar and phrasing on every reply, noting the pattern name so you understand the reason, not just the fix.
 
 > 😇 it is not good to be read → it's hard to read (Unnatural phrasing)
 
-Claude Code auto-loads all files in `~/.claude/rules/`, so install is one file drop, no `CLAUDE.md` editing.
+Claude Code loads everything in `~/.claude/rules/` automatically, so one file drop is all it takes.
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/tw93/Waza/main/rules/english.md -o ~/.claude/rules/english.md
@@ -67,21 +71,21 @@ curl -fsSL https://raw.githubusercontent.com/tw93/Waza/main/rules/english.md -o 
 
 ## Install
 
-**Claude Code:**
+**Claude Code**
 
 ```bash
 npx skills add tw93/Waza -a claude-code -g -y
 ```
 
-**Other agents:** pick your agent interactively.
+**Other agents**
+
+Pick your agent interactively.
 
 ```bash
 npx skills add tw93/Waza
 ```
 
-Requires Node 18+.
-
-Install a single skill:
+**Single skill**
 
 ```bash
 npx skills add tw93/Waza -a claude-code -s health -y
@@ -89,9 +93,13 @@ npx skills add tw93/Waza -a claude-code -s health -y
 
 Replace `health` with any skill name.
 
+**Safety**
+
 To protect against destructive git commands (`git push -f`, `git checkout .`, `git clean -f`), add them to the `deny` list in your `~/.claude/settings.json`.
 
-**Compatibility:** Core instruction skills `/think`, `/hunt`, `/learn`, `/write`, `/design` run on any agent. Claude Code-specific features are skipped on other platforms: `/check` loses sub-agent reviewers; `/health` and `/read` lose their shell scripts for URL fetching and config auditing.
+**Compatibility**
+
+Core instruction skills `/think`, `/hunt`, `/learn`, `/write`, `/design` run on any agent. Claude Code-specific features are skipped on other platforms: `/check` loses sub-agent reviewers; `/health` and `/read` lose their shell scripts for URL fetching and config auditing.
 
 ## Background
 
@@ -111,7 +119,9 @@ The `/health` skill is based on the six-layer framework described in [this post]
 - Got ideas or bugs? Open an issue or PR, feel free to contribute your best AI model.
 - I have two cats, TangYuan and Coke. If you think Waza delights your life, you can feed them <a href="https://miaoyan.app/cats.html?name=Waza" target="_blank">canned food 🥩</a>.
 
-<a href="https://miaoyan.app/cats.html?name=Waza"><img src="https://cdn.jsdelivr.net/gh/tw93/MiaoYan@main/assets/sponsors.svg" width="1000" loading="lazy" /></a>
+<div align="center">
+  <a href="https://miaoyan.app/cats.html?name=Waza"><img src="https://cdn.jsdelivr.net/gh/tw93/MiaoYan@main/assets/sponsors.svg" width="1000" loading="lazy" /></a>
+</div>
 
 ## License
 
