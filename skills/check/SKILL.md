@@ -68,7 +68,7 @@ Use `gh` CLI for all GitHub interactions, not MCP or raw API. Confirm CI passes 
 
 ## Verification
 
-Run `bash "$CLAUDE_SKILL_DIR/scripts/run-tests.sh"` or the project's known verification command. Paste the full output.
+Run `bash "${CLAUDE_SKILL_DIR:-$HOME/.agents/skills/check}/scripts/run-tests.sh"` or the project's known verification command. Paste the full output.
 
 If the script exits non-zero or prints `(no test command detected)`: halt. Do not claim done. Ask the user for the verification command before proceeding. If the user also cannot provide one, document this explicitly in the sign-off as `verification: none -- no command available` and flag it as a structural gap, not a pass.
 

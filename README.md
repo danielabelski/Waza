@@ -77,12 +77,10 @@ curl -fsSL https://raw.githubusercontent.com/tw93/Waza/main/rules/english.md -o 
 npx skills add tw93/Waza -a claude-code -g -y
 ```
 
-**Other agents**
-
-Pick your agent interactively.
+**Codex**
 
 ```bash
-npx skills add tw93/Waza
+npx skills add tw93/Waza -a codex -g -y
 ```
 
 **Single skill**
@@ -99,7 +97,7 @@ To protect against destructive git commands (`git push -f`, `git checkout .`, `g
 
 **Compatibility**
 
-Core instruction skills `/think`, `/hunt`, `/learn`, `/write`, `/design` run on any agent. Claude Code-specific features are skipped on other platforms: `/check` loses sub-agent reviewers; `/health` and `/read` lose their shell scripts for URL fetching and config auditing.
+`/think`, `/hunt`, `/learn`, `/write`, `/design`, `/read` work identically on Claude Code and Codex. `/check` runs on both; Claude Code spawns specialist sub-agent reviewers in parallel, Codex runs the review inline. `/health` is Claude Code only: it audits `CLAUDE.md`, rules, hooks, skills, and MCP, which are specific to Claude Code's config stack.
 
 ## Background
 
