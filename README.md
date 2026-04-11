@@ -83,14 +83,6 @@ npx skills add tw93/Waza -a claude-code -g -y
 npx skills add tw93/Waza -a codex -g -y
 ```
 
-**Single skill**
-
-```bash
-npx skills add tw93/Waza -a claude-code -s health -y
-```
-
-Replace `health` with any skill name.
-
 **Safety**
 
 To protect against destructive git commands (`git push -f`, `git checkout .`, `git clean -f`), add them to the `deny` list in your `~/.claude/settings.json`.
