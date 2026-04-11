@@ -85,7 +85,7 @@ npx skills add tw93/Waza -a codex -g -y
 
 **Compatibility**
 
-`/think`, `/hunt`, `/learn`, `/write`, `/design`, `/read` work identically on Claude Code and Codex. `/check` runs on both; Claude Code spawns specialist sub-agent reviewers in parallel, Codex runs the review inline. `/health` is Claude Code only: it audits `CLAUDE.md`, rules, hooks, skills, and MCP, which are specific to Claude Code's config stack.
+All skills work on Claude Code and Codex except `/health`, which is Claude Code only. `/check` spawns parallel sub-agent reviewers on Claude Code; on Codex it runs inline.
 
 ## Background
 
