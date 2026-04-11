@@ -73,10 +73,14 @@ for entry in plugins:
         fail("INVALID MARKETPLACE: plugin entry must be an object")
     name = entry.get("name")
     version = entry.get("version")
+    source = entry.get("source")
     if not name or not version:
         fail("INVALID MARKETPLACE: every plugin needs name and version")
     if name in market_versions:
         fail(f"DUPLICATE MARKETPLACE ENTRY: {name}")
+    expected_source = f"./skills/{name}"
+    if source != expected_source:
+        fail(f"WRONG SOURCE: {name} source={source!r} expected={expected_source!r}")
     market_versions[name] = version
 
 missing_from_market = sorted(set(skill_versions) - set(market_versions))

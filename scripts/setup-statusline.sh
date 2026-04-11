@@ -48,10 +48,6 @@ except Exception as exc:
 PYEOF
 fi
 
-# Download statusline script
-curl -fsSL "$RAW" -o "$DEST"
-chmod +x "$DEST"
-
 # Check for existing statusLine (skip if already Waza)
 EXISTING=$(SETTINGS_FILE="$SETTINGS_FILE" python3 -c "
 import json, os
@@ -74,6 +70,10 @@ if [ -n "$EXISTING" ]; then
     exit 0
   fi
 fi
+
+# Download statusline script (after any confirmation prompt)
+curl -fsSL "$RAW" -o "$DEST"
+chmod +x "$DEST"
 
 # Write statusLine into ~/.claude/settings.json
 SETTINGS_FILE="$SETTINGS_FILE" python3 - <<'PYEOF'
