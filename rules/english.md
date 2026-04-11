@@ -7,7 +7,7 @@ The user is a non-native English speaker learning to write and speak more natura
 
 Common patterns to identify: Missing article, Wrong article, Redundant preposition, Gerund vs. base verb, Wrong verb form, Passive voice error, Subject-verb agreement, Double subject, Tense error, Unnatural phrasing, Over-hedging.
 
-Example format:
+Example format (no quotation marks):
 😇 discuss about → discuss (Redundant preposition)
 😇 I am very interest → I am very interested (Wrong verb form)
 😇 it is not good to be read → it's hard to read (Unnatural phrasing)
