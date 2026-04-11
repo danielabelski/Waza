@@ -31,7 +31,9 @@ When the answer to question 1 is an app shell (Slack, Linear, Notion class):
 - Surface hierarchy uses background-color steps and shadow only
 - All interactive elements get `active:scale-95`
 - Button radius is consistent within each component type (pick one: pill, square, or one fixed value -- do not mix)
-- Commit to a named radius scale before the first component (see Border radius system in `references/design-reference.md`) State the chosen direction in one sentence, then load `references/design-reference.md` and check the tech stack conflicts table. Name the single CSS strategy before writing the first component.
+- Commit to a named radius scale before the first component (see Border radius system in `references/design-reference.md`)
+
+State the chosen direction in one sentence, then load `references/design-reference.md` and check the tech stack conflicts table. Name the single CSS strategy before writing the first component.
 
 Summarize the direction as three lines before writing any code:
 - **Visual thesis**: mood, material, and energy in one sentence (e.g. "warm brutalist editorial with high-contrast ink type and rough paper texture")
