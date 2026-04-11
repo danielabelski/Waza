@@ -61,7 +61,9 @@ Most AI models were trained on far more English than any other language, so ever
 
 Claude corrects your mistakes in place, tagging each one with its pattern name so you learn the rule, not just the fix.
 
-> 😇 I look forward to see you → I look forward to seeing you (Gerund vs. base verb)
+<div align="center">
+  <img src="https://gw.alipayobjects.com/zos/k/24/vfkGOi.png" width="800" />
+</div>
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/tw93/Waza/main/rules/english.md -o ~/.claude/rules/english.md
