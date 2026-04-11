@@ -10,7 +10,7 @@ verify-docs:
 	done
 	for skill in check design health hunt learn read think write; do \
 		skill_ver=$$(grep -m1 "version:" "skills/$$skill/SKILL.md" | tr -d '"' | awk '{print $$2}'); \
-		market_ver=$$(python3 -c "import json; d=json.load(open('.claude-plugin/marketplace.json')); print([p['version'] for p in d['plugins'] if p['name']=='$$skill'][0])"); \
+		market_ver=$$(python3 -c "import json; d=json.load(open('marketplace.json')); print([p['version'] for p in d['plugins'] if p['name']=='$$skill'][0])"); \
 		[ "$$skill_ver" = "$$market_ver" ] && echo "ok: $$skill $$skill_ver" || { echo "MISMATCH: $$skill SKILL=$$skill_ver MARKET=$$market_ver"; exit 1; }; \
 	done
 	test -f skills/design/references/design-reference.md
@@ -24,7 +24,7 @@ verify-docs:
 	test -f skills/check/references/persona-catalog.md
 	test -f rules/english.md
 	echo "references: ok"
-	python3 -c "import json; json.load(open('.claude-plugin/marketplace.json'))"
+	python3 -c "import json; json.load(open('marketplace.json'))"
 	echo "marketplace.json: ok"
 
 verify-scripts:
