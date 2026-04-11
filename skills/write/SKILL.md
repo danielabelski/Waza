@@ -2,7 +2,7 @@
 name: write
 description: Invoke only when explicitly asked to write, edit, or polish prose in Chinese or English. Strips AI writing patterns and rewrites to sound natural. Not for code comments, commit messages, or inline docs.
 metadata:
-  version: "3.5.0"
+  version: "3.8.0"
 ---
 
 # 写作风格 / Writing Style

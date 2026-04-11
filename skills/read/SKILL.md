@@ -2,7 +2,7 @@
 name: read
 description: Invoke when given any URL, web page link, or PDF to read. Fetches the content as clean Markdown via proxy cascade and saves to Downloads. Not for local files already in the repo.
 metadata:
-  version: "3.5.0"
+  version: "3.8.0"
 ---
 
 # Read: Fetch Any URL or PDF as Markdown
@@ -17,7 +17,7 @@ Convert any URL or local PDF to clean Markdown and save it.
 | Input | Method |
 |-------|--------|
 | `feishu.cn`, `larksuite.com` | Feishu API script |
-| `mp.weixin.qq.com` | WeChat article script (Playwright fallback) |
+| `mp.weixin.qq.com` | Proxy cascade first, built-in WeChat article script only if the proxies fail |
 | `.pdf` URL or local PDF path | PDF extraction |
 | GitHub URLs (`github.com`, `raw.githubusercontent.com`) | Prefer raw content or `gh` first. Use the proxy cascade only as fallback. |
 | Everything else | Run `scripts/fetch.sh {url}` (proxy cascade with Markdown-only fallback) |

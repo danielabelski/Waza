@@ -53,7 +53,7 @@ def get_token():
 def parse_url(url):
     patterns = [
         (r"feishu\.cn/docx/([A-Za-z0-9]+)", "docx"),
-        (r"feishu\.cn/docs/([A-Za-z0-9]+)", "doc"),
+        (r"feishu\.cn/docs/([A-Za-z0-9]+)", "legacy_doc"),
         (r"feishu\.cn/wiki/([A-Za-z0-9]+)", "wiki"),
         (r"larksuite\.com/docx/([A-Za-z0-9]+)", "docx"),
         (r"larksuite\.com/wiki/([A-Za-z0-9]+)", "wiki"),
@@ -183,6 +183,14 @@ def blocks_to_md(blocks):
 def fetch_feishu(url):
     doc_id, doc_type = parse_url(url)
 
+    if doc_type == "legacy_doc":
+        return {
+            "error": (
+                "Legacy Feishu /docs/ pages are not supported by this script. "
+                "Convert the document to docx first, or use a public-page fallback if the page is accessible without the API."
+            )
+        }
+
     token, err = get_token()
     if err:
         return {"error": err}
@@ -233,3 +241,5 @@ if __name__ == "__main__":
         print(json.dumps(result, ensure_ascii=False, indent=2))
     else:
         print(to_markdown(result))
+    if "error" in result:
+        sys.exit(1)

@@ -24,7 +24,7 @@ AI makes you faster. It doesn't make you think more clearly, ship more carefully
 
 ## Skills
 
-Each engineering habit gets a [Claude Code skill](https://docs.anthropic.com/en/docs/claude-code/skills). Type the slash command, Claude follows the playbook.
+Each engineering habit gets an installed skill. In Claude Code, type the slash command. In Codex, invoke the installed skill by name and follow the same playbook.
 
 | Skill | When | What it does |
 | :--- | :--- | :--- |
@@ -85,7 +85,7 @@ npx skills add tw93/Waza -a codex -g -y
 
 **Compatibility**
 
-All skills work on Claude Code and Codex except `/health`, which is Claude Code only. `/check` spawns parallel sub-agent reviewers on Claude Code; on Codex it runs inline.
+`/health` is Claude Code only. The other skills are written to use the host environment's native question, search, fetch, and agent mechanisms. `/check` runs parallel specialist reviewers when the host supports them; otherwise it performs the same passes inline.
 
 ## Background
 

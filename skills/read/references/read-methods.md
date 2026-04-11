@@ -95,7 +95,7 @@ export FEISHU_APP_SECRET=your_app_secret
 python3 "${CLAUDE_SKILL_DIR:-$HOME/.agents/skills/read}/scripts/fetch_feishu.py" "{url}"
 ```
 
-Supports: docx, legacy docs, wiki pages. App needs `docx:document:readonly` and `wiki:wiki:readonly` permissions.
+Supports: docx and wiki pages. Legacy `/docs/` pages are not supported by this script; convert them to docx first, or use a public-page fallback if the document is accessible without the API. App needs `docx:document:readonly` and `wiki:wiki:readonly` permissions.
 Output: YAML frontmatter (title, document_id, url) + Markdown body.
 
 ## WeChat Public Account

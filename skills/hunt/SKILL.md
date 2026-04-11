@@ -2,7 +2,7 @@
 name: hunt
 description: Invoke when debugging any error, crash, unexpected behavior, or failing test. Finds root cause before applying any fix. Not for code review or new features.
 metadata:
-  version: "3.5.0"
+  version: "3.8.0"
 ---
 
 # Hunt: Diagnose Before You Fix
@@ -53,7 +53,7 @@ Add one targeted instrument: a log line, a failing assertion, or the smallest te
 | Patched client pane instead of local pane | Trace the execution path backward before touching any file |
 | Same error after 4 patches, each burying the real cause | Same symptom = stop and re-read the whole execution path from scratch |
 | Diagnosed "macOS 26 beta," it was a stable release | Run `sw_vers` first; never state versions from memory |
-| MCP not loading, tried WebFetch instead of diagnosing | Check server status, API key, config before switching methods |
+| MCP not loading, switched tools instead of diagnosing | Check server status, API key, config before switching methods |
 | Wrote the fix before finishing the trace | "Let me just try this" = incomplete hypothesis. Stop. |
 | Restarted 8 times without reading the actual error response | Read the last error verbatim before restarting |
 | Orchestrator said RUNNING but TTS vendor was misconfigured | In multi-stage pipelines, test each stage in isolation |

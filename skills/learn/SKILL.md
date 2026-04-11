@@ -2,7 +2,7 @@
 name: learn
 description: "Invoke when diving deep into an unfamiliar domain, preparing a research article, or turning collected sources into publishable output. Runs a six-phase workflow: collect, digest, outline, fill in, refine, publish. Not for quick lookups or single-file reads."
 metadata:
-  version: "3.5.0"
+  version: "3.8.0"
 ---
 
 # Learn: From Raw Materials to Published Output
@@ -15,12 +15,12 @@ Your role: collect, organize, translate, explain, structure. You support the use
 ## Pre-check
 
 Before starting, check whether `/read` and `/write` skills are installed (search for their SKILL.md in the skills directories). Warn if missing but do not block:
-- `/read` missing: warn that Phase 1 will fall back to `WebFetch` or `curl` instead of `/read`.
+- `/read` missing: warn that Phase 1 will fall back to the environment's native fetch capability or `curl` instead of `/read`.
 - `/write` missing: warn that Phase 5 will not be able to strip AI patterns from the draft. Phases 1-4 are unaffected.
 
 ## Choose Mode
 
-Use AskUserQuestion to confirm:
+Ask the user to confirm the mode, using the environment's native question or approval mechanism if it has one:
 
 | Mode | Goal | Entry | Exit |
 |------|------|-------|------|
@@ -36,7 +36,7 @@ Gather primary sources only: papers that introduced key ideas, official lab/prod
 
 For each source: download, convert to Markdown, file into a structured directory organized by sub-topic. Use `/read` for individual pages.
 
-**Source Discovery:** if a web search plugin is installed (e.g., PipeLLM search), use it. Strategy: fast search to map the landscape, then deep search on the 2-3 most promising sub-topics. Otherwise: `WebSearch` or `curl + defuddle.md`.
+**Source Discovery:** if a web search plugin is installed (e.g., PipeLLM search), use it. Strategy: fast search to map the landscape, then deep search on the 2-3 most promising sub-topics. Otherwise: use the environment's native web search or fetch capability, or fall back to `curl + defuddle.md`.
 
 Target: 5-10 sources for a blog post, 15-20 for a deep technical survey.
 

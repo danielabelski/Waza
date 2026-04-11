@@ -2,7 +2,7 @@
 name: check
 description: Invoke after any implementation task completes or before merging. Reviews the diff, auto-fixes safe issues, runs specialist security and architecture reviewers on large diffs. Not for exploring ideas or debugging.
 metadata:
-  version: "3.5.0"
+  version: "3.8.0"
 ---
 
 # Check: Review Before You Ship
@@ -45,14 +45,14 @@ Before reading code, check scope drift: do the diff and the stated goal match? L
 
 ## Specialist Review (Standard and Deep only)
 
-Load `references/persona-catalog.md` to determine which specialists activate. Launch all activated specialists in parallel via the Agent tool, passing the full diff. Merge findings: deduplicate by keeping the more severe, note cross-reviewer agreement.
+Load `references/persona-catalog.md` to determine which specialists activate. Launch all activated specialists in parallel via the environment's agent or sub-agent facility when available, passing the full diff. If no parallel reviewer facility exists, run the specialist passes sequentially in the same session. Merge findings: deduplicate by keeping the more severe, note cross-reviewer agreement.
 
 ## Autofix Routing
 
 | Class | Definition | Action |
 |-------|------------|--------|
 | `safe_auto` | Unambiguous, risk-free: typos, missing imports, style inconsistencies | Apply immediately |
-| `gated_auto` | Likely correct but changes behavior: null checks, error handling additions | Batch into one AskUserQuestion |
+| `gated_auto` | Likely correct but changes behavior: null checks, error handling additions | Batch into one user confirmation block |
 | `manual` | Requires judgment: architecture, behavior changes, security tradeoffs | Present in sign-off |
 | `advisory` | Informational only | Note in sign-off |
 

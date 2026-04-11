@@ -1,8 +1,8 @@
 PROJECT_KEY := $(shell printf '%s' "$(CURDIR)" | sed 's|[/_]|-|g; s|^-||')
 
-.PHONY: test verify-docs verify-scripts smoke-statusline smoke-health
+.PHONY: test verify-docs verify-scripts smoke-statusline smoke-statusline-installer smoke-health
 
-test: verify-docs verify-scripts smoke-statusline smoke-health
+test: verify-docs verify-scripts smoke-statusline smoke-statusline-installer smoke-health
 
 verify-docs:
 	for f in skills/*/SKILL.md; do \
@@ -50,6 +50,31 @@ smoke-statusline:
 	grep -q '12%' "$$tmpdir/out2"; \
 	grep -q '34%' "$$tmpdir/out3"; \
 	echo "statusline smoke: ok"
+
+smoke-statusline-installer:
+	@tmpdir=$$(mktemp -d); \
+		home_dir="$$tmpdir/home"; \
+		bin_dir="$$tmpdir/bin"; \
+		mkdir -p "$$home_dir/.claude" "$$bin_dir"; \
+		printf '%s\n' '{invalid json' > "$$home_dir/.claude/settings.json"; \
+		printf '%s\n' '#!/bin/bash' \
+			'outfile=""' \
+			'while [ "$$#" -gt 0 ]; do' \
+			'  if [ "$$1" = "-o" ]; then outfile="$$2"; shift 2; else shift; fi' \
+			'done' \
+			'printf "%s\n" "#!/bin/bash" "echo statusline" > "$$outfile"' \
+			> "$$bin_dir/curl"; \
+		chmod +x "$$bin_dir/curl"; \
+		if PATH="$$bin_dir:$$PATH" HOME="$$home_dir" bash scripts/setup-statusline.sh >"$$tmpdir/install.out" 2>"$$tmpdir/install.err"; then \
+			echo "setup-statusline should refuse invalid JSON"; exit 1; \
+		fi; \
+		grep -q 'Refusing to modify it' "$$tmpdir/install.err"; \
+		grep -q 'invalid json' "$$home_dir/.claude/settings.json"; \
+		printf '%s\n' '{"theme":"dark"}' > "$$home_dir/.claude/settings.json"; \
+		PATH="$$bin_dir:$$PATH" HOME="$$home_dir" bash scripts/setup-statusline.sh >"$$tmpdir/install-valid.out" 2>"$$tmpdir/install-valid.err"; \
+		python3 -c "import json, sys; data=json.load(open(sys.argv[1])); assert data['theme'] == 'dark'; assert data['statusLine']['command'] == 'bash ~/.claude/statusline.sh'" "$$home_dir/.claude/settings.json"; \
+		test -x "$$home_dir/.claude/statusline.sh"; \
+		echo "statusline installer smoke: ok"
 
 smoke-health:
 	@tmpdir=$$(mktemp -d); \

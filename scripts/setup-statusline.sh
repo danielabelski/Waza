@@ -2,7 +2,9 @@
 # Install Waza statusline into Claude Code
 set -e
 
-DEST="$HOME/.claude/statusline.sh"
+CLAUDE_DIR="$HOME/.claude"
+DEST="$CLAUDE_DIR/statusline.sh"
+SETTINGS_FILE="$CLAUDE_DIR/settings.json"
 RAW="https://raw.githubusercontent.com/tw93/Waza/main/scripts/statusline.sh"
 
 # Ensure jq is available
@@ -21,22 +23,45 @@ if ! command -v curl &>/dev/null; then
   exit 1
 fi
 
+if ! command -v python3 &>/dev/null; then
+  echo "Error: python3 is required but not installed." >&2
+  exit 1
+fi
+
+mkdir -p "$CLAUDE_DIR"
+
+# Refuse to modify an invalid settings file. Overwriting it would drop unrelated keys.
+if [ -f "$SETTINGS_FILE" ]; then
+  SETTINGS_FILE="$SETTINGS_FILE" python3 - <<'PYEOF'
+import json
+import os
+import sys
+
+path = os.environ["SETTINGS_FILE"]
+try:
+    with open(path) as f:
+        json.load(f)
+except Exception as exc:
+    print(f"Error: {path} is not valid JSON. Refusing to modify it.", file=sys.stderr)
+    print(f"Reason: {exc}", file=sys.stderr)
+    sys.exit(1)
+PYEOF
+fi
+
 # Download statusline script
 curl -fsSL "$RAW" -o "$DEST"
 chmod +x "$DEST"
 
 # Check for existing statusLine (skip if already Waza)
-EXISTING=$(python3 -c "
+EXISTING=$(SETTINGS_FILE="$SETTINGS_FILE" python3 -c "
 import json, os
-path = os.path.expanduser('~/.claude/settings.json')
+path = os.environ['SETTINGS_FILE']
 if os.path.exists(path):
-    try:
-        d = json.load(open(path))
-        sl = d.get('statusLine', {})
-        cmd = sl.get('command', '')
-        if cmd and cmd != 'bash ~/.claude/statusline.sh':
-            print(cmd)
-    except: pass
+    d = json.load(open(path))
+    sl = d.get('statusLine', {})
+    cmd = sl.get('command', '')
+    if cmd and cmd != 'bash ~/.claude/statusline.sh':
+        print(cmd)
 " 2>/dev/null)
 
 if [ -n "$EXISTING" ]; then
@@ -51,23 +76,25 @@ if [ -n "$EXISTING" ]; then
 fi
 
 # Write statusLine into ~/.claude/settings.json
-python3 - <<'PYEOF'
-import json, os
+SETTINGS_FILE="$SETTINGS_FILE" python3 - <<'PYEOF'
+import json
+import os
+import tempfile
 
-path = os.path.expanduser("~/.claude/settings.json")
+path = os.environ["SETTINGS_FILE"]
 d = {}
 if os.path.exists(path):
     with open(path) as f:
-        try:
-            d = json.load(f)
-        except Exception:
-            d = {}
+        d = json.load(f)
 
 d["statusLine"] = {"type": "command", "command": "bash ~/.claude/statusline.sh"}
 
-with open(path, "w") as f:
+directory = os.path.dirname(path)
+fd, tmp_path = tempfile.mkstemp(prefix="settings.", suffix=".json.tmp", dir=directory)
+with os.fdopen(fd, "w") as f:
     json.dump(d, f, indent=2)
     f.write("\n")
+os.replace(tmp_path, path)
 PYEOF
 
 echo "Waza statusline installed. Restart Claude Code to activate."
