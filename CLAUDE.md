@@ -31,11 +31,36 @@ Run `./scripts/verify-skills.sh` before any commit. If the diff is non-trivial, 
 
 `{type}: {description}` -- types: feat, fix, refactor, docs, chore
 
-## Release Convention (tw93/miaoyan style)
+## Release Convention (tw93/Mole style)
 
-- Title: `V{version} {Codename} {emoji}` -- e.g., V1.3.0 Guardian
+- Title: `V{version} {Codename} {emoji}` -- e.g., V3.8.0 Forge 🔨
 - Tag: `v{version}` (lowercase v)
-- Body: HTML format, bilingual (English Changelog + 中文更新日志), one-to-one
-- Each item: `<li><strong>Category</strong>: description.</li>` -- bold label summarizes the change, description is one concise sentence, no filler words
-- Style: engineer-facing, no marketing language; lead with what changed, not why it matters
-- Footer: update command `npx skills add tw93/Waza@latest` + star + repo link
+- Body: Markdown format, structure as follows:
+
+```
+<div align="center">
+  <img src="..." width="120" />
+  <h1>Waza V{version}</h1>
+  <p><em>tagline</em></p>
+</div>
+
+### Changelog
+
+1. **SkillName**: One sentence on what changed and its user effect.
+2. ...
+
+---
+
+### 更新日志
+
+1. **技能名**: 一句话说清楚改了什么以及对用户的影响。
+2. ...
+
+---
+
+Update: `npx skills add tw93/Waza@latest` · ⭐ [tw93/Waza](https://github.com/tw93/Waza)
+```
+
+- Each item: `**Label**: one sentence` -- bold label is the skill or module name, description leads with what changed
+- Style: engineer-facing, no marketing language; one-to-one bilingual mapping
+- Footer: update command + star + repo link
