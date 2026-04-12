@@ -31,9 +31,9 @@ jq_rl='[
 cache_file_mtime() {
   local path="$1"
   local ts=""
-  ts=$(stat -f %m "$path" 2>/dev/null || true)
+  ts=$(stat -c %Y "$path" 2>/dev/null || true)
   if [ -z "$ts" ]; then
-    ts=$(stat -c %Y "$path" 2>/dev/null || true)
+    ts=$(stat -f %m "$path" 2>/dev/null || true)
   fi
   printf '%s\n' "${ts:-0}"
 }
