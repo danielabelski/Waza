@@ -49,14 +49,10 @@ Run `./scripts/verify-skills.sh` before any commit. If the diff is non-trivial, 
 1. **SkillName**: One sentence on what changed and its user effect.
 2. ...
 
----
-
 ### 更新日志
 
 1. **技能名**: 一句话说清楚改了什么以及对用户的影响。
 2. ...
-
----
 
 Update: `npx skills add tw93/Waza@latest` · ⭐ [tw93/Waza](https://github.com/tw93/Waza)
 ```
