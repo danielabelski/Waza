@@ -63,6 +63,14 @@ Do not start Phase 4 until the outline is solid.
 
 Work through the outline section by section. If a section is hard to write, the mental model is still weak there: return to Phase 2 for that sub-topic. The outline may change, and that is fine.
 
+Stall signals (any one means the mental model is incomplete for this section):
+- You have rewritten the opening sentence three or more times without settling
+- The section relies on a single source and you cannot cross-check the claim
+- You need a new source that was not collected in Phase 1
+- The paragraph makes a claim you could not explain to someone out loud
+
+When stalled: return to Phase 2 for that sub-topic, not for the whole article.
+
 ## Phase 5: Refine
 
 Pass the draft with a specific brief:
@@ -79,6 +87,13 @@ Then run `/write` on the refined draft to strip any AI patterns that crept in du
 The user reads the entire article linearly before publishing. Not with AI. Mark everything that feels off, fix it, read again. Two passes minimum.
 
 When it reads clean from start to finish, publish it.
+
+## Hard Rules
+
+- **No skipping Phase 5.** Refine always runs before publish.
+- **Primary sources only in Phase 1.** If the person who wrote it did not build or research the thing, it is secondary.
+- **Contradictions must be preserved.** Never silently resolve a disagreement between sources.
+- **Phase 6 is the user's job.** AI does not do the final self-review pass.
 
 ## Gotchas
 

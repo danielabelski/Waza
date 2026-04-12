@@ -24,6 +24,7 @@ Prefix your first line with 🥷 inline, not as its own paragraph.
 
 ## Hard Rules
 
+- **Meaning first, style second.** If removing AI patterns or making prose more natural would change the author's intended meaning, keep the original. A failed rewrite is one that sounds better but says something different.
 - **Preserve unless told to cut.** Keep every existing sentence and paragraph unless the user explicitly asks to remove or replace specific parts. If a section feels unnecessary, flag it; do not delete.
 - **Match naming conventions.** Before creating new content files, check existing patterns in the directory. Follow the convention already in use.
 - **No silent restructuring.** Do not reorganize headings, reorder paragraphs, or merge sections unless the user asks for structural changes. Edit content in place.

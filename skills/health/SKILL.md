@@ -41,7 +41,7 @@ Run `bash "${CLAUDE_SKILL_DIR:-$HOME/.agents/skills/health}/scripts/collect-data
 After the bash block completes, for each MCP server listed in the settings, attempt to call it and verify it actually responds. Do this before launching analysis agents.
 
 For each server name found in Step 1:
-1. Try listing its available tools (e.g., call a `list_tools` or any known lightweight tool from that server).
+1. Call any known tool from that server with minimal input (e.g., a search tool with a trivial query, or a list/read tool on a known path). If no tool name is known, attempt the server's first listed tool with safe default arguments.
 2. If the call succeeds: mark `live=yes`.
 3. If it fails or times out: mark `live=no`, note the error.
 

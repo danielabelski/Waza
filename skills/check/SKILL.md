@@ -32,6 +32,13 @@ State the depth before proceeding.
 
 Before reading code, check scope drift: do the diff and the stated goal match? Label: **on target** / **drift** / **incomplete**.
 
+Drift signals (any one is enough to label drift):
+- A changed file has no connection to the stated goal
+- The diff includes pure refactoring (renames, formatting, restructuring) when the goal was a bug fix or feature
+- A new dependency appears that the goal did not mention
+- Code unrelated to the goal was deleted or commented out
+- A new abstraction or helper was introduced that is not required by the goal
+
 ## Hard Stops (fix before merging)
 
 - **Destructive auto-execution**: any task marked "safe" or "auto-run" that modifies user-visible state (history files, config, preferences, installed software) must require explicit confirmation.
@@ -42,7 +49,9 @@ Before reading code, check scope drift: do the diff and the stated goal match? L
 
 ## Specialist Review (Standard and Deep only)
 
-Load `references/persona-catalog.md` to determine which specialists activate. Launch all activated specialists in parallel via the environment's agent or sub-agent facility when available, passing the full diff. If no parallel reviewer facility exists, run the specialist passes sequentially in the same session. Merge findings: deduplicate by keeping the more severe, note cross-reviewer agreement.
+Load `references/persona-catalog.md` to determine which specialists activate. Launch all activated specialists in parallel via the environment's agent or sub-agent facility when available, passing the full diff. If no parallel reviewer facility exists, run the specialist passes sequentially in the same session.
+
+Merge findings: when two specialists flag the same code location, keep the higher severity and note cross-reviewer agreement. Findings on different code locations are never duplicates even if they share a theme.
 
 ## Autofix Routing
 

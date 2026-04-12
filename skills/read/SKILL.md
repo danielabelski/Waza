@@ -54,3 +54,4 @@ After saving and reporting the path, stop. Do not analyze, comment on, or discus
 - Long content: `| head -n 200` to preview first
 - GitHub URLs: prefer raw content or `gh` CLI. Use `scripts/fetch.sh` only as fallback.
 - Local fallback tools may return JSON internally, but the final output and saved file must still be Markdown.
+- If all methods fail (proxies, local tools, and proxy env vars): stop and tell the user what was tried and what failed. Suggest they open the URL in a browser and paste the content, or provide an alternative URL. Do not silently return empty or partial results.
