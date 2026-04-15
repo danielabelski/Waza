@@ -53,11 +53,13 @@ resolve_symlink() {
   readlink -f "$1" 2>/dev/null && return
   # macOS fallback: resolve symlink chain manually
   local target="$1"
-  while [ -L "$target" ]; do
+  local depth=0
+  while [ -L "$target" ] && [ "$depth" -lt 32 ]; do
     local dir
     dir=$(cd "$(dirname "$target")" && pwd -P)
     target=$(readlink "$target")
     case "$target" in /*) ;; *) target="$dir/$target" ;; esac
+    depth=$((depth + 1))
   done
   printf '%s\n' "$target"
 }
