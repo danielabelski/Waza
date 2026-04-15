@@ -1,8 +1,8 @@
 ---
 name: learn
-description: "Invoke when diving deep into an unfamiliar domain, preparing a research article, or turning collected sources into publishable output. Runs a six-phase workflow: collect, digest, outline, fill in, refine, publish. Not for quick lookups or single-file reads."
+description: "Invoke when diving deep into an unfamiliar domain, preparing a research article, or turning collected sources into publish-ready output. Runs a six-phase workflow: collect, digest, outline, fill in, refine, self-review. Not for quick lookups or single-file reads."
 metadata:
-  version: "3.8.0"
+  version: "3.9.0"
 ---
 
 # Learn: From Raw Materials to Published Output
@@ -16,7 +16,7 @@ Your role: collect, organize, translate, explain, structure. You support the use
 
 Before starting, check whether `/read` and `/write` skills are installed (search for their SKILL.md in the skills directories). Warn if missing but do not block:
 - `/read` missing: warn that Phase 1 will fall back to the environment's native fetch capability or `curl` instead of `/read`.
-- `/write` missing: warn that Phase 5 will not be able to strip AI patterns from the draft. Phases 1-4 are unaffected.
+- `/write` missing: warn that Phase 5 will fall back to manual AI-pattern stripping instead of `/write`. Phases 1-4 are unaffected.
 
 ## Choose Mode
 
@@ -24,9 +24,9 @@ Ask the user to confirm the mode, using the environment's native question or app
 
 | Mode | Goal | Entry | Exit |
 |------|------|-------|------|
-| **Deep Research** | Understand a domain well enough to write about it | Phase 1 | Phase 6: publish |
+| **Deep Research** | Understand a domain well enough to write about it | Phase 1 | Phase 6: publish-ready draft |
 | **Quick Reference** | Build a working mental model fast, no article planned | Phase 2 | Phase 2: notes only |
-| **Write to Learn** | Already have materials, force understanding through writing | Phase 3 | Phase 6: publish |
+| **Write to Learn** | Already have materials, force understanding through writing | Phase 3 | Phase 6: publish-ready draft |
 
 If unsure, suggest Quick Reference.
 
@@ -80,20 +80,15 @@ Pass the draft with a specific brief:
 
 Do not summarize sections the user has not written. Do not draft new sections from scratch. Edits only.
 
-Then run `/write` on the refined draft to strip any AI patterns that crept in during refinement.
+Then strip AI patterns from the draft. If `/write` is installed, invoke it. If not, do it manually: scan for filler phrases, binary contrasts, dramatic fragmentation, and overused adverbs. Cut them without changing meaning.
 
-## Phase 6: Self-review and Publish
+## Phase 6: Self-review and Publish Readiness
 
 The user reads the entire article linearly before publishing. Not with AI. Mark everything that feels off, fix it, read again. Two passes minimum.
 
-When it reads clean from start to finish, publish it.
+When it reads clean from start to finish, the draft is ready for the user to publish.
 
-## Hard Rules
-
-- **No skipping Phase 5.** Refine always runs before publish.
-- **Primary sources only in Phase 1.** If the person who wrote it did not build or research the thing, it is secondary.
-- **Contradictions must be preserved.** Never silently resolve a disagreement between sources.
-- **Phase 6 is the user's job.** AI does not do the final self-review pass.
+**After the user confirms the article is ready to publish, stop.** Do not upload, post, distribute, or perform any publish action unless explicitly asked.
 
 ## Gotchas
 
@@ -101,6 +96,5 @@ When it reads clean from start to finish, publish it.
 |---------------|------|
 | Collected 30 secondary explainers instead of primary sources | Phase 1 targets papers, official blogs, and repos by builders. Summaries are not sources. |
 | Treated a convincing explainer as ground truth | Ask: does this appear in at least two different contexts from the same source? |
-| Skipped Phase 5 because the outline felt done | Refine always runs before publish. "Good enough" is Phase 4 thinking. |
-| Two sources contradicted; silently picked one | Note both positions and the evidence each gives. Never silently resolve a contradiction. |
-| Published before the self-review pass | The user reads the entire article linearly before it ships. AI does not do this step. |
+| Phase 2 wrote summaries instead of teaching the concept | Digest means building the mental model. Summarizing is not digesting. |
+| AI offered to upload the article to a blog or social platform after the user said it was ready | Stop at confirmation. Publishing is the user's action, not yours. |

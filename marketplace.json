@@ -10,7 +10,7 @@
     {
       "name": "health",
       "description": "Invoke when Claude ignores instructions, behaves inconsistently, hooks malfunction, or MCP servers need auditing. Audits the full six-layer config stack and flags issues by severity. Not for debugging code or reviewing PRs.",
-      "version": "3.8.0",
+      "version": "3.9.0",
       "category": "development",
       "source": "./skills/health",
       "homepage": "https://github.com/tw93/Waza"
@@ -18,7 +18,7 @@
     {
       "name": "think",
       "description": "Invoke before writing any code for a new feature, design, or architecture decision. Turns rough ideas into approved plans with validated structure. Not for bug fixes or small edits.",
-      "version": "3.8.0",
+      "version": "3.9.0",
       "category": "development",
       "source": "./skills/think",
       "homepage": "https://github.com/tw93/Waza"
@@ -26,7 +26,7 @@
     {
       "name": "check",
       "description": "Invoke after any implementation task completes or before merging. Reviews the diff, auto-fixes safe issues, runs specialist security and architecture reviewers on large diffs. Not for exploring ideas or debugging.",
-      "version": "3.8.0",
+      "version": "3.9.0",
       "category": "development",
       "source": "./skills/check",
       "homepage": "https://github.com/tw93/Waza"
@@ -34,7 +34,7 @@
     {
       "name": "hunt",
       "description": "Invoke when debugging any error, crash, unexpected behavior, or failing test. Finds root cause before applying any fix. Not for code review or new features.",
-      "version": "3.8.0",
+      "version": "3.9.0",
       "category": "development",
       "source": "./skills/hunt",
       "homepage": "https://github.com/tw93/Waza"
@@ -42,15 +42,15 @@
     {
       "name": "design",
       "description": "Invoke when building any UI, component, page, or visual interface. Produces distinctive design with a committed aesthetic, not generic defaults. Not for backend logic or data pipelines.",
-      "version": "3.8.0",
+      "version": "3.9.0",
       "category": "development",
       "source": "./skills/design",
       "homepage": "https://github.com/tw93/Waza"
     },
     {
       "name": "read",
-      "description": "Invoke when given any URL, web page link, or PDF to read. Fetches the content as clean Markdown via proxy cascade and saves to Downloads. Not for local files already in the repo.",
-      "version": "3.8.0",
+      "description": "Invoke when given any URL, web page link, or PDF to read. Fetches the content as clean Markdown via proxy cascade and saves to Downloads. Not for local text files or source code already in the repo.",
+      "version": "3.9.0",
       "category": "development",
       "source": "./skills/read",
       "homepage": "https://github.com/tw93/Waza"
@@ -58,15 +58,15 @@
     {
       "name": "write",
       "description": "Invoke only when explicitly asked to write, edit, or polish prose in Chinese or English. Strips AI writing patterns and rewrites to sound natural. Not for code comments, commit messages, or inline docs.",
-      "version": "3.8.0",
+      "version": "3.9.0",
       "category": "development",
       "source": "./skills/write",
       "homepage": "https://github.com/tw93/Waza"
     },
     {
       "name": "learn",
-      "description": "Invoke when diving deep into an unfamiliar domain, preparing a research article, or turning collected sources into publishable output. Runs a six-phase workflow: collect, digest, outline, fill in, refine, publish. Not for quick lookups or single-file reads.",
-      "version": "3.8.0",
+      "description": "Invoke when diving deep into an unfamiliar domain, preparing a research article, or turning collected sources into publish-ready output. Runs a six-phase workflow: collect, digest, outline, fill in, refine, self-review. Not for quick lookups or single-file reads.",
+      "version": "3.9.0",
       "category": "development",
       "source": "./skills/learn",
       "homepage": "https://github.com/tw93/Waza"

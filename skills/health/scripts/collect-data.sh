@@ -2,6 +2,15 @@
 # Collect Claude Code configuration data for health audit.
 # Outputs labeled sections for each data source.
 # Run from any directory; uses pwd as the project root.
+#
+# Known failure modes (for interpreting (unavailable) output):
+#   jq not installed        -> conversation extract and signals print "(unavailable)"; treat as [INSUFFICIENT DATA]
+#   python3 not on PATH     -> MCP/hooks/allowedTools sections print "(unavailable)"; do not flag those areas
+#   settings.local.json absent -> hooks, MCP, allowedTools all show "(unavailable)"; normal for global-settings-only projects
+#   MEMORY.md path          -> built via sed on pwd; unusual chars produce wrong project key; verify manually if (none) seems wrong
+#   Conversation scope      -> only 2 most recent .jsonl files sampled; fewer than 2 = [LOW CONFIDENCE]
+#   MCP token estimate      -> assumes ~25 tools/server, ~200 tokens/tool; treat as directional, not precise
+#   Tier misclassification  -> .next/, __pycache__, .turbo/ can inflate file count; recheck manually if tier feels wrong
 set -euo pipefail
 
 P=$(pwd)

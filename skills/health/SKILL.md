@@ -2,18 +2,18 @@
 name: health
 description: Invoke when Claude ignores instructions, behaves inconsistently, hooks malfunction, or MCP servers need auditing. Audits the full six-layer config stack and flags issues by severity. Not for debugging code or reviewing PRs.
 metadata:
-  version: "3.8.0"
+  version: "3.9.0"
 ---
 
-# Claude Code Configuration Health Audit
+# Health: Audit the Six-Layer Stack
 
 Prefix your first line with 🥷 inline, not as its own paragraph.
 
 
-Audit the current project's Claude Code setup with the six-layer framework:
+Audit the current project's Claude Code setup against the six-layer framework:
 `CLAUDE.md → rules → skills → hooks → subagents → verifiers`
 
-The goal is to find violations and identify the misaligned layer, calibrated to project complexity.
+Find violations. Identify the misaligned layer. Calibrate to project complexity only.
 
 **Output language:** Check in order: (1) CLAUDE.md `## Communication` rule (global takes precedence over local); (2) language of the user's recent conversation messages; (3) default English. Apply the detected language to all output.
 
@@ -21,7 +21,7 @@ Keep the user informed of progress through the three steps: data collection, ana
 
 ## Step 0: Assess project tier
 
-Pick tier:
+Pick one. Apply only that tier's requirements.
 
 | Tier | Signal | What's expected |
 |------|--------|-----------------|
@@ -29,23 +29,32 @@ Pick tier:
 | **Standard** | 500–5K project files, small team or CI present | CLAUDE.md + 1–2 rules files; 2–4 skills; basic hooks |
 | **Complex** | >5K project files, multi-contributor, multi-language, active CI | Full six-layer setup required |
 
-**Apply only the detected tier's requirements.**
-
-
 ## Step 1: Collect all data
 
-Run `bash "${CLAUDE_SKILL_DIR:-$HOME/.agents/skills/health}/scripts/collect-data.sh"` to collect all configuration data. The script outputs labeled sections covering: tier metrics, CLAUDE.md (global + local), settings/hooks/MCP, rules, skill inventory, context budget, conversation history, conversation signals, and skill security content.
+Run the data collection script and keep the full output. Do not interpret it yet.
+
+```bash
+bash "${CLAUDE_SKILL_DIR:-$HOME/.agents/skills/health}/scripts/collect-data.sh"
+```
+
+The script outputs labeled sections: tier metrics, CLAUDE.md (global + local), settings/hooks/MCP, rules, skill inventory, context budget, conversation signals, and skill security content.
+
+Interpretation guardrails before Step 2:
+- If `jq` is missing, conversation sections may show `(unavailable)`. Treat that as insufficient data, not a finding.
+- If `python3` is missing, MCP/hooks/allowedTools sections may show `(unavailable)`. Do not flag those areas from missing collection.
+- If `settings.local.json` is absent, hooks/MCP/allowedTools may be unavailable. That can be normal for global-settings-only projects.
+- Conversation sampling is limited and MCP token estimates are directional. Use low confidence when the evidence is thin, and re-check tier manually if generated directories inflated the file count.
 
 ## Step 1b: MCP Live Check
 
-After the bash block completes, for each MCP server listed in the settings, attempt to call it and verify it actually responds. Do this before launching analysis agents.
+After the bash block completes, test every MCP server from the settings before launching analysis agents.
 
-For each server name found in Step 1:
-1. Call any known tool from that server with minimal input (e.g., a search tool with a trivial query, or a list/read tool on a known path). If no tool name is known, attempt the server's first listed tool with safe default arguments.
+For each server:
+1. Call one harmless tool from that server with minimal input.
 2. If the call succeeds: mark `live=yes`.
-3. If it fails or times out: mark `live=no`, note the error.
+3. If it fails or times out: mark `live=no` and note the exact error.
 
-Record the result as a table:
+Summarize the results in a short table, for example:
 
 ```
 MCP Live Status:
@@ -53,47 +62,26 @@ MCP Live Status:
   other_server   live=no   error: connection refused / tool not found / API key invalid
 ```
 
-Pass this table to Agent 1 for inclusion in the MCP findings section.
+Include this table in Agent 1's input.
 
-**If API keys are required**: look for relevant env var names in the server config (e.g., `XCRAWL_API_KEY`, `OPENAI_API_KEY`). Do not attempt to validate the key value itself -- just note whether the env var is set: `echo $VAR_NAME | head -c 5` (5 chars only, do not print the full key).
-
-## Gotchas
-
-Before interpreting Step 1 output, check these known failure modes.
-
-**Data collection silent failures**
-- `jq` not installed: conversation extract and conversation signals print `(unavailable: jq not installed or parse error)`. BEHAVIOR and conversation-based context checks will be empty -- treat as [INSUFFICIENT DATA], not a finding.
-- `python3` not on PATH: all MCP/hooks/allowedTools sections print `(unavailable)`. Do not flag those areas when the data source itself failed.
-- `settings.local.json` absent: hooks, MCP, and allowedTools all show `(unavailable)`. Normal for projects using global settings only -- not a misconfiguration.
-
-**MEMORY.md path construction**
-- Path built with `sed 's|[/_]|-|g'` on `pwd`. Unusual characters produce the wrong project key. If MEMORY.md shows `(none)` but the user mentions prior sessions, verify the path manually before flagging as [!].
-
-**Conversation extract scope**
-- Only the 2 most recent `.jsonl` files are sampled, skipping the active session. Findings from fewer than 2 files carry low signal, always tag [LOW CONFIDENCE].
-
-**MCP token estimate**
-- Assumes ~25 tools/server and ~200 tokens/tool. Servers with many or few tools cause large over/under-estimates. Treat as directional, not precise.
-
-**Tier misclassification edge cases**
-- The bash block excludes `node_modules/`, `dist/`, and `build/`, but not all generators. Monorepos with `.next/`, `__pycache__/`, or `.turbo/` output can inflate the file count and trigger COMPLEX tier falsely. Recheck manually if the tier feels wrong.
+**If API keys are required:** look for relevant env var names in the server config (e.g., `XCRAWL_API_KEY`, `OPENAI_API_KEY`). Do not validate the key value. Only note whether the env var is set: `echo $VAR_NAME | head -c 5` (5 chars only, do not print the full key).
 
 ## Step 2: Analyze with tier-adjusted depth
 
-Summarize what was collected (word counts, skills found, conversation files sampled), confirm the tier, then proceed:
+State the collected summary in one sentence (word counts, skills found, conversation files sampled). Confirm the tier. Then route:
 
 - **SIMPLE:** Analyze locally from Step 1 data. Do not launch subagents. Prioritize core config checks; skip conversation cross-validation unless evidence is obvious.
-- **STANDARD/COMPLEX:** Launch two subagents in parallel with the collected data pasted inline. Do not pass file paths. Before pasting, replace any credential values (API keys, tokens, passwords) with `[REDACTED]`.
+- **STANDARD/COMPLEX:** Launch two subagents in parallel with the relevant Step 1 sections pasted inline. Keep them off file paths. Redact all credentials (API keys, tokens, passwords) to `[REDACTED]` before sharing the data.
 
 **Fallback:** If either subagent fails (API error, timeout, or empty result), do not abort. Analyze that layer locally from Step 1 data instead and note "(analyzed locally -- subagent unavailable)" in the affected section of the report.
 
 ### Agent 1 -- Context + Security Audit (uses conversation signals only)
 
-Read `agents/inspector-context.md` from this skill's directory. It specifies which Step 1 sections to paste and the full audit checklist. Paste `CONVERSATION SIGNALS`, not the full `CONVERSATION EXTRACT`, so Agent 1 can inspect enforcement gaps and context pressure without duplicating the heaviest evidence block.
+Read `agents/inspector-context.md`. Give Agent 1 the sections it needs. Include `CONVERSATION SIGNALS`, not the full `CONVERSATION EXTRACT`, so it can inspect enforcement gaps and context pressure without dragging in the heaviest evidence block.
 
 ### Agent 2 -- Control + Behavior Audit (uses conversation evidence)
 
-Read `agents/inspector-control.md` from this skill's directory. It specifies which Step 1 sections to paste and the full audit checklist.
+Read `agents/inspector-control.md`. Give Agent 2 the sections it needs, including the detected tier.
 
 ## Step 3: Synthesize and present
 
@@ -130,6 +118,7 @@ New patterns to add, outdated items to remove, global vs local placement, contex
 If all three issue sections are empty, output one short line in the output language like: `All relevant checks passed. Nothing to fix.`
 
 ## Non-goals
+
 - Never auto-apply fixes without confirmation.
 - Never apply complex-tier checks to simple projects.
 - Flag issues, do not replace architectural judgment.

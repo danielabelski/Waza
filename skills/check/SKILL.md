@@ -2,7 +2,7 @@
 name: check
 description: Invoke after any implementation task completes or before merging. Reviews the diff, auto-fixes safe issues, runs specialist security and architecture reviewers on large diffs. Not for exploring ideas or debugging.
 metadata:
-  version: "3.8.0"
+  version: "3.9.0"
 ---
 
 # Check: Review Before You Ship
@@ -32,7 +32,7 @@ State the depth before proceeding.
 
 Before reading code, check scope drift: do the diff and the stated goal match? Label: **on target** / **drift** / **incomplete**.
 
-Drift signals (any one is enough to label drift):
+Drift signals (examples, not exhaustive -- any one is enough to label drift):
 - A changed file has no connection to the stated goal
 - The diff includes pure refactoring (renames, formatting, restructuring) when the goal was a bug fix or feature
 - A new dependency appears that the goal did not mention
@@ -40,6 +40,8 @@ Drift signals (any one is enough to label drift):
 - A new abstraction or helper was introduced that is not required by the goal
 
 ## Hard Stops (fix before merging)
+
+Examples, not exhaustive -- flag any diff that could cause irreversible harm if merged unreviewed.
 
 - **Destructive auto-execution**: any task marked "safe" or "auto-run" that modifies user-visible state (history files, config, preferences, installed software) must require explicit confirmation.
 - **Release artifacts missing**: verify every artifact listed in the release template exists as a local file and has been uploaded before declaring done.
@@ -91,8 +93,6 @@ If any of these phrases appear in your reasoning, stop and run verification firs
 | PR comment sounded like a report | 1-2 sentences, natural, like a colleague. Not structured, not AI-sounding. |
 | PR comment used bullet points | Write as paragraphs; thank the contributor first |
 | article.en.md inside _posts_en/ doubled the suffix | Check naming convention of existing files in the target directory first |
-| Released with no artifacts attached | Verify every artifact exists locally and is uploaded |
-| "Trivial one-line fix" broke things | If the urge to skip verification arises, run tests anyway |
 | Deployed without env vars set | Run `vercel env ls` before deploying; diff against local keys |
 | Push failed from auth mismatch | Run `git remote -v` before the first push in a new project |
 

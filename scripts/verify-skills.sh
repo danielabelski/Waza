@@ -96,6 +96,23 @@ for skill, skill_version in sorted(skill_versions.items()):
     if skill_version != market_version:
         fail(f"MISMATCH: {skill} SKILL={skill_version} MARKET={market_version}")
     print(f"ok: {skill} {skill_version}")
+
+import re
+# Direct local references: `references/foo.md`, `agents/bar.md`, `scripts/baz.sh`
+# Lookbehind excludes absolute path fragments like $HOME/.agents/skills/X
+ref_pattern = re.compile(r'(?<![/.])\b(?:references|agents|scripts)/[\w/.-]+\b')
+# Script references via runtime variable: ${SKILL_DIR}/scripts/foo.sh
+script_pattern = re.compile(r'\}/scripts/([\w/.-]+)')
+for path in skill_files:
+    skill_dir = path.parent.name
+    text = path.read_text()
+    refs = set(ref_pattern.findall(text))
+    refs |= {"scripts/" + s for s in script_pattern.findall(text)}
+    for ref in sorted(refs):
+        expected = root / "skills" / skill_dir / ref
+        if not expected.exists():
+            fail(f"BROKEN REFERENCE: {path} references {ref} but file does not exist")
+        print(f"ok: reference {skill_dir}/{ref}")
 PYEOF
 
 # Reference files exist for skills that use them
