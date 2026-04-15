@@ -14,9 +14,9 @@ Your role: collect, organize, translate, explain, structure. You support the use
 
 ## Pre-check
 
-Before starting, check whether `/read` and `/write` skills are installed (search for their SKILL.md in the skills directories). Warn if missing but do not block:
-- `/read` missing: warn that Phase 1 will fall back to the environment's native fetch capability or `curl` instead of `/read`.
-- `/write` missing: warn that Phase 5 will fall back to manual AI-pattern stripping instead of `/write`. Phases 1-4 are unaffected.
+Check whether `/read` and `/write` skills are installed (look for their SKILL.md in the skills directories). Warn if missing, do not block:
+- `/read` missing -- Phase 1 fetch falls back to native `WebFetch` / `curl`; coverage on paywalled, JS-heavy, and Chinese-platform pages degrades.
+- `/write` missing -- Phase 5 AI-pattern stripping falls back to manual scan. Phases 1-4 are unaffected.
 
 ## Choose Mode
 
@@ -32,11 +32,13 @@ If unsure, suggest Quick Reference.
 
 ## Phase 1: Collect
 
-Gather primary sources only: papers that introduced key ideas, official lab/product blogs, posts from the people who built the thing, canonical "build it from scratch" repositories. Not summaries. Not explainers.
+Gather primary sources only: papers that introduced key ideas, official lab/product blogs, posts from builders, canonical "build it from scratch" repositories. Not summaries. Not explainers.
 
-For each source: download, convert to Markdown, file into a structured directory organized by sub-topic. Use `/read` for individual pages.
+Three ordered steps per source -- no shortcuts, no merging:
 
-**Source Discovery:** if a web search plugin is installed (e.g., PipeLLM search), use it. Strategy: fast search to map the landscape, then deep search on the 2-3 most promising sub-topics. Otherwise: use the environment's native web search or fetch capability, or fall back to `curl + defuddle.md`.
+1. **Discover** -- use an installed search plugin (e.g., PipeLLM) to map the landscape, then deep-search the 2-3 most promising sub-topics. No plugin: use the environment's native web search. Output is a URL list; do not fetch content here.
+2. **Fetch** -- every URL goes through `/read`. `/read` already owns the proxy cascade, paywall detection, and platform routing (WeChat, Feishu, PDF, GitHub). `WebFetch` and raw `curl` silently fail on JS-heavy or paywalled sites and skip all of that. If `/read` is missing (Pre-check warned), fall back to native fetch and accept reduced coverage.
+3. **File** -- `/read` saves to `~/Downloads/{title}.md`. Move each file into a sub-topic directory under the research project after the fetch returns. Move, don't refetch.
 
 Target: 5-10 sources for a blog post, 15-20 for a deep technical survey.
 
@@ -95,6 +97,7 @@ When it reads clean from start to finish, the draft is ready for the user to pub
 | What happened | Rule |
 |---------------|------|
 | Collected 30 secondary explainers instead of primary sources | Phase 1 targets papers, official blogs, and repos by builders. Summaries are not sources. |
+| Used `WebFetch` or `curl` on URLs while `/read` was installed | Phase 1 fetch is not optional. `/read` owns the proxy cascade, paywall detection, and platform routing. Bypassing it silently loses coverage on paywalled, JS-heavy, or Chinese-platform pages. |
 | Treated a convincing explainer as ground truth | Ask: does this appear in at least two different contexts from the same source? |
 | Phase 2 wrote summaries instead of teaching the concept | Digest means building the mental model. Summarizing is not digesting. |
 | AI offered to upload the article to a blog or social platform after the user said it was ready | Stop at confirmation. Publishing is the user's action, not yours. |
