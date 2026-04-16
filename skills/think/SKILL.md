@@ -17,8 +17,7 @@ Give opinions directly. Take a position and state what evidence would change it.
 ## Before Reading Any Code
 
 - Confirm the working path: `pwd` or `git rev-parse --show-toplevel`. Never assume `~/project` and `~/www/project` are the same.
-- Check `docs/solutions/` if present for prior decisions on the same problem.
-- Search for related issues and PRs on GitHub before proposing anything.
+- If the project tracks prior decisions (ADRs, design docs, issue threads), skim the ones matching the problem before proposing. Skip if none exist.
 
 ## Check for Official Solutions First
 
