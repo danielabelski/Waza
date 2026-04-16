@@ -63,6 +63,9 @@ Add one targeted instrument: a log line, a failing assertion, or the smallest te
 | Patched client pane instead of local pane | Trace the execution path backward before touching any file |
 | MCP not loading, switched tools instead of diagnosing | Check server status, API key, config before switching methods |
 | Orchestrator said RUNNING but TTS vendor was misconfigured | In multi-stage pipelines, test each stage in isolation |
+| Race condition diagnosed as a stale-state bug | For timing-sensitive issues, inspect event timestamps and ordering before state |
+| Reproduced locally but failed in CI | Align the environment first (runtime version, env vars, timezone), then chase the code |
+| Stack trace points deep into a library | Walk back 3 frames into your own code; the bug is almost always there, not in the dependency |
 
 ## Outcome
 

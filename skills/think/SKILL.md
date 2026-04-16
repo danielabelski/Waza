@@ -72,7 +72,7 @@ Get approval before proceeding. If the user rejects, ask specifically what did n
 |---------------|------|
 | Moved files to `~/project`, repo was at `~/www/project` | Run `pwd` before the first filesystem operation |
 | Asked for API key after 3 implementation steps | List every dependency before handing off |
-| User said "帮我做" or "just do it" | Treat as approval of the recommended option. State which option was selected, finish the plan. Do not implement inside `/think`. |
+| User said "just do it" or equivalent approval | Treat as approval of the recommended option. State which option was selected, finish the plan. Do not implement inside `/think`. |
 | Planned MCP workflow without checking if MCP was loaded | Verify tool availability before handing off, not mid-implementation |
 | Rejected design restarted from scratch | Ask what specifically failed, re-enter with narrowed constraints |
 | Built against wrong regional API (Shengwang vs Agora) | List all regional differences before writing integration code |

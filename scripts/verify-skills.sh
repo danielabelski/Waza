@@ -32,7 +32,7 @@ def parse_frontmatter(path: Path) -> dict[str, str]:
             fields["name"] = line.split(":", 1)[1].strip()
             in_metadata = False
         elif line.startswith("description:"):
-            fields["description"] = line.split(":", 1)[1].strip()
+            fields["description"] = line.split(":", 1)[1].strip().strip('"')
             in_metadata = False
         elif line == "metadata:":
             in_metadata = True
@@ -54,12 +54,14 @@ if not skill_files:
     fail("NO SKILLS FOUND: expected skills/*/SKILL.md")
 
 skill_versions: dict[str, str] = {}
+skill_descriptions: dict[str, str] = {}
 for path in skill_files:
     skill_dir = path.parent.name
     fields = parse_frontmatter(path)
     if fields["name"] != skill_dir:
         fail(f"NAME MISMATCH: {path} frontmatter name={fields['name']} dir={skill_dir}")
     skill_versions[skill_dir] = fields["version"]
+    skill_descriptions[skill_dir] = fields["description"]
     print(f"ok: {path.as_posix()}")
 
 marketplace = json.load(open(root / "marketplace.json"))
@@ -68,20 +70,25 @@ if not isinstance(plugins, list):
     fail("INVALID MARKETPLACE: plugins must be a list")
 
 market_versions: dict[str, str] = {}
+market_descriptions: dict[str, str] = {}
 for entry in plugins:
     if not isinstance(entry, dict):
         fail("INVALID MARKETPLACE: plugin entry must be an object")
     name = entry.get("name")
     version = entry.get("version")
     source = entry.get("source")
+    description = entry.get("description", "").strip().strip('"')
     if not name or not version:
         fail("INVALID MARKETPLACE: every plugin needs name and version")
+    if not description:
+        fail(f"MISSING DESCRIPTION: marketplace plugin {name}")
     if name in market_versions:
         fail(f"DUPLICATE MARKETPLACE ENTRY: {name}")
     expected_source = f"./skills/{name}"
     if source != expected_source:
         fail(f"WRONG SOURCE: {name} source={source!r} expected={expected_source!r}")
     market_versions[name] = version
+    market_descriptions[name] = description
 
 missing_from_market = sorted(set(skill_versions) - set(market_versions))
 if missing_from_market:
@@ -94,7 +101,13 @@ if extra_in_market:
 for skill, skill_version in sorted(skill_versions.items()):
     market_version = market_versions[skill]
     if skill_version != market_version:
-        fail(f"MISMATCH: {skill} SKILL={skill_version} MARKET={market_version}")
+        fail(f"VERSION MISMATCH: {skill} SKILL={skill_version} MARKET={market_version}")
+    if skill_descriptions[skill] != market_descriptions[skill]:
+        fail(
+            f"DESCRIPTION MISMATCH: {skill}\n"
+            f"  SKILL.md:    {skill_descriptions[skill]}\n"
+            f"  marketplace: {market_descriptions[skill]}"
+        )
     print(f"ok: {skill} {skill_version}")
 
 import re
