@@ -45,7 +45,7 @@ Do not claim progress without observable evidence matching at least one of these
 ## Hard Rules
 
 - **Same symptom after a fix is a hard stop; so is "let me just try this."** Both mean the hypothesis is unfinished. Re-read the execution path from scratch before touching code again.
-- **After three failed hypotheses, stop.** Surface to the user: what was checked, what was ruled out, what is unknown. Ask how to proceed.
+- **After three failed hypotheses, stop.** Use the Handoff format below to surface what was checked, what was ruled out, and what is unknown. Ask how to proceed.
 - **Verify before claiming.** Never state versions, function names, or file locations from memory. Run `sw_vers` / `node --version` / grep first. No results = re-examine the path.
 - **External tool failure: diagnose before switching.** When an MCP tool or API fails, determine why first (server running? API key valid? Config correct?) before trying an alternative.
 - **Pay attention to deflection.** When someone says "that part doesn't matter," treat it as a signal. The area someone avoids examining is often where the problem lives.
@@ -66,6 +66,8 @@ Add one targeted instrument: a log line, a failing assertion, or the smallest te
 
 ## Outcome
 
+### Success Format
+
 ```
 Root cause:  [what was wrong, file:line]
 Fix:         [what changed, file:line]
@@ -74,3 +76,34 @@ Tests:       [pass/fail count, regression test location]
 ```
 
 Status: **resolved**, **resolved with caveats** (state them), or **blocked** (state what is unknown).
+
+### Handoff Format (after 3 failed hypotheses)
+
+```
+Symptom:
+[Original error description, one sentence]
+
+Hypotheses Tested:
+1. [Hypothesis 1] → [Test method] → [Result: ruled out because...]
+2. [Hypothesis 2] → [Test method] → [Result: ruled out because...]
+3. [Hypothesis 3] → [Test method] → [Result: ruled out because...]
+
+Evidence Collected:
+- [Log snippets / stack traces / file content]
+- [Reproduction steps]
+- [Environment info: versions, config, runtime]
+
+Ruled Out:
+- [Root causes that have been eliminated]
+
+Unknowns:
+- [What is still unclear]
+- [What information is missing]
+
+Suggested Next Steps:
+1. [Next investigation direction]
+2. [External tools or permissions that may be needed]
+3. [Additional context the user should provide]
+```
+
+Status: **blocked**

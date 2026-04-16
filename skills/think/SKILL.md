@@ -20,9 +20,27 @@ Give opinions directly. Take a position and state what evidence would change it.
 - Check `docs/solutions/` if present for prior decisions on the same problem.
 - Search for related issues and PRs on GitHub before proposing anything.
 
+## Check for Official Solutions First
+
+Before proposing custom implementations, check if an official or built-in solution exists:
+
+1. **Framework built-ins**: Search official docs and API references for native components or methods that solve the problem directly.
+   - Examples: Flutter's PageView for swipe navigation, React's Suspense for loading states, Next.js Server Actions for mutations.
+   - Use Context7 MCP tools to query the latest official documentation.
+
+2. **Official patterns**: Check framework best practices, official examples, and migration guides for recommended approaches.
+   - Examples: React 19 recommends `use()` over `useEffect` + fetch, Next.js 15 recommends Server Components over client-side data fetching.
+
+3. **Ecosystem standards**: Identify officially maintained or widely adopted standard libraries.
+   - Examples: Rust's serde for serialization, Python's requests for HTTP, Go's net/http for web servers.
+
+If an official solution exists, it must be Option 1 in your proposal. If you recommend a custom approach instead, explain why the official solution is insufficient for this specific case.
+
 ## Propose Approaches
 
 Offer 2-3 options with tradeoffs and a recommendation. Always include one minimal option. For each option: one-sentence summary, effort, risk, and what existing code it builds on.
+
+**If an official solution exists from the previous step, it must be Option 1.** State why it fits (or doesn't fit) the current scenario. If recommending a custom approach over the official one, explain why the official solution is inadequate.
 
 For the recommendation, run attack angles before presenting it. Four common ones (not exhaustive):
 
