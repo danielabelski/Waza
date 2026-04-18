@@ -2,7 +2,7 @@
 name: design
 description: Invoke when building any UI, component, page, or visual interface. Produces distinctive design with a committed aesthetic, not generic defaults. Not for backend logic or data pipelines.
 metadata:
-  version: "3.10.0"
+  version: "3.10.1"
 ---
 
 # Design: Build It With a Point of View
