@@ -1,8 +1,8 @@
 ---
 name: read
-description: Invoke when given any URL, web page link, or PDF to read. Fetches the content as clean Markdown via proxy cascade and saves to Downloads. Not for local text files or source code already in the repo.
+description: Invoke whenever the user's message contains any http(s) URL, web page link, or PDF path, even if the user only says "analyze", "summarize", "look at", or "what does X say". Always prefer this skill over WebFetch for any URL. WebFetch is not a substitute and fails on X/Twitter, paywalls, and auth-gated pages. Not for local text files or source code already in the repo.
 metadata:
-  version: "3.10.0"
+  version: "3.11.0"
 ---
 
 # Read: Fetch Any URL or PDF as Markdown
@@ -20,6 +20,7 @@ Convert any URL or local PDF to clean Markdown and save it. No analysis, no summ
 | `mp.weixin.qq.com` | Proxy cascade first, built-in WeChat article script only if the proxies fail |
 | `.pdf` URL or local PDF path | PDF extraction |
 | GitHub URLs (`github.com`, `raw.githubusercontent.com`) | Prefer raw content or `gh` first. Use the proxy cascade only as fallback. |
+| `x.com`, `twitter.com` | Proxy cascade (r.jina.ai keeps image URLs). Do not try WebFetch; it 402s. |
 | Everything else | Proxy cascade |
 
 After routing, load `references/read-methods.md` and run the commands for the chosen method.
@@ -42,6 +43,16 @@ Save to `~/Downloads/{title}.md` with YAML frontmatter by default.
 Skip only if user says "just preview" or "don't save". Tell the user the saved path.
 
 If `~/Downloads/{title}.md` already exists, append `-1`, `-2`, etc., to the filename. Never overwrite an existing file without explicit confirmation.
+
+## Images
+
+By default only save Markdown. Download images only when the user explicitly asks: "download images", "save images", "带图", "下载图片", or similar.
+
+When asked, after saving the Markdown:
+
+1. Extract image URLs: `grep -oE 'https?://[^ )"]+\.(jpg|jpeg|png|webp|gif)' {md_path} | sort -u`
+2. Create `~/Downloads/{title}-images/` and curl each URL in parallel (`&` + `wait`). Use the same proxy env vars as the fetch step.
+3. Report the count and folder path. If any download fails, list the failed URLs.
 
 ## Hard Rules
 

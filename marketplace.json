@@ -49,8 +49,8 @@
     },
     {
       "name": "read",
-      "description": "Invoke when given any URL, web page link, or PDF to read. Fetches the content as clean Markdown via proxy cascade and saves to Downloads. Not for local text files or source code already in the repo.",
-      "version": "3.10.0",
+      "description": "Invoke whenever the user's message contains any http(s) URL, web page link, or PDF path, even if the user only says \"analyze\", \"summarize\", \"look at\", or \"what does X say\". Always prefer this skill over WebFetch for any URL. WebFetch is not a substitute and fails on X/Twitter, paywalls, and auth-gated pages. Not for local text files or source code already in the repo.",
+      "version": "3.11.0",
       "category": "development",
       "source": "./skills/read",
       "homepage": "https://github.com/tw93/Waza"
