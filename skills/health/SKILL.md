@@ -123,6 +123,16 @@ If all three issue sections are empty, output one short line in the output langu
 - Never apply complex-tier checks to simple projects.
 - Flag issues, do not replace architectural judgment.
 
+## Gotchas
+
+| What happened | Rule |
+|---------------|------|
+| Read `settings.json` and missed the local override | Always read `settings.local.json` too; it shadows the committed file |
+| Subagent API timeout reported as MCP failure | Check `collect-data.sh` exit before blaming the server; MCP failures come from the live probe, not data collection |
+| `collect-data.sh` silently empty on some sections | Verify `python3` / `jq` are on PATH; the script degrades sections rather than hard-failing |
+| Reported issues in the wrong language | Honor `CLAUDE.md` Communication rule first; only fall back to the user's recent language when the rule is ambiguous |
+| Flagged a hook as broken when it was intentionally noisy | Ask the user before calling a hook "broken"; some hooks are deliberately verbose |
+| Treated a disabled MCP server as a failure | Respect `enabled: false` in settings; skip without flagging |
 
 **Stop condition:** After the report, ask in the output language:
 > "Should I draft the changes? I can handle each layer separately: global CLAUDE.md / local CLAUDE.md / rules / hooks / skills / MCP."
