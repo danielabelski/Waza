@@ -139,6 +139,44 @@ for path in skill_files:
         if not expected.exists():
             fail(f"BROKEN REFERENCE: {path} references {ref} but file does not exist")
         print(f"ok: reference {skill_dir}/{ref}")
+
+# Description conformance: every skill needs a triggerable opening, a "Not for"
+# exclusion clause, and a sane length. Locks the convention so new skills can't
+# drift into vague descriptions that the Claude Code resolver can't match.
+for skill, description in sorted(skill_descriptions.items()):
+    clean = description.strip().strip('"')
+    length = len(clean)
+    if length < 40:
+        fail(f"DESCRIPTION TOO SHORT: {skill} ({length} chars); need ≥40 for reliable resolver matching")
+    if length > 500:
+        fail(f"DESCRIPTION TOO LONG: {skill} ({length} chars); trim to ≤500 to keep the resolver index light")
+    if not clean.lower().startswith(("invoke", "use")):
+        fail(
+            f"DESCRIPTION MISSING TRIGGER VERB: {skill}\n"
+            f"  Must start with 'Invoke' or 'Use' so the resolver can match intent. Got: {clean[:60]!r}"
+        )
+    if "not for" not in clean.lower():
+        fail(
+            f"DESCRIPTION MISSING EXCLUSION CLAUSE: {skill}\n"
+            f"  Must contain a 'Not for ...' clause so the resolver learns when NOT to fire. Got: {clean[:120]!r}"
+        )
+    print(f"ok: description {skill} ({length} chars)")
+
+# RESOLVER.md coverage: every skill must be referenced from the central routing
+# table at skills/RESOLVER.md. Keeps the human-readable index in lock-step with
+# the SKILL.md descriptions the model actually sees.
+resolver_path = root / "skills" / "RESOLVER.md"
+if not resolver_path.exists():
+    fail(f"MISSING RESOLVER: expected {resolver_path}")
+resolver_text = resolver_path.read_text()
+for skill in sorted(skill_versions):
+    token = f"skills/{skill}/SKILL.md"
+    if token not in resolver_text:
+        fail(
+            f"RESOLVER GAP: {skill} has no entry in {resolver_path}\n"
+            f"  Add a row to a triggers table that references {token!r}."
+        )
+    print(f"ok: resolver entry for {skill}")
 PYEOF
 
 # Reference files exist for skills that use them

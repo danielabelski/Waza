@@ -2,7 +2,7 @@
 name: health
 description: Invoke when Claude ignores instructions, behaves inconsistently, hooks malfunction, or MCP servers need auditing. Audits the full six-layer config stack and flags issues by severity. Not for debugging code or reviewing PRs.
 metadata:
-  version: "3.10.1"
+  version: "3.11.0"
 ---
 
 # Health: Audit the Six-Layer Stack
@@ -101,17 +101,44 @@ Render a compact table of checks that passed. Include only checks relevant to th
 | No nested CLAUDE.md | ok |
 | Skill security scan | no flags |
 
+### Finding format (mandatory under every severity section)
+
+Each finding is **three lines, no prose paragraphs**:
+
+```
+- [severity] <one-line symptom> ({file}:{line} if known)
+  Why: <one-line reason it matters for this tier>
+  Action: <exact command, edit, or file path to fix>
+```
+
+`Action:` must be specific enough to copy-paste or click into: a shell command, an `Edit: path/to/file.md` with the old_string/new_string intent, a `Remove: <key> from <file>`, or a URL to follow. Never write "investigate X", "consider Y", "review Z". If the exact fix is unknown, say so and name the diagnostic command: `Action: run \`<cmd>\` to determine scope, then report back`.
+
 ### [!] Critical -- fix now
 
 Rules violated, missing verification definitions, dangerous allowedTools, MCP overhead >12.5%, required-path `Access denied`, active cache-breakers, and security findings.
+
+Example:
+- [!] `settings.local.json` committed to git (exposes MCP tokens)
+  Why: any leaked token enables remote code execution via installed MCP servers
+  Action: `git rm --cached .claude/settings.local.json && echo '.claude/settings.local.json' >> .gitignore && git commit -m "chore: untrack local settings"`
 
 ### [~] Structural -- fix soon
 
 CLAUDE.md content that belongs elsewhere, missing hooks, oversized skill descriptions, single-layer critical rules, model switching, verifier gaps, subagent permission gaps, and skill structural issues.
 
+Example:
+- [~] CLAUDE.md is 1,842 lines; attention degrades past ~200
+  Why: large CLAUDE.md pushes the resolver to miss, and often means rules that belong in `rules/` got inlined
+  Action: Move the "Testing" and "Style" sections out into `rules/testing.md` and `rules/style.md`, then shrink CLAUDE.md to a pointer table.
+
 ### [-] Incremental -- nice to have
 
 New patterns to add, outdated items to remove, global vs local placement, context hygiene, HANDOFF.md adoption, skill invoke tuning, and provenance issues.
+
+Example:
+- [-] 18 one-shot Bash entries in `allowedTools` from prior sessions
+  Why: lean allowlist reduces prompt overhead and makes it easier to spot drift
+  Action: Open `.claude/settings.local.json` and remove: `Bash(rm:*)`, `Bash(curl:*)`, `Bash(lsof:*)` (only the entries not used in the last 30 days).
 
 ---
 
@@ -135,6 +162,6 @@ If all three issue sections are empty, output one short line in the output langu
 | Treated a disabled MCP server as a failure | Respect `enabled: false` in settings; skip without flagging |
 
 **Stop condition:** After the report, ask in the output language:
-> "Should I draft the changes? I can handle each layer separately: global CLAUDE.md / local CLAUDE.md / rules / hooks / skills / MCP."
+> "All findings above carry an `Action:` line. Want me to apply them? I can handle each layer separately: global CLAUDE.md / local CLAUDE.md / rules / hooks / skills / MCP."
 
-Do not make any edits without explicit confirmation.
+Do not make any edits without explicit confirmation. If a finding's `Action:` is missing or vague, fix the report before asking; the user should never have to ask "what exactly do I do about this?"

@@ -6,6 +6,7 @@ Personal skill collection for Claude Code. Eight skills covering the complete en
 
 ```
 skills/
+├── RESOLVER.md   -- central trigger → skill routing table
 ├── check/        -- code review before merging
 │   ├── agents/   -- reviewer-security.md, reviewer-architecture.md
 │   └── references/  -- persona-catalog.md
@@ -21,7 +22,28 @@ skills/
 marketplace.json      -- plugin registry for npx/plugin distribution
 ```
 
-Each skill has a `SKILL.md` (loaded on demand by Claude). Supporting content lives in subdirectories.
+Each skill has a `SKILL.md` (loaded on demand by Claude). Supporting content lives in subdirectories. `skills/RESOLVER.md` is the human-readable index of "which trigger goes to which skill"; keep it in sync when you change a skill's scope.
+
+## Skill vs Script: Latent vs Deterministic
+
+Before adding a new capability, decide which layer it belongs in. Waza's eight skills are all **fat skills** (Markdown carrying judgment). Anything that is pure verification, lookup, or table-driven enforcement belongs in `scripts/` or `rules/`, not in a SKILL.md.
+
+| Question | YES → | NO → |
+|----------|-------|------|
+| Does the user need the model to think, adapt, or ask? | **Skill** | Script / rule |
+| Does the same input always produce the same output? | **Script / rule** | Skill |
+| Does it depend on the user's project environment? | **Skill** | Script / rule |
+| Is it a lookup, list, or status check? | **Script / rule** | Probably skill |
+| Does behavior shift with conversation context? | **Skill** | Script / rule |
+
+Examples in this repo:
+- `verify-skills.sh` = script (frontmatter / references / version parity, all deterministic)
+- `rules/english.md` = rule (applies in every session, no judgment needed)
+- `/think`, `/hunt`, `/check` = skills (each reads the situation and decides)
+- `/health` diagnostics = skill (tier-aware, context-sensitive)
+- Six-layer tier assessment = skill (needs judgment about project size and signals)
+
+Rule of thumb: if you catch yourself writing "if X then Y" enumeration inside a SKILL.md, it probably wants to be a script. If you catch yourself writing "the agent should use good judgment" inside a shell script, that part wants to be a skill.
 
 ## Verification
 
