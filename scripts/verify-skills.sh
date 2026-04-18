@@ -32,7 +32,14 @@ def parse_frontmatter(path: Path) -> dict[str, str]:
             fields["name"] = line.split(":", 1)[1].strip()
             in_metadata = False
         elif line.startswith("description:"):
-            fields["description"] = line.split(":", 1)[1].strip().strip('"')
+            raw_value = line.split(":", 1)[1].strip()
+            if not raw_value.startswith('"') and ": " in raw_value:
+                fail(
+                    f"UNQUOTED DESCRIPTION WITH COLON: {path}\n"
+                    f"  Description contains ': ' and must be wrapped in double quotes, "
+                    f"otherwise YAML plain-scalar parsing truncates the field."
+                )
+            fields["description"] = raw_value.strip('"')
             in_metadata = False
         elif line == "metadata:":
             in_metadata = True
