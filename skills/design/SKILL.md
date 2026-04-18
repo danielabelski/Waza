@@ -35,6 +35,8 @@ When the user provides a repository URL or pastes source code of an existing pro
 
 Lift exact values: hex codes, spacing scale entries, font stacks, border radii. A rough approximation is not pixel fidelity.
 
+Only attach the target component folder or package. Exclude `.git`, `node_modules`, `dist`, and lock files. Dragging in an entire monorepo pollutes the context with irrelevant code and degrades output quality.
+
 ### App shell exception (sidebar + main workspace)
 
 When the answer to question 1 is an app shell (Slack, Linear, Notion class):
@@ -93,6 +95,7 @@ Give at least 3 variations, spread across genuinely different dimensions:
 | Heavy `border: 1px solid` on every container, flat buttons, no depth | This is 2015 UI kit default. Replace with shadow-step depth, `active:scale-95` on buttons, translucent borders (`border/30`). |
 | Light-mode app: white panel on white background, visually indistinguishable | Adjacent nested surfaces must differ visually. Either background step (sidebar vs main ≥4% lightness difference) or shadow minimum `0 1px 3px rgba(0,0,0,0.10)`. |
 | Added an extra section because it "felt incomplete" | Ask first. The user knows their audience; you do not. If you think more content would help, surface the suggestion as a question, do not ship it unilaterally. |
+| Tried to generate a logo, app icon, or brand illustration | Icons, naming, and brand identity require human taste and judgment. Use a labeled placeholder and ask the user to supply the real asset. |
 
 ## Handoff
 
