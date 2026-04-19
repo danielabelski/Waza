@@ -18,15 +18,15 @@
     {
       "name": "think",
       "description": "Invoke before writing any code for a new feature, design, or architecture decision. Turns rough ideas into approved plans with validated structure. Not for bug fixes or small edits.",
-      "version": "3.10.1",
+      "version": "3.12.0",
       "category": "development",
       "source": "./skills/think",
       "homepage": "https://github.com/tw93/Waza"
     },
     {
       "name": "check",
-      "description": "Invoke after any implementation task completes or before merging. Reviews the diff, auto-fixes safe issues, runs specialist security and architecture reviewers on large diffs. Not for exploring ideas or debugging.",
-      "version": "3.10.1",
+      "description": "Invoke after any implementation task completes or before merging. Reviews the diff, auto-fixes safe issues, runs specialist security and architecture reviewers on large diffs. Also handles issue/PR triage when the user mentions issues, PRs, or batch review. Not for exploring ideas or debugging.",
+      "version": "3.12.0",
       "category": "development",
       "source": "./skills/check",
       "homepage": "https://github.com/tw93/Waza"
@@ -34,15 +34,15 @@
     {
       "name": "hunt",
       "description": "Invoke when debugging any error, crash, unexpected behavior, or failing test. Finds root cause before applying any fix. Not for code review or new features.",
-      "version": "3.10.1",
+      "version": "3.12.0",
       "category": "development",
       "source": "./skills/hunt",
       "homepage": "https://github.com/tw93/Waza"
     },
     {
       "name": "design",
-      "description": "Invoke when building any UI, component, page, or visual interface. Produces distinctive design with a committed aesthetic, not generic defaults. Not for backend logic or data pipelines.",
-      "version": "3.11.0",
+      "description": "Invoke when building any UI, component, page, or visual interface. Produces distinctive design with a committed aesthetic, not generic defaults. Handles screenshot-driven iteration when the user sends an image with a complaint. Not for backend logic or data pipelines.",
+      "version": "3.12.0",
       "category": "development",
       "source": "./skills/design",
       "homepage": "https://github.com/tw93/Waza"
