@@ -18,6 +18,7 @@
 | 触发 | 技能 |
 |------|------|
 | 实现完成 / 合并前 / "review 一下" / "看看这段代码" | `skills/check/SKILL.md` |
+| review issue / review PR / triage / 批量处理 / "看看有没有 issue" | `skills/check/SKILL.md` (Triage Mode) |
 
 ### Diagnostic（出问题了）
 

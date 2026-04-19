@@ -1,8 +1,8 @@
 ---
 name: check
-description: Invoke after any implementation task completes or before merging. Reviews the diff, auto-fixes safe issues, runs specialist security and architecture reviewers on large diffs. Not for exploring ideas or debugging.
+description: Invoke after any implementation task completes or before merging. Reviews the diff, auto-fixes safe issues, runs specialist security and architecture reviewers on large diffs. Also handles issue/PR triage when the user mentions issues, PRs, or batch review. Not for exploring ideas or debugging.
 metadata:
-  version: "3.10.1"
+  version: "3.12.0"
 ---
 
 # Check: Review Before You Ship
@@ -15,6 +15,28 @@ Read the diff, find the problems, fix what can be fixed safely, ask about the re
 ## Get the Diff
 
 Get the full diff between the current branch and the base branch. If unclear, ask. If already on the base branch, ask which commits to review.
+
+## Triage Mode
+
+Activate when the user mentions: issue, PR, "review all", triage, "batch", or "批量处理". Skip the diff flow and run this instead.
+
+**Flow:**
+
+1. `gh issue list -R <repo> --state open --limit 20` and `gh pr list -R <repo> --state open` to pull pending items.
+2. For each item, check if a fix already exists before analyzing:
+   ```
+   git tag --sort=-version:refname | head -1          # latest tag
+   git log --oneline <tag>..HEAD | grep -i "<keyword>" # merged but unreleased?
+   ```
+   Three outcomes: already shipped (close with note), merged but unreleased (reply "已修复，等下一个版本 release", close), or no fix (analyze).
+3. Classify each item using the Category A-E system in `~/www/CLAUDE.md`. Do not copy the definitions here; read them from that file.
+4. Draft every reply and show it to Tang for confirmation before calling `gh issue comment` or any GitHub write operation.
+5. If no open items exist: shift to historical analysis. Run `gh issue list -R <repo> --state closed --limit 50` and look for recurring themes, fixes closed without resolution, and deferred features with demand. Produce a short per-project summary with **Fix candidates** and **Feature candidates**. Do not implement without approval.
+
+**Sign-off line (append to standard sign-off):**
+```
+triage:           N reviewed, N closed, N deferred
+```
 
 ## Scope
 
