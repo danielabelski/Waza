@@ -19,7 +19,8 @@ skills/
 ├── think/        -- design and validate before building
 └── write/        -- natural prose in Chinese and English
     └── references/  -- write-zh.md, write-en.md
-marketplace.json      -- plugin registry for npx/plugin distribution
+.claude-plugin/
+  marketplace.json    -- plugin registry for npx/plugin distribution
 ```
 
 Each skill has a `SKILL.md` (loaded on demand by Claude). Supporting content lives in subdirectories. `skills/RESOLVER.md` is the human-readable index of "which trigger goes to which skill"; keep it in sync when you change a skill's scope.
