@@ -16,7 +16,9 @@ Waza (技, わざ) is a Japanese martial arts term for technique: a move practic
 
 A good engineer does not just write code. They think through requirements, review their own work, debug systematically, design interfaces that feel intentional, and read primary sources. They write clearly, and learn new domains by producing output, not consuming content.
 
-AI makes you faster. It doesn't make you think more clearly, ship more carefully, or understand more deeply. Waza packages these habits into skills Claude can run. It is part of a trilogy: [Kaku](https://github.com/tw93/Kaku) (書く) writes code, [Waza](https://github.com/tw93/Waza) (技) drills habits, [Kami](https://github.com/tw93/Kami) (紙) ships documents.
+AI makes you faster. It doesn't make you think more clearly, ship more carefully, or understand more deeply. Waza packages these habits into skills Claude can run.
+
+Part of a trilogy: [Kaku](https://github.com/tw93/Kaku) (書く) writes code, [Waza](https://github.com/tw93/Waza) (技) drills habits, [Kami](https://github.com/tw93/Kami) (紙) ships documents. Think of them as a family: Kaku is the dad, Waza the big sister, Kami the little sister.
 
 <div align="center">
   <img src="https://gw.alipayobjects.com/zos/k/qa/waza_repaired_v4.svg" width="1000" />
