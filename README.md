@@ -39,13 +39,13 @@ Each engineering habit gets an installed skill. In Claude Code, type the slash c
 | [`/read`](skills/read/SKILL.md) | Any URL or PDF | Fetches content as clean Markdown with platform-specific routing. Special handling for GitHub, PDFs, WeChat, and Feishu. |
 | [`/health`](skills/health/SKILL.md) | Auditing Claude Code setup | Checks CLAUDE.md, rules, skills, hooks, MCP, and behavior. Flags issues by severity. |
 
-Each skill is a folder, not just a markdown file. Skills include reference docs, helper scripts, and gotchas sections built from real project failures.
+Each skill is a folder with reference docs, helper scripts, and gotchas from real failures.
 
 ## Extras
 
 ### Statusline
 
-A minimal Claude Code statusline that shows only what matters: context window usage, 5-hour quota, and 7-day quota, each with the time remaining until reset.
+A minimal statusline for Claude Code: context window, 5-hour quota, and 7-day quota.
 
 <div align="center">
   <img src="https://gw.alipayobjects.com/zos/k/y9/RUgevg.png" width="1000" />
@@ -124,7 +124,7 @@ The `/health` skill is based on the six-layer framework described in [this post]
 ## Support
 
 - If Waza helped you, [share it](https://twitter.com/intent/tweet?url=https://github.com/tw93/Waza&text=Waza%20-%20Claude%20Code%20skills%20for%20the%20complete%20engineer.) with friends or give it a star.
-- Got ideas or bugs? Open an issue or PR, feel free to contribute your best AI model.
+- Got ideas or bugs? Open an issue or PR.
 - I have two cats, TangYuan and Coke. If you think Waza delights your life, you can feed them <a href="https://miaoyan.app/cats.html?name=Waza" target="_blank">canned food 🥩</a>.
 
 <div align="center">
