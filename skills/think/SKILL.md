@@ -2,7 +2,7 @@
 name: think
 description: Invoke before writing any code for a new feature, design, or architecture decision. Turns rough ideas into approved plans with validated structure. Not for bug fixes or small edits.
 metadata:
-  version: "3.12.0"
+  version: "3.13.0"
 ---
 
 # Think: Design and Validate Before You Build
@@ -101,3 +101,25 @@ Get approval before proceeding. If the user rejects, ask specifically what did n
 - **Unknowns**: only items that are explicitly deferred with a stated reason and a clear owner. Not vague gaps. If an unknown blocks a decision, loop back before approval.
 
 After the user approves the design, stop. Implementation starts only when requested.
+
+## After Approval
+
+When the plan is approved, output this guidance:
+
+```
+Plan approved. To implement: describe what you want built, or say "implement this plan". After implementation, run `/check` to review before merging.
+```
+
+Keep it concise (2-3 sentences max). The user decides when to start implementation.
+
+## Document Architecture Mode
+
+Activate when: "plan a white paper", "structure a portfolio", "document outline", or pre-writing planning
+
+Pressure-test:
+- **Narrative arc**: Does the section order build momentum or scatter attention?
+- **Page budget**: Given target page count, does each section get appropriate space?
+- **Hierarchy clarity**: Can a reader skim headings and understand the argument?
+- **Content-to-chrome ratio**: Is too much space spent on decoration vs substance?
+
+Output: Approved section structure with page allocation, before any writing begins.

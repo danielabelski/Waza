@@ -48,11 +48,13 @@
 
 ## Chaining（常见串联）
 
-- `/think` 出方案 → 实施 → `/check` 把关
-- `/read` 取回多篇 URL → `/learn` 综合成文
-- `/learn` 出初稿 → `/write` 去 AI 味
-- `/hunt` 定位根因 → 修完 → `/check` 确认没副作用
-- `/health` 发现 skill 配置问题 → 修完再跑一次 `/health`
+技能之间的转换需要用户手动触发，不会自动串联。每个技能完成后会停下来，等你决定下一步。
+
+- `/think` 出方案 → **用户说"实现"** → 实施 → **用户说"/check"** → `/check` 把关
+- `/read` 取回多篇 URL → **用户说"/learn"** → `/learn` 综合成文
+- `/learn` 出初稿 → **用户说"/write"** → `/write` 去 AI 味
+- `/hunt` 定位根因 → **用户说"修"** → 修完 → **用户说"/check"** → `/check` 确认没副作用
+- `/health` 发现 skill 配置问题 → **用户说"修"** → 修完 → **用户说"/health"** → 再跑一次 `/health`
 
 ## Latent vs Deterministic
 

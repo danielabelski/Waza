@@ -41,6 +41,18 @@ Each engineering habit gets an installed skill. In Claude Code, type the slash c
 
 Each skill is a folder with reference docs, helper scripts, and gotchas from real failures.
 
+## Chaining Skills
+
+Skills are designed to be chained together, but transitions are manual. Each skill stops after completing its task and waits for you to decide the next step.
+
+**Common workflows:**
+
+- **Design a feature**: `/think` → approve → say "implement X" → `/check` → merge
+- **Research and write**: `/read` (fetch sources) → `/learn` (synthesize) → `/write` (polish)
+- **Debug and verify**: `/hunt` (find root cause) → fix → `/check` (review changes)
+
+Each arrow represents a manual user action. Skills don't automatically trigger each other.
+
 ## Extras
 
 ### Statusline
