@@ -2,7 +2,7 @@
 name: design
 description: Invoke when building any UI, component, page, or visual interface. Produces distinctive design with a committed aesthetic, not generic defaults. Handles screenshot-driven iteration when the user sends an image with a complaint. Not for backend logic or data pipelines.
 metadata:
-  version: "3.12.0"
+  version: "3.13.0"
 ---
 
 # Design: Build It With a Point of View
@@ -131,3 +131,20 @@ End with:
 - Instructions for replacing placeholder content with real content
 
 After handoff, stop. Do not iterate unless the user requests changes.
+
+## Print Typography Mode
+
+Activate when: resume, white paper, one-pager, PDF, print, spacing, typography, or styled HTML document
+
+Lock three constraints first:
+1. Target page count (e.g., "one page strict" vs "flexible length")
+2. Typography direction: dense editorial (1.1–1.3), reading-focused (1.5+), or hybrid
+3. Whitespace hierarchy: which gaps should differ most?
+
+Then measure and suggest:
+- Line-height tuning with page-savings math (e.g., "1.8 → 1.45 saves 3 lines per page")
+- Padding/margin scale audits (enforce 4px–12px–16px bands, no random 7px)
+- Em-dash → en-dash substitution (optical weight reduction)
+- Font rendering diagnostics (synthetic bold detection, fallback chains)
+
+Output: specific CSS changes with before/after line counts.

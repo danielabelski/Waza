@@ -2,7 +2,7 @@
 name: hunt
 description: Invoke when debugging any error, crash, unexpected behavior, or failing test. Finds root cause before applying any fix. Not for code review or new features.
 metadata:
-  version: "3.12.0"
+  version: "3.13.0"
 ---
 
 # Hunt: Diagnose Before You Fix
@@ -128,3 +128,15 @@ Suggested Next Steps:
 ```
 
 Status: **blocked**
+
+## Rendering Bug Mode
+
+Activate when: "PDF looks wrong", "page break issue", "font not rendering", or broken PDF output
+
+Diagnosis checklist:
+- **WeasyPrint bugs**: `rgba()` causes double-rectangle bug (use solid hex), `page-break-inside: avoid` ignored (use explicit breaks)
+- **Font loading**: Check @font-face paths, CORS headers, file format support
+- **Page overflow**: Calculate content height vs page height, suggest line-height/padding reduction
+- **Browser print CSS**: Confirm `@media print` rules, `@page` margins, orphan/widow control
+
+Static analysis first (CSS review), then reproduce if needed.

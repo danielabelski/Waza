@@ -2,7 +2,7 @@
 name: check
 description: Invoke after any implementation task completes or before merging. Reviews the diff, auto-fixes safe issues, runs specialist security and architecture reviewers on large diffs. Also handles issue/PR triage when the user mentions issues, PRs, or batch review. Not for exploring ideas or debugging.
 metadata:
-  version: "3.12.0"
+  version: "3.13.0"
 ---
 
 # Check: Review Before You Ship
@@ -117,6 +117,18 @@ If any of these phrases appear in your reasoning, stop and run verification firs
 | article.en.md inside _posts_en/ doubled the suffix | Check naming convention of existing files in the target directory first |
 | Deployed without env vars set | Run `vercel env ls` before deploying; diff against local keys |
 | Push failed from auth mismatch | Run `git remote -v` before the first push in a new project |
+
+## Document Review Mode
+
+Activate when: PDF, document, release notes, white paper, final version, or "check this document"
+
+Review checklist:
+- **Privacy scan**: Detect PII (names, companies, employment dates, salary hints, location details). Hard stop if any text implies job seeking, competitor info, or personal data leakage.
+- **Tone consistency**: Flag voice shifts, register mismatches, formulaic phrasing. Check for AI patterns (see `/write` skill for detection rules).
+- **Bilingual validation**: For CN/EN pairs, confirm translation accuracy and terminology consistency. Use `/write` skill's bilingual rules.
+- **Rendering check**: Placeholder text remaining (`Lorem ipsum`, `TODO`, `[TBD]`), style violations, font fallbacks, broken image links.
+
+Output format: same as code review sign-off, but replace `verification:` with `privacy: clear / N issues found`.
 
 ## Sign-off
 

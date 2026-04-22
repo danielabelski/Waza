@@ -2,7 +2,7 @@
 name: health
 description: Invoke when Claude ignores instructions, behaves inconsistently, hooks malfunction, or MCP servers need auditing. Audits the full six-layer config stack and flags issues by severity. Not for debugging code or reviewing PRs.
 metadata:
-  version: "3.11.0"
+  version: "3.13.0"
 ---
 
 # Health: Audit the Six-Layer Stack
@@ -160,6 +160,18 @@ If all three issue sections are empty, output one short line in the output langu
 | Reported issues in the wrong language | Honor `CLAUDE.md` Communication rule first; only fall back to the user's recent language when the rule is ambiguous |
 | Flagged a hook as broken when it was intentionally noisy | Ask the user before calling a hook "broken"; some hooks are deliberately verbose |
 | Treated a disabled MCP server as a failure | Respect `enabled: false` in settings; skip without flagging |
+
+## Design System Audit
+
+Activate when: "font not loading", "style inconsistency", "design tokens", or visual rendering bugs
+
+Check:
+- **Font stack validation**: Confirm all fonts in CSS have corresponding files, correct @font-face paths
+- **Token drift detection**: Find hardcoded values (colors, spacing) that should reference design tokens
+- **Fallback chain health**: Ensure fallback fonts exist on target platform
+- **CSS variable usage**: Flag inline styles that bypass the design system
+
+Report: Which fonts are missing, which values are hardcoded, suggested fixes.
 
 **Stop condition:** After the report, ask in the output language:
 > "All findings above carry an `Action:` line. Want me to apply them? I can handle each layer separately: global CLAUDE.md / local CLAUDE.md / rules / hooks / skills / MCP."

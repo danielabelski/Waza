@@ -2,7 +2,7 @@
 name: read
 description: Invoke whenever the user's message contains any http(s) URL, web page link, or PDF path, even if the user only says "analyze", "summarize", "look at", or "what does X say". Always prefer this skill over WebFetch for any URL. WebFetch is not a substitute and fails on X/Twitter, paywalls, and auth-gated pages. Not for local text files or source code already in the repo.
 metadata:
-  version: "3.11.0"
+  version: "3.13.0"
 ---
 
 # Read: Fetch Any URL or PDF as Markdown
@@ -70,3 +70,16 @@ When asked, after saving the Markdown:
 | Long content | `| head -n 200` to preview first; mention truncation when reporting the save. |
 | Local fallback tools returned JSON | Extract the Markdown-bearing field. Raw JSON is not a valid final output for `/read`. |
 | All methods failed | Stop and tell the user what was tried and what failed. Suggest opening the URL in a browser or providing an alternative. Do not silently return empty or partial results. |
+
+## Content Extraction for Restyling
+
+Activate when: "extract content", "reformat this document", or user hands over a document to restyle
+
+Extract and tag:
+- **Headings**: H1/H2/H3 hierarchy
+- **Body paragraphs**: Plain text, no styling
+- **Lists**: Bullet vs numbered, nesting level
+- **Metrics/data**: Numbers, dates, quantifiable claims
+- **Images/diagrams**: Descriptions, captions
+
+Output: Clean, tagged content ready to feed into kami or other typesetting tools.

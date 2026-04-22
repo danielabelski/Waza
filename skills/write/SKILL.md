@@ -2,7 +2,7 @@
 name: write
 description: Invoke only when explicitly asked to write, edit, or polish prose in Chinese or English. Strips AI writing patterns and rewrites to sound natural. Not for code comments, commit messages, or inline docs.
 metadata:
-  version: "3.10.1"
+  version: "3.13.0"
 ---
 
 # Write: Cut the AI Taste
@@ -31,6 +31,31 @@ Read the loaded reference file. Then edit. No summary, no commentary, no explana
 - **Never guess the target text.** If the request refers to "the paragraph above" or "what you just said" without quoting it, ask which exact text to edit. Do not rewrite conversation history without explicit permission.
 - **Stop after output.** Deliver the rewritten text. Then stop. Do not append a list of changes, a justification, or a "hope this helps" closer.
 - **No emoji in edited text.** Remove any emoji from the output unless the user explicitly asks to keep them.
+
+## Bilingual Review Mode
+
+Activate when: mixed Chinese/English, "Chinese copywriting", "bilingual consistency", "release notes"
+
+**Chinese rules** (from https://github.com/mzlogin/chinese-copywriting-guidelines):
+- Space between Chinese and English characters (CN文字EN → CN 文字 EN)
+- No mixing of punctuation (Chinese uses 、。？！；：, not commas/periods)
+- Consistent terminology across all instances
+
+**English in Chinese documents**: Flag unexplained English, suggest translation or add context.
+
+**Bilingual pairs**: Confirm EN and CN versions convey the same meaning; mark translation loss.
+
+## Release Note Template Mode
+
+Activate when: "release", "changelog", "version", "release notes"
+
+Generate from commit messages:
+- **Breaking Changes**
+- **New Features**
+- **Fixes & Improvements**
+- **Deprecations**
+
+Format: tw93/Mole style (numbered list, bold label, one sentence on user effect, bilingual).
 
 ## Output
 
