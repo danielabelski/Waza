@@ -41,6 +41,10 @@ def parse_frontmatter(path: Path) -> dict[str, str]:
                 )
             fields["description"] = raw_value.strip('"')
             in_metadata = False
+        elif line.startswith("when_to_use:"):
+            raw_value = line.split(":", 1)[1].strip()
+            fields["when_to_use"] = raw_value.strip('"')
+            in_metadata = False
         elif line == "metadata:":
             in_metadata = True
         elif in_metadata and line.startswith("  version:"):
@@ -115,11 +119,14 @@ for skill, skill_version in sorted(skill_versions.items()):
     market_version = market_versions[skill]
     if skill_version != market_version:
         fail(f"VERSION MISMATCH: {skill} SKILL={skill_version} MARKET={market_version}")
-    if skill_descriptions[skill] != market_descriptions[skill]:
+    # marketplace description may append TRIGGER/SKIP lines after the
+    # core SKILL.md description, so check prefix containment, not exact match.
+    if not market_descriptions[skill].startswith(skill_descriptions[skill]):
         fail(
             f"DESCRIPTION MISMATCH: {skill}\n"
             f"  SKILL.md:    {skill_descriptions[skill]}\n"
-            f"  marketplace: {market_descriptions[skill]}"
+            f"  marketplace: {market_descriptions[skill]}\n"
+            f"  marketplace description must start with the SKILL.md description"
         )
     print(f"ok: {skill} {skill_version}")
 
@@ -150,10 +157,14 @@ for skill, description in sorted(skill_descriptions.items()):
         fail(f"DESCRIPTION TOO SHORT: {skill} ({length} chars); need ≥40 for reliable resolver matching")
     if length > 500:
         fail(f"DESCRIPTION TOO LONG: {skill} ({length} chars); trim to ≤500 to keep the resolver index light")
-    if not clean.lower().startswith(("invoke", "use")):
+    # Descriptions should be third-person (per Anthropic best practices).
+    # Check for a verb in the first word rather than enforcing specific starters.
+    first_word = clean.split()[0].lower() if clean.split() else ""
+    passive_starters = ("the", "a", "an", "this", "it")
+    if first_word in passive_starters:
         fail(
-            f"DESCRIPTION MISSING TRIGGER VERB: {skill}\n"
-            f"  Must start with 'Invoke' or 'Use' so the resolver can match intent. Got: {clean[:60]!r}"
+            f"DESCRIPTION STARTS WITH ARTICLE: {skill}\n"
+            f"  Start with a verb or action phrase (third-person). Got: {clean[:60]!r}"
         )
     if "not for" not in clean.lower():
         fail(

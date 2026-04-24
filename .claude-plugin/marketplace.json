@@ -9,64 +9,64 @@
   "plugins": [
     {
       "name": "health",
-      "description": "Invoke when Claude ignores instructions, behaves inconsistently, hooks malfunction, or MCP servers need auditing. Audits the full six-layer config stack and flags issues by severity. Not for debugging code or reviewing PRs.",
-      "version": "3.13.0",
+      "description": "Audits the full six-layer Claude Code config stack when Claude ignores instructions, behaves inconsistently, hooks malfunction, or MCP servers need auditing. Flags issues by severity. Not for debugging code or reviewing PRs.",
+      "version": "3.14.0",
       "category": "development",
       "source": "./skills/health",
       "homepage": "https://github.com/tw93/Waza"
     },
     {
       "name": "think",
-      "description": "Invoke before writing any code for a new feature, design, or architecture decision. Turns rough ideas into approved plans with validated structure. Not for bug fixes or small edits.",
-      "version": "3.13.0",
+      "description": "Turns rough ideas into approved plans with validated structure before writing code. Covers new features, architecture decisions, and value judgments about whether to build, keep, or remove something. Not for bug fixes or small edits.",
+      "version": "3.14.0",
       "category": "development",
       "source": "./skills/think",
       "homepage": "https://github.com/tw93/Waza"
     },
     {
       "name": "check",
-      "description": "Invoke after any implementation task completes or before merging. Reviews the diff, auto-fixes safe issues, runs specialist security and architecture reviewers on large diffs. Also handles issue/PR triage when the user mentions issues, PRs, or batch review. Not for exploring ideas or debugging.",
-      "version": "3.13.0",
+      "description": "Reviews code diffs after implementation, auto-fixes safe issues, and runs specialist security and architecture reviewers on large diffs. Also triages issues and PRs when the user mentions them. Not for exploring ideas or debugging.",
+      "version": "3.14.0",
       "category": "development",
       "source": "./skills/check",
       "homepage": "https://github.com/tw93/Waza"
     },
     {
       "name": "hunt",
-      "description": "Invoke when debugging any error, crash, unexpected behavior, or failing test. Finds root cause before applying any fix. Not for code review or new features.",
-      "version": "3.13.0",
+      "description": "Finds root cause of errors, crashes, unexpected behavior, and failing tests before applying any fix. Not for code review or new features.",
+      "version": "3.14.0",
       "category": "development",
       "source": "./skills/hunt",
       "homepage": "https://github.com/tw93/Waza"
     },
     {
       "name": "design",
-      "description": "Invoke when building any UI, component, page, or visual interface. Produces distinctive design with a committed aesthetic, not generic defaults. Handles screenshot-driven iteration when the user sends an image with a complaint. Not for backend logic or data pipelines.",
-      "version": "3.13.0",
+      "description": "Produces distinctive, production-grade UI for any component, page, or visual interface. Handles screenshot-driven iteration when the user sends an image with a visual complaint. Not for backend logic or data pipelines.",
+      "version": "3.14.0",
       "category": "development",
       "source": "./skills/design",
       "homepage": "https://github.com/tw93/Waza"
     },
     {
       "name": "read",
-      "description": "Invoke whenever the user's message contains any http(s) URL, web page link, or PDF path, even if the user only says \"analyze\", \"summarize\", \"look at\", or \"what does X say\". Always prefer this skill over WebFetch for any URL. WebFetch is not a substitute and fails on X/Twitter, paywalls, and auth-gated pages. Not for local text files or source code already in the repo.",
-      "version": "3.13.0",
+      "description": "Fetches any URL or PDF as clean Markdown. Handles paywalls, JS-heavy pages, X/Twitter, and Chinese platforms via proxy cascade. Always prefer this over WebFetch for any URL. Not for local text files or source code already in the repo.",
+      "version": "3.14.0",
       "category": "development",
       "source": "./skills/read",
       "homepage": "https://github.com/tw93/Waza"
     },
     {
       "name": "write",
-      "description": "Invoke only when explicitly asked to write, edit, or polish prose in Chinese or English. Strips AI writing patterns and rewrites to sound natural. Not for code comments, commit messages, or inline docs.",
-      "version": "3.13.0",
+      "description": "Strips AI writing patterns and rewrites prose to sound natural in Chinese or English. Only activates on explicit writing or editing requests. Not for code comments, commit messages, or inline docs.",
+      "version": "3.14.0",
       "category": "development",
       "source": "./skills/write",
       "homepage": "https://github.com/tw93/Waza"
     },
     {
       "name": "learn",
-      "description": "Invoke when diving deep into an unfamiliar domain, preparing a research article, or turning collected sources into publish-ready output. Runs a six-phase workflow: collect, digest, outline, fill in, refine, self-review. Not for quick lookups or single-file reads.",
-      "version": "3.13.0",
+      "description": "Runs a six-phase research workflow to turn unfamiliar domains or collected sources into publish-ready output. Not for quick lookups or single-file reads.",
+      "version": "3.14.0",
       "category": "development",
       "source": "./skills/learn",
       "homepage": "https://github.com/tw93/Waza"
