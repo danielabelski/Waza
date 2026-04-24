@@ -1,8 +1,9 @@
 ---
 name: write
-description: Invoke only when explicitly asked to write, edit, or polish prose in Chinese or English. Strips AI writing patterns and rewrites to sound natural. Not for code comments, commit messages, or inline docs.
+description: "Strips AI writing patterns and rewrites prose to sound natural in Chinese or English. Only activates on explicit writing or editing requests. Not for code comments, commit messages, or inline docs."
+when_to_use: "帮我写, 改稿, 润色, 去AI味, 写一段, draft, edit text, proofread, sound natural, polish, rewrite"
 metadata:
-  version: "3.13.0"
+  version: "3.14.0"
 ---
 
 # Write: Cut the AI Taste

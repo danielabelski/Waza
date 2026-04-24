@@ -1,8 +1,9 @@
 ---
 name: learn
-description: "Invoke when diving deep into an unfamiliar domain, preparing a research article, or turning collected sources into publish-ready output. Runs a six-phase workflow: collect, digest, outline, fill in, refine, self-review. Not for quick lookups or single-file reads."
+description: "Runs a six-phase research workflow to turn unfamiliar domains or collected sources into publish-ready output. Not for quick lookups or single-file reads."
+when_to_use: "学习一下, 深入研究, 研究一下, 整理成文章, research, deep dive, help me understand, compile sources, unfamiliar domain"
 metadata:
-  version: "3.13.0"
+  version: "3.14.0"
 ---
 
 # Learn: From Raw Materials to Published Output

@@ -1,8 +1,9 @@
 ---
 name: hunt
-description: Invoke when debugging any error, crash, unexpected behavior, or failing test. Finds root cause before applying any fix. Not for code review or new features.
+description: "Finds root cause of errors, crashes, unexpected behavior, and failing tests before applying any fix. Not for code review or new features."
+when_to_use: "排查, 查查, 报错, 崩溃, 不工作, 不对, 跑不通, debug, why broken, not working, what's wrong, fix error, stack trace"
 metadata:
-  version: "3.13.0"
+  version: "3.14.0"
 ---
 
 # Hunt: Diagnose Before You Fix

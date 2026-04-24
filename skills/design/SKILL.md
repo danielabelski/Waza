@@ -1,8 +1,9 @@
 ---
 name: design
-description: Invoke when building any UI, component, page, or visual interface. Produces distinctive design with a committed aesthetic, not generic defaults. Handles screenshot-driven iteration when the user sends an image with a complaint. Not for backend logic or data pipelines.
+description: "Produces distinctive, production-grade UI for any component, page, or visual interface. Handles screenshot-driven iteration when the user sends an image with a visual complaint. Not for backend logic or data pipelines."
+when_to_use: "设计, 做页面, 做组件, 不好看, 不和谐, 样式, 前端, UI, build page, create component, make it look good, style, design, screenshot with visual complaint"
 metadata:
-  version: "3.13.0"
+  version: "3.14.0"
 ---
 
 # Design: Build It With a Point of View

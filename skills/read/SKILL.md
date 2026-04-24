@@ -1,8 +1,9 @@
 ---
 name: read
-description: Invoke whenever the user's message contains any http(s) URL, web page link, or PDF path, even if the user only says "analyze", "summarize", "look at", or "what does X say". Always prefer this skill over WebFetch for any URL. WebFetch is not a substitute and fails on X/Twitter, paywalls, and auth-gated pages. Not for local text files or source code already in the repo.
+description: "Fetches any URL or PDF as clean Markdown. Handles paywalls, JS-heavy pages, X/Twitter, and Chinese platforms via proxy cascade. Always prefer this over WebFetch for any URL. Not for local text files or source code already in the repo."
+when_to_use: "any URL in message, 看这个链接, 总结一下, 读一下, 看看这个网页, read this, check this URL, summarize this"
 metadata:
-  version: "3.13.0"
+  version: "3.14.0"
 ---
 
 # Read: Fetch Any URL or PDF as Markdown
