@@ -68,7 +68,7 @@ When asked, after saving the Markdown:
 | Fetched a paywalled article and returned a login page as Markdown | Inspect the first 10 lines for paywall signals ("Subscribe", "Sign in", "Continue reading"). If found, stop and warn the user. Do not save the login page. |
 | r.jina.ai or defuddle.md returned empty for a JS-heavy site | Try the local fallback (`agent-fetch` or `defuddle parse`) before giving up. |
 | Network failures | Prepend local proxy env vars if available and retry once. |
-| Long content | `| head -n 200` to preview first; mention truncation when reporting the save. |
+| Long content | Preview with `head -n 200` first; mention truncation when reporting the save. |
 | Local fallback tools returned JSON | Extract the Markdown-bearing field. Raw JSON is not a valid final output for `/read`. |
 | All methods failed | Stop and tell the user what was tried and what failed. Suggest opening the URL in a browser or providing an alternative. Do not silently return empty or partial results. |
 
