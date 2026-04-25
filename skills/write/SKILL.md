@@ -3,7 +3,7 @@ name: write
 description: "Strips AI writing patterns and rewrites prose to sound natural in Chinese or English. Only activates on explicit writing or editing requests. Not for code comments, commit messages, or inline docs."
 when_to_use: "帮我写, 改稿, 润色, 去AI味, 写一段, draft, edit text, proofread, sound natural, polish, rewrite"
 metadata:
-  version: "3.14.0"
+  version: "3.15.0"
 ---
 
 # Write: Cut the AI Taste
