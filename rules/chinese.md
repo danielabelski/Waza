@@ -11,6 +11,7 @@ Applies to all Chinese output in every session: check replies, hunt diagnostics,
 5. **提示语引导** - 不写 "值得注意的是"、"需要指出的是"、"有一点很重要"
 6. **报告腔** - 不用 "本次"、"整体而言"、"综上所述"、"具体来说"、"随着...的发展"
 7. **形式感连接词** - 不用 "从而"、"进而"、"基于此"、"有鉴于此" 做段落过渡
+8. **图后 prose 与 alt 对齐** - 图片 alt text 列了几项，正文 prose 就要展开同样几项，不能错位。改正文之前先看图 alt，改完检查图 alt，必要时图也得重画
 
 ### GitHub issue/PR 中文评论
 

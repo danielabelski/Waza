@@ -200,4 +200,5 @@ test -f skills/health/agents/inspector-control.md && \
 test -f skills/check/agents/reviewer-security.md && \
 test -f skills/check/agents/reviewer-architecture.md && \
 test -f skills/check/references/persona-catalog.md && \
-test -f rules/english.md && echo "references: ok"
+test -f rules/english.md && \
+test -f rules/chinese.md && echo "references: ok"

@@ -40,6 +40,7 @@ Before adding a new capability, decide which layer it belongs in. Waza's eight s
 Examples in this repo:
 - `verify-skills.sh` = script (frontmatter / references / version parity, all deterministic)
 - `rules/english.md` = rule (applies in every session, no judgment needed)
+- `rules/chinese.md` = rule (anti-AI patterns for Chinese output, deterministic)
 - `/think`, `/hunt`, `/check` = skills (each reads the situation and decides)
 - `/health` diagnostics = skill (tier-aware, context-sensitive)
 - Six-layer tier assessment = skill (needs judgment about project size and signals)
