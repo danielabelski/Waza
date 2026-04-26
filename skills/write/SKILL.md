@@ -30,6 +30,8 @@ Read the loaded reference file. Then edit. No summary, no commentary, no explana
 - **No silent restructuring.** Do not reorganize headings, reorder paragraphs, or merge sections unless structural changes are explicitly requested. Edit in place.
 - **Match naming conventions.** Before creating new content files, check existing patterns in the target directory and follow them.
 - **Never guess the target text.** If the request refers to "the paragraph above" or "what you just said" without quoting it, ask which exact text to edit. Do not rewrite conversation history without explicit permission.
+- **Verify the change list against disk first.** When the user hands a list of changes to apply, diff each item against the actual file before editing. Common silent failures: stale-version residue, stray characters from earlier drafts, items already reverted, items that were never there. Report mismatches before applying.
+- **Re-read 5 lines around each edit.** After every change, scan 5 lines above and below for orphan single-sentence paragraphs, stray characters, image alt drifting from prose, or term inconsistency. Fix before the next edit.
 - **Stop after output.** Deliver the rewritten text. Then stop. Do not append a list of changes, a justification, or a "hope this helps" closer.
 - **No emoji in edited text.** Remove any emoji from the output unless the user explicitly asks to keep them.
 
