@@ -3,7 +3,7 @@ name: think
 description: "Turns rough ideas into approved plans with validated structure before writing code. Covers new features, architecture decisions, and value judgments about whether to build, keep, or remove something. Not for bug fixes or small edits."
 when_to_use: "出方案, 给方案, 深入分析, 怎么设计, 用什么方案, 判断一下, 有没有必要, 值不值得, what's the best approach, plan this, how should I, should we keep this"
 metadata:
-  version: "3.15.0"
+  version: "3.16.0"
 ---
 
 # Think: Design and Validate Before You Build
@@ -58,6 +58,8 @@ Before proposing custom implementations, search for framework built-ins, officia
 Give one recommended approach with rationale. Include effort, risk, and what existing code it builds on. Mention one alternative only if the tradeoff is genuinely close (>40% chance the user would prefer it). Always include one minimal option.
 
 For the recommendation, identify the most fragile assumption (premise collapse) and state it explicitly: "This plan assumes X. If X does not hold, Y happens." If the assumption is load-bearing and fragile, deform the design to survive its failure.
+
+**Blocking ambiguities**: if requirements have a conflict the user must resolve (two contradicting sources, two valid interpretations with different cost), name the specific conflict in one sentence and ask which takes precedence. Do not silently pick.
 
 **Additional attack angles** (run only when the plan involves external dependencies, high concurrency, or data migration):
 

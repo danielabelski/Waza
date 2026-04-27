@@ -3,7 +3,7 @@ name: hunt
 description: "Finds root cause of errors, crashes, unexpected behavior, and failing tests before applying any fix. Not for code review or new features."
 when_to_use: "排查, 查查, 报错, 崩溃, 不工作, 不对, 跑不通, debug, why broken, not working, what's wrong, fix error, stack trace"
 metadata:
-  version: "3.15.0"
+  version: "3.16.0"
 ---
 
 # Hunt: Diagnose Before You Fix
@@ -142,3 +142,7 @@ Diagnosis checklist:
 - **Browser print CSS**: Confirm `@media print` rules, `@page` margins, orphan/widow control
 
 Static analysis first (CSS review), then reproduce if needed.
+
+## IME / Unicode Issues
+
+For input method, character rendering, or text encoding bugs (IME state, cursor drift, emoji splitting, composition events), check `references/ime-unicode.md` first before forming a hypothesis.

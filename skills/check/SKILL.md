@@ -3,7 +3,7 @@ name: check
 description: "Reviews code diffs after implementation, auto-fixes safe issues, and runs specialist security and architecture reviewers on large diffs. Also triages issues and PRs when the user mentions them. Not for exploring ideas or debugging."
 when_to_use: "review, 看看代码, 检查一下, 有没有问题, 是否需要优化, 合并前, 看看issue, 看看PR, review my code, check changes, before merge, code review"
 metadata:
-  version: "3.14.0"
+  version: "3.15.0"
 ---
 
 # Check: Review Before You Ship
@@ -30,8 +30,13 @@ Activate when the user mentions: issue, PR, "review all", triage, "batch", or "�
    git log --oneline <tag>..HEAD | grep -i "<keyword>" # merged but unreleased?
    ```
    Three outcomes: already shipped (close with note), merged but unreleased (reply "已修复，等下一个版本 release", close), or no fix (analyze).
-3. Classify each item using the Category A-E system in `~/www/CLAUDE.md`. Do not copy the definitions here; read them from that file.
-4. Draft every reply and show it to Tang for confirmation before calling `gh issue comment` or any GitHub write operation.
+3. Classify each item using one of the categories below:
+   - **A**: Valid bug or request, can fix now → fix, verify, commit, reply, close.
+   - **B**: Already fixed on a nightly/dev build → reply with upgrade instruction, close.
+   - **C**: Valid but fix needs a release → acknowledge, leave open, close after release.
+   - **D**: Not valid or won't fix → one or two sentences with reason, close.
+   - **E**: PR is valid but implementation needs changes → re-implement yourself, reply explaining changes, close without merging the branch.
+4. Draft every reply and show it to the maintainer for confirmation before calling `gh issue comment` or any GitHub write operation.
 5. If no open items exist: shift to historical analysis. Run `gh issue list -R <repo> --state closed --limit 50` and look for recurring themes, fixes closed without resolution, and deferred features with demand. Produce a short per-project summary with **Fix candidates** and **Feature candidates**. Do not implement without approval.
 
 **Sign-off line (append to standard sign-off):**
