@@ -190,15 +190,6 @@ for skill in sorted(skill_versions):
     print(f"ok: resolver entry for {skill}")
 PYEOF
 
-# Reference files exist for skills that use them
-test -f skills/design/references/design-reference.md && \
-test -f skills/read/references/read-methods.md && \
-test -f skills/write/references/write-zh.md && \
-test -f skills/write/references/write-en.md && \
-test -f skills/health/agents/inspector-context.md && \
-test -f skills/health/agents/inspector-control.md && \
-test -f skills/check/agents/reviewer-security.md && \
-test -f skills/check/agents/reviewer-architecture.md && \
-test -f skills/check/references/persona-catalog.md && \
+# Rules files (outside skills/ so regex check above does not cover them)
 test -f rules/english.md && \
 test -f rules/chinese.md && echo "references: ok"
