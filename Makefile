@@ -79,13 +79,13 @@ smoke-verify-skills:
 		fi; \
 		grep -q 'INVALID FRONTMATTER' "$$tmpdir/frontmatter.err"; \
 		cp -R . "$$tmpdir/repo2"; \
-		python3 -c "import json; p='$$tmpdir/repo2/marketplace.json'; d=json.load(open(p)); d['plugins'].append({'name':'ghost','description':'x','version':'1.0.0','category':'development','source':'./skills/ghost','homepage':'https://example.com'}); open(p,'w').write(json.dumps(d, indent=2) + '\n')"; \
+		python3 -c "import json; p='$$tmpdir/repo2/.claude-plugin/marketplace.json'; d=json.load(open(p)); d['plugins'].append({'name':'ghost','description':'x','version':'1.0.0','category':'development','source':'./skills/ghost','homepage':'https://example.com'}); open(p,'w').write(json.dumps(d, indent=2) + '\n')"; \
 		if (cd "$$tmpdir/repo2" && ./scripts/verify-skills.sh >"$$tmpdir/market.out" 2>"$$tmpdir/market.err"); then \
 			echo "verify-skills should reject marketplace-only entries"; exit 1; \
 		fi; \
 		grep -q 'MISSING SKILL DIRECTORY: ghost' "$$tmpdir/market.err"; \
 		cp -R . "$$tmpdir/repo3"; \
-		python3 -c "import json; p='$$tmpdir/repo3/marketplace.json'; d=json.load(open(p)); [entry.update({'source':'./skills/read'}) for entry in d['plugins'] if entry['name']=='check']; open(p,'w').write(json.dumps(d, indent=2) + '\n')"; \
+		python3 -c "import json; p='$$tmpdir/repo3/.claude-plugin/marketplace.json'; d=json.load(open(p)); [entry.update({'source':'./skills/read'}) for entry in d['plugins'] if entry['name']=='check']; open(p,'w').write(json.dumps(d, indent=2) + '\n')"; \
 		if (cd "$$tmpdir/repo3" && ./scripts/verify-skills.sh >"$$tmpdir/source.out" 2>"$$tmpdir/source.err"); then \
 			echo "verify-skills should reject wrong source paths"; exit 1; \
 		fi; \

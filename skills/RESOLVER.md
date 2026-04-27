@@ -1,5 +1,9 @@
 # Waza Skill Resolver
 
+## Shared Output Marker
+
+所有技能都沿用同一个输出约定：首行内联带上 `🥷`，不要单独起段。这个约定写在各自的 `SKILL.md` 里，`verify-skills.sh` 也会校验它。
+
 触发词到技能的路由表。Claude Code 通过每个 SKILL.md 的 `description` 自动匹配，这份文档是给人看的集中索引，也是 `verify-skills.sh` 的校验依据。改 SKILL.md 的适用范围时，同步改这里。
 
 > **Read the skill file before acting.** 两个技能都可能匹配时，两个都读。它们设计成可串联（例：`/think` → 实现 → `/check`）。

@@ -71,11 +71,12 @@ for path in skill_files:
     fields = parse_frontmatter(path)
     if fields["name"] != skill_dir:
         fail(f"NAME MISMATCH: {path} frontmatter name={fields['name']} dir={skill_dir}")
-    if "🥷" not in path.read_text():
+    expected_prefix = "Prefix your first line with 🥷 inline, not as its own paragraph."
+    if expected_prefix not in path.read_text():
         fail(
             f"MISSING NINJA PREFIX INSTRUCTION: {path}\n"
-            f"  Every SKILL.md must carry the 🥷 first-line prefix directive "
-            f"so the shared voice convention stays enforced."
+            f"  Every SKILL.md must carry this exact line:\n"
+            f"  {expected_prefix}"
         )
     skill_versions[skill_dir] = fields["version"]
     skill_descriptions[skill_dir] = fields["description"]

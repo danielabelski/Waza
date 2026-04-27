@@ -3,13 +3,12 @@ name: health
 description: "Audits the full six-layer Claude Code config stack when Claude ignores instructions, behaves inconsistently, hooks malfunction, or MCP servers need auditing. Flags issues by severity. Not for debugging code or reviewing PRs."
 when_to_use: "检查claude, 健康度, 配置检查, 配置对不对, Claude ignoring instructions, check config, settings not working, audit config"
 metadata:
-  version: "3.15.0"
+  version: "3.16.0"
 ---
 
 # Health: Audit the Six-Layer Stack
 
 Prefix your first line with 🥷 inline, not as its own paragraph.
-
 
 Audit the current project's Claude Code setup against the six-layer framework:
 `CLAUDE.md → rules → skills → hooks → subagents → verifiers`
@@ -108,15 +107,3 @@ If no issues: `All relevant checks passed. Nothing to fix.`
 | Reported issues in wrong language | Honor CLAUDE.md Communication rule first |
 | Flagged intentionally noisy hook as broken | Ask before calling a hook "broken" |
 | Hook seemed not to fire, but it did -- a later UI element rendered above it | Hook firing order is not visual order. Before re-editing the hook config: (a) confirm with `--debug` or by piping output, (b) check whether a diff dialog, permission prompt, or other UI element rendered on top and pushed the hook output offscreen, (c) only then suspect the hook itself. |
-
-## Design System Audit
-
-Activate when: "font not loading", "style inconsistency", "design tokens", or visual rendering bugs
-
-Check:
-- **Font stack**: @font-face paths, file existence, CORS headers
-- **Token drift**: Hardcoded values that should reference design tokens
-- **Fallback chain**: Fonts exist on target platform
-- **CSS variables**: Inline styles bypassing the design system
-
-Report findings with `Action:` lines, then ask before applying any fix.
