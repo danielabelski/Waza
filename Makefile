@@ -72,24 +72,43 @@ smoke-statusline-installer:
 smoke-verify-skills:
 	@set -e; \
 		tmpdir=$$(mktemp -d); \
-		cp -R . "$$tmpdir/repo"; \
+		copy_repo() { mkdir -p "$$1"; tar --exclude './.git' --exclude '.git' -cf - . | (cd "$$1" && tar -xf -); }; \
+		copy_repo "$$tmpdir/repo"; \
 		python3 -c "from pathlib import Path; p=Path('$$tmpdir/repo/skills/check/SKILL.md'); t=p.read_text(); t=t.replace('---\n', '', 1); i=t.find('\n---\n'); p.write_text(t[:i] + t[i+5:])"; \
 		if (cd "$$tmpdir/repo" && ./scripts/verify-skills.sh >"$$tmpdir/frontmatter.out" 2>"$$tmpdir/frontmatter.err"); then \
 			echo "verify-skills should reject missing frontmatter delimiters"; exit 1; \
 		fi; \
 		grep -q 'INVALID FRONTMATTER' "$$tmpdir/frontmatter.err"; \
-		cp -R . "$$tmpdir/repo2"; \
+		copy_repo "$$tmpdir/repo2"; \
 		python3 -c "import json; p='$$tmpdir/repo2/.claude-plugin/marketplace.json'; d=json.load(open(p)); d['plugins'].append({'name':'ghost','description':'x','version':'1.0.0','category':'development','source':'./skills/ghost','homepage':'https://example.com'}); open(p,'w').write(json.dumps(d, indent=2) + '\n')"; \
 		if (cd "$$tmpdir/repo2" && ./scripts/verify-skills.sh >"$$tmpdir/market.out" 2>"$$tmpdir/market.err"); then \
 			echo "verify-skills should reject marketplace-only entries"; exit 1; \
 		fi; \
 		grep -q 'MISSING SKILL DIRECTORY: ghost' "$$tmpdir/market.err"; \
-		cp -R . "$$tmpdir/repo3"; \
+		copy_repo "$$tmpdir/repo3"; \
 		python3 -c "import json; p='$$tmpdir/repo3/.claude-plugin/marketplace.json'; d=json.load(open(p)); [entry.update({'source':'./skills/read'}) for entry in d['plugins'] if entry['name']=='check']; open(p,'w').write(json.dumps(d, indent=2) + '\n')"; \
 		if (cd "$$tmpdir/repo3" && ./scripts/verify-skills.sh >"$$tmpdir/source.out" 2>"$$tmpdir/source.err"); then \
 			echo "verify-skills should reject wrong source paths"; exit 1; \
 		fi; \
 		grep -q 'WRONG SOURCE: check' "$$tmpdir/source.err"; \
+		copy_repo "$$tmpdir/repo4"; \
+		python3 -c "from pathlib import Path; p=Path('$$tmpdir/repo4/skills/check/SKILL.md'); p.write_text(p.read_text() + '\n[broken](missing-target.md)\n')"; \
+		if (cd "$$tmpdir/repo4" && ./scripts/verify-skills.sh >"$$tmpdir/link.out" 2>"$$tmpdir/link.err"); then \
+			echo "verify-skills should reject broken markdown links"; exit 1; \
+		fi; \
+		grep -q 'BROKEN MARKDOWN LINK' "$$tmpdir/link.err"; \
+		copy_repo "$$tmpdir/repo5"; \
+		printf '\n| trigger | skills/ghost/SKILL.md |\n' >> "$$tmpdir/repo5/skills/RESOLVER.md"; \
+		if (cd "$$tmpdir/repo5" && ./scripts/verify-skills.sh >"$$tmpdir/resolver.out" 2>"$$tmpdir/resolver.err"); then \
+			echo "verify-skills should reject stale RESOLVER references"; exit 1; \
+		fi; \
+		grep -q 'RESOLVER REFERENCES MISSING SKILL: ghost' "$$tmpdir/resolver.err"; \
+		copy_repo "$$tmpdir/repo6"; \
+		printf '\n| Col1 | Col2 |\n| --- | --- |\n| a | b | c |\n' >> "$$tmpdir/repo6/skills/check/SKILL.md"; \
+		if (cd "$$tmpdir/repo6" && ./scripts/verify-skills.sh >"$$tmpdir/pipe.out" 2>"$$tmpdir/pipe.err"); then \
+			echo "verify-skills should reject unescaped pipe in table data row"; exit 1; \
+		fi; \
+		grep -q 'UNESCAPED PIPE IN TABLE' "$$tmpdir/pipe.err"; \
 		echo "verify-skills smoke: ok"
 
 smoke-health:
