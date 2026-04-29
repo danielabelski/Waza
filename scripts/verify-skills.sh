@@ -189,6 +189,90 @@ for skill in sorted(skill_versions):
             f"  Add a row to a triggers table that references {token!r}."
         )
     print(f"ok: resolver entry for {skill}")
+
+# Reverse check: RESOLVER.md references must point to existing skill dirs.
+referenced_skills = set(re.findall(r'skills/([a-z][a-z0-9_-]*)/SKILL\.md', resolver_text))
+stale = sorted(referenced_skills - set(skill_versions))
+if stale:
+    fail(f"RESOLVER REFERENCES MISSING SKILL: {', '.join(stale)}")
+print("ok: resolver has no stale skill references")
+
+# Collect all markdown files for link and table checks.
+all_md: list[Path] = [resolver_path]
+for skill in sorted(skill_versions):
+    skill_root = root / "skills" / skill
+    all_md.append(skill_root / "SKILL.md")
+    for sub in ("references", "agents"):
+        sub_dir = skill_root / sub
+        if sub_dir.is_dir():
+            all_md.extend(sorted(sub_dir.rglob("*.md")))
+
+# Broken link check: relative [text](path) links must resolve.
+link_re = re.compile(r'\[[^\]]*\]\(([^)]+)\)')
+URL_PREFIXES = ("http://", "https://", "mailto:", "ftp://", "tel:", "data:")
+for path in all_md:
+    if not path.exists():
+        continue
+    in_code = False
+    for lineno, line in enumerate(path.read_text().splitlines(), start=1):
+        if line.lstrip().startswith("```"):
+            in_code = not in_code
+            continue
+        if in_code:
+            continue
+        for m in link_re.finditer(line):
+            raw = m.group(1).strip()
+            if not raw or raw.startswith(("#", "/")):
+                continue
+            if raw.startswith(URL_PREFIXES) or "://" in raw:
+                continue
+            target = raw.split("#", 1)[0].split("?", 1)[0]
+            if target and not (path.parent / target).resolve().exists():
+                fail(f"BROKEN MARKDOWN LINK: {path}:{lineno} -> {raw}")
+    print(f"ok: markdown links {path.relative_to(root)}")
+
+# Pipe-in-table: unescaped | in data cells breaks GitHub rendering (#35).
+SEP_RE = re.compile(r'^[\s|:\-]+$')
+
+def pipe_count(s: str) -> int:
+    n, tick, i = 0, False, 0
+    while i < len(s):
+        if s[i] == "\\" and i + 1 < len(s):
+            i += 2
+            continue
+        if s[i] == "`":
+            tick = not tick
+        elif s[i] == "|" and not tick:
+            n += 1
+        i += 1
+    return n
+
+for path in all_md:
+    if not path.exists():
+        continue
+    in_fence = False
+    sep_pipes = None
+    for lineno, line in enumerate(path.read_text().splitlines(), start=1):
+        stripped = line.strip()
+        if stripped.startswith("```"):
+            in_fence = not in_fence
+            sep_pipes = None
+            continue
+        if in_fence:
+            sep_pipes = None
+            continue
+        if SEP_RE.match(stripped) and "---" in stripped and "|" in stripped:
+            sep_pipes = pipe_count(stripped)
+            continue
+        if sep_pipes is not None and stripped.startswith("|"):
+            if pipe_count(stripped) > sep_pipes:
+                fail(
+                    f"UNESCAPED PIPE IN TABLE: {path}:{lineno}\n"
+                    f"  Use '\\|' or wrap the cell text in backticks."
+                )
+            continue
+        sep_pipes = None
+    print(f"ok: table pipes {path.relative_to(root)}")
 PYEOF
 
 # Rules files (outside skills/ so regex check above does not cover them)
