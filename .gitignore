@@ -6,8 +6,7 @@ AGENTS.md
 skills-lock.json
 
 # Distribution
-/dist/*
-!/dist/waza.zip
+/dist/
 
 # macOS
 .DS_Store
