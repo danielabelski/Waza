@@ -101,6 +101,10 @@ npx skills add tw93/Waza -a claude-code -g -y
 npx skills add tw93/Waza -a codex -g -y
 ```
 
+**Claude Desktop**
+
+Download [waza.zip](https://github.com/tw93/Waza/releases/latest/download/waza.zip), open Customize > Skills > "+" > Create skill, and upload the ZIP.
+
 **Compatibility**
 
 `/health` is Claude Code only. The other skills are written to use the host environment's native question, search, fetch, and agent mechanisms. `/check` runs parallel specialist reviewers when the host supports them; otherwise it performs the same passes inline.

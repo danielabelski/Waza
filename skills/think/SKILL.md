@@ -81,8 +81,8 @@ Get approval before proceeding. If the user rejects, ask specifically what did n
 | Planned MCP workflow without checking if MCP was loaded | Verify tool availability before handing off, not mid-implementation |
 | Rejected design restarted from scratch | Ask what specifically failed, re-enter with narrowed constraints |
 | User said "just fix X" and skipped /think | If the fix touches 3+ files or needs a method choice, pause and run Lightweight Mode |
-| Built against wrong regional API (Shengwang vs Agora) | List all regional differences before writing integration code |
-| Added FastAPI backend to a Next.js project | Never add a new language or runtime without explicit approval |
+| Picked a regional or locale-specific API variant without checking | List all regional or locale differences before writing integration code |
+| Introduced a second language or runtime into a single-stack project | Never add a new language or runtime without explicit approval |
 | User said "判断一下这个报错" and got Evaluation Mode | "判断一下" + error/bug context = debugging, route to `/hunt`. Evaluation Mode is for value/existence judgments only |
 
 ## Output

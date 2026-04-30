@@ -1,15 +1,15 @@
 PROJECT_KEY := $(shell printf '%s' "$(CURDIR)" | sed 's|[/_]|-|g; s|^-||')
 
-.PHONY: test verify-docs verify-scripts smoke-statusline smoke-statusline-installer smoke-verify-skills smoke-health
+.PHONY: test verify-docs verify-scripts smoke-statusline smoke-statusline-installer smoke-verify-skills smoke-package smoke-health package
 
-test: verify-docs verify-scripts smoke-statusline smoke-statusline-installer smoke-verify-skills smoke-health
+test: verify-docs verify-scripts smoke-statusline smoke-statusline-installer smoke-verify-skills smoke-package smoke-health
 
 verify-docs:
 	./scripts/verify-skills.sh
 
 verify-scripts:
 	git diff --check
-	bash -n scripts/statusline.sh skills/health/scripts/collect-data.sh skills/read/scripts/fetch.sh scripts/setup-statusline.sh skills/check/scripts/run-tests.sh
+	bash -n scripts/statusline.sh skills/health/scripts/collect-data.sh skills/read/scripts/fetch.sh scripts/setup-statusline.sh skills/check/scripts/run-tests.sh scripts/package-skill.sh
 	echo "bash -n: ok"
 	python3 -m py_compile skills/read/scripts/fetch_feishu.py skills/read/scripts/fetch_weixin.py
 	echo "py_compile: ok"
@@ -110,6 +110,19 @@ smoke-verify-skills:
 		fi; \
 		grep -q 'UNESCAPED PIPE IN TABLE' "$$tmpdir/pipe.err"; \
 		echo "verify-skills smoke: ok"
+
+package:
+	./scripts/package-skill.sh
+
+smoke-package:
+	@set -e; \
+		tmpdir=$$(mktemp -d); \
+		./scripts/package-skill.sh "$$tmpdir/waza.zip" >/dev/null; \
+		zipinfo -1 "$$tmpdir/waza.zip" >"$$tmpdir/manifest"; \
+		grep -qx 'SKILL.md' "$$tmpdir/manifest"; \
+		grep -qx 'skills/check/SKILL.md' "$$tmpdir/manifest"; \
+		grep -qx 'skills/read/scripts/fetch.sh' "$$tmpdir/manifest"; \
+		echo "package smoke: ok"
 
 smoke-health:
 	@set -e; \

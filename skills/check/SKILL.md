@@ -20,6 +20,8 @@ Get the full diff between the current branch and the base branch. If unclear, as
 
 Activate when the user mentions: issue, PR, "review all", triage, "batch", or "批量处理". Skip the diff flow and run this instead.
 
+**Action-first rule:** Items with a clear disposition (already fixed, duplicate, already released) get acted on immediately without analysis paragraphs. When analyzing screenshots or images, state what you see and the suggested action in one message. Only ask the user when the disposition is genuinely ambiguous.
+
 **Flow:** Pull open items with `gh issue list -R <repo> --state open --limit 20` and `gh pr list -R <repo> --state open`. For each item, check if a fix already shipped: `git log --oneline <latest-tag>..HEAD | grep -i "<keyword>"`. If shipped: close with note. If merged but unreleased: reply "已修复，等下一个版本 release" and close. If no fix: analyze and act. Fix now if possible (`fix: closes #N` commit); for Mole nightly-fixed items reply `@<user>, this is already fixed in the latest nightly. Upgrade: mo update --nightly` and close; for valid-but-unreleased items acknowledge and leave open; for invalid items give one-two sentence reason and close; for PRs with implementation issues re-implement yourself, explain changes, close without merging. Draft every reply and confirm with the maintainer before posting.
 
 **Sign-off line (append to standard sign-off):**
@@ -99,7 +101,7 @@ For bug fixes: a regression test that fails on the old code must exist before th
 |---------------|------|
 | Commented on #249 when discussing #255 | Run `gh issue view N` to confirm title before acting |
 | PR comment sounded like a report | 1-2 sentences, natural, like a colleague. Not structured, not AI-sounding. |
-| PR comment used bullet points | Write as paragraphs; thank the contributor first |
+| PR comment used bullet points | Write as short paragraphs, one thought per paragraph; thank the contributor first |
 | article.en.md inside _posts_en/ doubled the suffix | Check naming convention of existing files in the target directory first |
 | Deployed without env vars set | Run `vercel env ls` before deploying; diff against local keys |
 | Push failed from auth mismatch | Run `git remote -v` before the first push in a new project |

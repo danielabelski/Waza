@@ -280,6 +280,28 @@ These are not visual polish items. They are the difference between a demo and a 
 
 Would a stranger glancing at the first viewport say "an AI made this" immediately? If yes, the committed direction was not committed enough. The usual culprits: reflex font, default purple accent, centered hero with generic card grid beneath. Fix the typography, the color system, or the layout until the answer flips.
 
+## Brand Preset Flow
+
+For well-known brands (Linear, Stripe, Claude, Vercel, Apple, Tesla, Notion, Figma, Airbnb, Spotify, and ~56 others catalogued in `awesome-design-md`): ask the user whether to pull the curated preset via `npx getdesign@latest add <brand>`. If they approve, run it, read the generated `DESIGN.md` at project root, then do the 3-property decomposition against that file rather than from memory. The preset is a starting point, not a direction: the user still names the aesthetic precisely, and the reflex-font blocklist and absolute bans still win on any conflict.
+
+## App Shell Rules
+
+When building a sidebar + main workspace layout (Slack, Linear, Notion class):
+- Decorative backgrounds default to off
+- Surface hierarchy uses background-color steps and shadow only
+- All interactive elements get `active:scale-95`
+- Button radius is consistent within each component type (pick one: pill, square, or one fixed value, do not mix)
+- Commit to a named radius scale before the first component (see Border radius system above)
+
+## Options Guide
+
+When asked for design options, give at least 3 variations spread across genuinely different dimensions:
+
+- **Dimensions to vary**: visual density, typographic personality, color temperature, layout structure, motion character, amount of decoration, level of abstraction
+- **Mix approaches**: one option that follows existing conventions closely, one that remixes the brand DNA in a new way, one that is deliberately unexpected
+- **Progress from basic to bold**: the first option is safe and understandable; later options push further
+- Three options that differ only by accent color are not three variations. Vary the layout, the typeface, the motion, the surface treatment.
+
 ---
 
 *Rules in Reflex Fonts, Font Selection, OKLCH, Theme Matrix, Absolute Bans, Motion Specifics, and AI Slop Test adapted from [pbakaus/impeccable](https://github.com/pbakaus/impeccable) (Apache 2.0). DESIGN.md Scaffold adapted from [getdesign.md](https://getdesign.md) (MIT); concept credited to Google Stitch. Brand preset catalog from [VoltAgent/awesome-design-md](https://github.com/VoltAgent/awesome-design-md) (MIT). Content Authenticity, Multi-Card Alignment, and Strategic Omissions inspired by [Leonxlnx/taste-skill](https://github.com/Leonxlnx/taste-skill).*

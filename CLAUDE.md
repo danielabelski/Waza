@@ -84,3 +84,12 @@ Update: `npx skills add tw93/Waza@latest` · ⭐ [tw93/Waza](https://github.com/
 - Each item: `**Label**: one sentence` -- bold label is the skill or module name, description leads with what changed
 - Style: engineer-facing, no marketing language; one-to-one bilingual mapping
 - Footer: update command + star + repo link
+
+## Distribution
+
+Two distribution paths coexist:
+
+- **npx**: `npx skills add tw93/Waza` reads `.claude-plugin/marketplace.json`, installs each skill separately
+- **Claude Desktop ZIP**: `dist/waza.zip` is built by `scripts/package-skill.sh`, uses root `SKILL.md` as a dispatcher that routes to `skills/X/SKILL.md`
+
+`dist/waza.zip` is tracked in git. Rebuild with `make package` and upload to GitHub releases alongside tags.
