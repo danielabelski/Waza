@@ -40,14 +40,16 @@ awk '
 
 tar -cf - -T "$FILTERED_MANIFEST" | (cd "$STAGE" && tar -xf -)
 
-mkdir -p "$STAGE/skills"
 find skills -mindepth 2 -maxdepth 2 -name SKILL.md | sort | while IFS= read -r path; do
   skill="$(basename "$(dirname "$path")")"
-  mkdir -p "$STAGE/skills/$skill"
-  cp "$path" "$STAGE/skills/$skill/skill.md"
+  {
+    printf '\n---\n\n# SKILL: %s\n\n' "$skill"
+    awk 'BEGIN{skip=0} /^---$/{if(NR==1){skip=1;next} if(skip){skip=0;next}} !skip' "$path"
+  } >> "$STAGE/SKILL.md"
 done
 
-perl -0pi -e 's#skills/([a-z][a-z0-9_-]*)/SKILL\.md#skills/$1/skill.md#g' "$STAGE/SKILL.md"
+perl -0pi -e 's#`skills/([a-z][a-z0-9_-]*)/SKILL\.md`#the **$1** section below#g' "$STAGE/SKILL.md"
+find "$STAGE/skills" -type d -empty -delete 2>/dev/null || true
 
 (cd "$STAGE" && find . -type f | sed 's#^\./##' | sort | zip -q "$OUT" -@)
 
