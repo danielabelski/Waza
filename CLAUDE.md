@@ -78,7 +78,7 @@ Run `./scripts/verify-skills.sh` before any commit. If the diff is non-trivial, 
 1. **技能名**: 一句话说清楚改了什么以及对用户的影响。
 2. ...
 
-Update: `npx skills add tw93/Waza@latest` · ⭐ [tw93/Waza](https://github.com/tw93/Waza)
+Update: `npx skills add tw93/Waza@latest` · [Claude Desktop](https://github.com/tw93/Waza/releases/latest/download/waza.zip) · ⭐ [tw93/Waza](https://github.com/tw93/Waza)
 ```
 
 - Each item: `**Label**: one sentence` -- bold label is the skill or module name, description leads with what changed
@@ -92,4 +92,4 @@ Two distribution paths coexist:
 - **npx**: `npx skills add tw93/Waza` reads `.claude-plugin/marketplace.json`, installs each skill separately
 - **Claude Desktop ZIP**: `dist/waza.zip` is built by `scripts/package-skill.sh`, uses root `SKILL.md` as a dispatcher that routes to `skills/X/SKILL.md`
 
-`dist/waza.zip` is tracked in git. Rebuild with `make package` and upload to GitHub releases alongside tags.
+Rebuild with `make package`. CI auto-uploads the ZIP to GitHub releases on each published release.

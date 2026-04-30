@@ -115,6 +115,9 @@ Download [waza.zip](https://github.com/tw93/Waza/releases/latest/download/waza.z
 # Remove all skills
 npx skills remove tw93/Waza -g
 
+# Remove Claude Desktop skill
+# Open Customize > Skills, find Waza, click "..." > Delete
+
 # Remove statusline
 rm -f ~/.claude/statusline.sh
 # Then remove the statusLine key from ~/.claude/settings.json
