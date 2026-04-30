@@ -12,6 +12,8 @@ Prefix your first line with 🥷 inline, not as its own paragraph.
 
 Collect, organize, translate, explain, structure. Support the user's thinking; do not replace it.
 
+**Boundary**: single URL that only needs a summary (no cross-source synthesis, no new document) belongs in `/read`. `/learn` is for multi-source research that produces a new structured output.
+
 ## Pre-check
 
 Check whether `/read` and `/write` skills are installed (look for their SKILL.md in the skills directories). Warn if missing, do not block:

@@ -273,8 +273,50 @@ for path in all_md:
             continue
         sep_pipes = None
     print(f"ok: table pipes {path.relative_to(root)}")
+
+# Root SKILL.md validation (Claude Desktop dispatcher)
+root_skill = root / "SKILL.md"
+if not root_skill.exists():
+    fail(f"MISSING ROOT SKILL: expected {root_skill}")
+
+root_text = root_skill.read_text()
+root_lines = root_text.splitlines()
+if not root_lines or root_lines[0] != "---":
+    fail(f"INVALID FRONTMATTER: {root_skill} must start with ---")
+try:
+    root_end = root_lines.index("---", 1)
+except ValueError:
+    fail(f"INVALID FRONTMATTER: {root_skill} missing closing ---")
+
+root_fields: dict[str, str] = {}
+for line in root_lines[1:root_end]:
+    if line.startswith("name:"):
+        root_fields["name"] = line.split(":", 1)[1].strip().strip("'\"")
+    elif line.startswith("description:"):
+        root_fields["description"] = line.split(":", 1)[1].strip().strip("'\"")
+
+if root_fields.get("name") != "waza":
+    fail(f"ROOT SKILL NAME: expected 'waza', got {root_fields.get('name')!r}")
+if not root_fields.get("description"):
+    fail(f"ROOT SKILL DESCRIPTION: must be non-empty")
+
+expected_prefix = "Prefix your first line with 🥷 inline, not as its own paragraph."
+if expected_prefix not in root_text:
+    fail(f"MISSING NINJA PREFIX INSTRUCTION: {root_skill}")
+
+for skill in sorted(skill_versions):
+    token = f"skills/{skill}/SKILL.md"
+    if token not in root_text:
+        fail(
+            f"ROOT SKILL ROUTING GAP: {skill} has no entry in {root_skill}\n"
+            f"  Add a row to the routing table that references {token!r}."
+        )
+    print(f"ok: root routing entry for {skill}")
+
+print(f"ok: {root_skill.as_posix()}")
 PYEOF
 
 # Rules files (outside skills/ so regex check above does not cover them)
 test -f rules/english.md && \
-test -f rules/chinese.md && echo "references: ok"
+test -f rules/chinese.md && \
+test -f rules/anti-patterns.md && echo "references: ok"

@@ -38,7 +38,7 @@ Before writing any code, ask the user directly, using the environment's native q
 1. **Who uses this, and in what context?** Analyst dashboard differs from landing page or onboarding flow. See "App shell exception" below if the answer is a sidebar + main workspace layout.
 2. **What is the aesthetic direction?** Name it precisely: dense editorial, raw terminal, ink-on-paper, brutalist grid, warm analog. "Clean and modern" is not a direction. If the user names a reference site or product ("feels like Linear / Claude.ai / Vercel"), do not accept it as a direction -- extract 3 concrete properties from it: button radius philosophy, surface depth treatment (shadow vs background step vs border), and accent color family. Name those instead.
 
-   **Shortcut when the reference is a well-known brand** (Linear, Stripe, Claude, Vercel, Apple, Tesla, Notion, Figma, Airbnb, Spotify, and ~56 others catalogued in `awesome-design-md` -- see the brand preset section in `references/design-reference.md`): ask the user whether to pull the curated preset via `npx getdesign@latest add <brand>`. If they approve, run it, read the generated `DESIGN.md` at project root, then do the 3-property decomposition against that file rather than from memory. The preset is a starting point, not a direction -- the user still names the aesthetic precisely, and this skill's reflex-font blocklist and absolute bans still win on any conflict.
+   **Shortcut for well-known brands**: see "Brand preset flow" in `references/design-reference.md`. Ask first, run the preset, then decompose against the generated file.
 3. **What is the one thing this leaves in memory?** A typeface, color system, unexpected motion, asymmetric layout. Pick one and make it obvious.
 4. **What are the hard constraints?** Framework, bundle size, contrast minimums, keyboard accessibility.
 5. **What is the signature micro-interaction?** Scale on press, staggered reveal, or contextual icon animation. Pick one and know exactly how it's implemented.
@@ -58,12 +58,7 @@ Only attach the target component folder or package. Exclude `.git`, `node_module
 
 ### App shell exception (sidebar + main workspace)
 
-When the answer to question 1 is an app shell (Slack, Linear, Notion class):
-- Decorative backgrounds default to off
-- Surface hierarchy uses background-color steps and shadow only
-- All interactive elements get `active:scale-95`
-- Button radius is consistent within each component type (pick one: pill, square, or one fixed value -- do not mix)
-- Commit to a named radius scale before the first component (see Border radius system in `references/design-reference.md`)
+If question 1 is an app shell (Slack, Linear, Notion class), load the "App shell rules" section in `references/design-reference.md` and apply those constraints before proceeding.
 
 State the chosen direction in one sentence, then load `references/design-reference.md` and check the tech stack conflicts table. Name the single CSS strategy before writing the first component.
 
@@ -80,12 +75,7 @@ For production or multi-page UIs, expand the thesis into the 9-section DESIGN.md
 
 ## When Asked For Options
 
-Give at least 3 variations, spread across genuinely different dimensions:
-
-- **Dimensions to vary**: visual density, typographic personality, color temperature, layout structure, motion character, amount of decoration, level of abstraction
-- **Mix approaches**: one option that follows existing conventions closely, one that remixes the brand DNA in a new way, one that is deliberately unexpected
-- **Progress from basic to bold**: the first option is safe and understandable; later options push further
-- Three options that differ only by accent color are not three variations. Vary the layout, the typeface, the motion, the surface treatment.
+Give at least 3 variations across genuinely different dimensions (density, typography, color, layout, motion). See "Options guide" in `references/design-reference.md` for the full variation framework. Three options differing only by accent color are not three variations.
 
 ## Gotchas
 
