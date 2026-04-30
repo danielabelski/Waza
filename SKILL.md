@@ -25,7 +25,7 @@ You have eight skills available. Match the user's intent to the right skill, rea
 ## How This Works
 
 1. Read the user's message and match it to a skill from the table above.
-2. Read the matched `skills/X/SKILL.md` file in full.
+2. Read the matched file from the routing table in full.
 3. Execute that skill's instructions exactly.
 
 If the message could match multiple skills, use these disambiguation rules:

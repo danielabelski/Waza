@@ -120,8 +120,13 @@ smoke-package:
 		./scripts/package-skill.sh "$$tmpdir/waza.zip" >/dev/null; \
 		zipinfo -1 "$$tmpdir/waza.zip" >"$$tmpdir/manifest"; \
 		grep -qx 'SKILL.md' "$$tmpdir/manifest"; \
-		grep -qx 'skills/check/SKILL.md' "$$tmpdir/manifest"; \
+		test "$$(grep -Ec '(^|/)SKILL\.md$$' "$$tmpdir/manifest")" -eq 1; \
+		grep -qx 'skills/check/skill.md' "$$tmpdir/manifest"; \
 		grep -qx 'skills/read/scripts/fetch.sh' "$$tmpdir/manifest"; \
+		unzip -p "$$tmpdir/waza.zip" SKILL.md | grep -q 'skills/check/skill.md'; \
+		if unzip -p "$$tmpdir/waza.zip" SKILL.md | grep -q 'skills/check/SKILL.md'; then \
+			echo "package root should not reference nested SKILL.md"; exit 1; \
+		fi; \
 		echo "package smoke: ok"
 
 smoke-health:
