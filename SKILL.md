@@ -19,7 +19,7 @@ You have eight skills available. Match the user's intent to the right skill, rea
 | Error, crash, test failure, unexpected behavior, "why broken" | hunt | `skills/hunt/SKILL.md` |
 | Writing, editing prose, polish, remove AI tone | write | `skills/write/SKILL.md` |
 | Deep research, unfamiliar domain, compile sources into output | learn | `skills/learn/SKILL.md` |
-| Any URL or PDF in the message, "read this", "summarize this link" | read | `skills/read/SKILL.md` |
+| Any URL or PDF to fetch, "read this", "fetch this page" | read | `skills/read/SKILL.md` |
 | Claude ignoring instructions, config audit, hooks/MCP broken | health | `skills/health/SKILL.md` |
 
 ## How This Works

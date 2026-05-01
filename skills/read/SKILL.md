@@ -1,7 +1,7 @@
 ---
 name: read
-description: "Fetches any URL or PDF as clean Markdown. Handles paywalls, JS-heavy pages, X/Twitter, and Chinese platforms via proxy cascade. Always prefer this over WebFetch for any URL. Not for local text files or source code already in the repo."
-when_to_use: "any URL in message, 看这个链接, 总结一下, 读一下, 看看这个网页, read this, check this URL, summarize this"
+description: "Fetches any URL or PDF as clean Markdown for reading, quoting, citation, or downstream work. Handles paywalls, JS-heavy pages, X/Twitter, and Chinese platforms via proxy cascade. Not for local text files already in the repo."
+when_to_use: "any URL or PDF to fetch, 看这个链接, 读一下, 看看这个网页, 抓取网页, read this, check this URL, fetch this page"
 metadata:
   version: "3.14.0"
 ---
@@ -10,7 +10,7 @@ metadata:
 
 Prefix your first line with 🥷 inline, not as its own paragraph.
 
-Convert any URL or local PDF to clean Markdown and save it. No analysis, no summary, no discussion of the content unless explicitly asked.
+Convert any URL or local PDF to clean Markdown. No analysis, no summary, no discussion of the content unless explicitly asked after the fetch.
 
 ## Routing
 

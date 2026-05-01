@@ -21,11 +21,13 @@ Find violations. Identify the misaligned layer. Calibrate to project complexity 
 
 Pick one. Apply only that tier's requirements.
 
-| Tier | Signal | What's expected |
-|------|--------|-----------------|
-| **Simple** | <500 files, 1 contributor, no CI | CLAUDE.md only; 0-1 skills; hooks optional |
-| **Standard** | 500-5K files, small team or CI | CLAUDE.md + 1-2 rules; 2-4 skills; basic hooks |
-| **Complex** | >5K files, multi-contributor, active CI | Full six-layer setup required |
+
+| Tier         | Signal                                  | What's expected                                |
+| ------------ | --------------------------------------- | ---------------------------------------------- |
+| **Simple**   | <500 files, 1 contributor, no CI        | CLAUDE.md only; 0-1 skills; hooks optional     |
+| **Standard** | 500-5K files, small team or CI          | CLAUDE.md + 1-2 rules; 2-4 skills; basic hooks |
+| **Complex**  | >5K files, multi-contributor, active CI | Full six-layer setup required                  |
+
 
 ## Step 1: Collect data
 
@@ -36,6 +38,7 @@ bash "${CLAUDE_SKILL_DIR:-$HOME/.agents/skills/health}/scripts/collect-data.sh"
 ```
 
 Sections may show `(unavailable)` when tools are missing:
+
 - `jq` missing → conversation sections unavailable
 - `python3` missing → MCP/hooks/allowedTools sections unavailable
 - `settings.local.json` absent → hooks/MCP may be unavailable (normal for global-only setups)
@@ -77,9 +80,10 @@ Confirm the tier. Then route:
 Rules violated, dangerous allowedTools, MCP overhead >12.5%, security findings, leaked credentials.
 
 Example:
+
 - [!] `settings.local.json` committed to git (exposes MCP tokens)
-  Why: leaked token enables remote code execution via installed MCP servers
-  Action: `git rm --cached .claude/settings.local.json && echo '.claude/settings.local.json' >> .gitignore`
+Why: leaked token enables remote code execution via installed MCP servers
+Action: `git rm --cached .claude/settings.local.json && echo '.claude/settings.local.json' >> .gitignore`
 
 ### [~] Structural -- fix soon
 
@@ -100,10 +104,11 @@ If no issues: `All relevant checks passed. Nothing to fix.`
 
 ## Gotchas
 
-| What happened | Rule |
-|---------------|------|
-| Missed the local override | Always read `settings.local.json` too; it shadows the committed file |
-| Subagent timeout reported as MCP failure | MCP failures come from the live probe, not data collection |
-| Reported issues in wrong language | Honor CLAUDE.md Communication rule first |
-| Flagged intentionally noisy hook as broken | Ask before calling a hook "broken" |
+
+| What happened                                                               | Rule                                                                                                                                                                                                                                                                                           |
+| --------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Missed the local override                                                   | Always read `settings.local.json` too; it shadows the committed file                                                                                                                                                                                                                           |
+| Subagent timeout reported as MCP failure                                    | MCP failures come from the live probe, not data collection                                                                                                                                                                                                                                     |
+| Reported issues in wrong language                                           | Honor CLAUDE.md Communication rule first                                                                                                                                                                                                                                                       |
+| Flagged intentionally noisy hook as broken                                  | Ask before calling a hook "broken"                                                                                                                                                                                                                                                             |
 | Hook seemed not to fire, but it did -- a later UI element rendered above it | Hook firing order is not visual order. Before re-editing the hook config: (a) confirm with `--debug` or by piping output, (b) check whether a diff dialog, permission prompt, or other UI element rendered on top and pushed the hook output offscreen, (c) only then suspect the hook itself. |
