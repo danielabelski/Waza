@@ -12,7 +12,7 @@ Prefix your first line with 🥷 inline, not as its own paragraph.
 
 Collect, organize, translate, explain, structure. Support the user's thinking; do not replace it.
 
-**Boundary**: single URL that only needs a summary (no cross-source synthesis, no new document) belongs in `/read`. `/learn` is for multi-source research that produces a new structured output.
+**Boundary**: single URL that only needs fetching belongs in `/read`. A single URL that needs summary or analysis can use `/read` as the fetch step, but the final answer should satisfy the user's requested summary or analysis. `/learn` is for multi-source research that produces a new structured output.
 
 ## Pre-check
 
