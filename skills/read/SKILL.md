@@ -39,10 +39,19 @@ Content
 
 ## Saving
 
-Save to `~/Downloads/{title}.md` with YAML frontmatter by default.
-Skip only if user says "just preview" or "don't save". Tell the user the saved path.
+**Default: display only.** Show the converted Markdown inline. Do not create a file.
 
-If `~/Downloads/{title}.md` already exists, append `-1`, `-2`, etc., to the filename. Never overwrite an existing file without explicit confirmation.
+**Save to `~/Downloads/{title}.md`** with YAML frontmatter when any of these are true:
+- User explicitly asks: "save", "download", "保存", "下载", "keep this"
+- Called from within `/learn` (Phase 1 expects a file to move)
+- User says "save" or "保存" after seeing the output (use conversation content, do not re-fetch)
+
+When saving:
+- If the file already exists, append `-1`, `-2`, etc. Never overwrite without confirmation.
+- Tell the user the saved path.
+
+When not saving:
+- Do not mention that a file was not saved. Just show the content.
 
 ## Images
 
@@ -65,7 +74,7 @@ When asked, after saving the Markdown:
 | What happened | Rule |
 |---------------|------|
 | Fetched a paywalled article and returned a login page as Markdown | Inspect the first 10 lines for paywall signals ("Subscribe", "Sign in", "Continue reading"). If found, stop and warn the user. Do not save the login page. |
-| User said "read this" but meant "summarize and act on it" | Deliver the Markdown first, then ask what to do next. Do not skip the save step. |
+| User said "read this" but meant "summarize and act on it" | Deliver the Markdown first, then ask what to do next. Do not save unless asked. |
 | URL returned empty page or paywall with no content | Report the failure clearly: what was tried, what failed. Do not fabricate or guess the content. |
 | r.jina.ai or defuddle.md returned empty for a JS-heavy site | Try the local fallback (`agent-fetch` or `defuddle parse`) before giving up. |
 | Network failures | Prepend local proxy env vars if available and retry once. |
