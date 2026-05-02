@@ -95,6 +95,13 @@ mkdir -p ~/.codex && curl -fsSL https://raw.githubusercontent.com/tw93/Waza/main
 npx skills add tw93/Waza -a claude-code -g -y
 ```
 
+Or via plugin marketplace:
+
+```bash
+/plugin marketplace add tw93/Waza
+/plugin install waza@waza
+```
+
 **Codex**
 
 ```bash
