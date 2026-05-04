@@ -51,7 +51,21 @@ Most users should install Waza globally, so the same skills are available in eve
 npx skills add tw93/Waza -a claude-code -g -y
 ```
 
-This installs the individual `/think`, `/design`, `/check`, `/hunt`, `/write`, `/learn`, `/read`, and `/health` skills.
+This installs the individual `/think`, `/design`, `/check`, `/hunt`, `/write`, `/learn`, `/read`, and `/health` skills. Install just one with `--skill`:
+
+```bash
+npx skills add tw93/Waza --skill think -a claude-code -g -y
+```
+
+**Claude Code plugin marketplace**
+
+Install all skills via the `waza` bundle, or just one via a `waza-<skill>` entry:
+
+```bash
+/plugin marketplace add tw93/Waza
+/plugin install waza@waza
+/plugin install waza-think@waza
+```
 
 **Codex**
 
@@ -59,11 +73,10 @@ This installs the individual `/think`, `/design`, `/check`, `/hunt`, `/write`, `
 npx skills add tw93/Waza -a codex -g -y
 ```
 
-**Claude Code plugin marketplace**
+Install just one with `--skill`:
 
 ```bash
-/plugin marketplace add tw93/Waza
-/plugin install think@waza
+npx skills add tw93/Waza --skill think -a codex -g -y
 ```
 
 **Claude Desktop**
