@@ -30,16 +30,26 @@ Each engineering habit gets an installed skill. In Claude Code, type the slash c
 
 | Skill | When | What it does |
 | :--- | :--- | :--- |
-| [`/think`](skills/think/SKILL.md) | Before building anything new | Challenges the problem, pressure-tests the design, validates architecture before any code is written. |
-| [`/design`](skills/design/SKILL.md) | Building frontend interfaces | Produces distinctive UI with a committed aesthetic direction, not generic defaults. |
-| [`/check`](skills/check/SKILL.md) | After a task, before merging | Reviews the diff, auto-fixes safe issues, flags destructive commands, verifies with evidence. |
-| [`/hunt`](skills/hunt/SKILL.md) | Any bug or unexpected behavior | Systematic debugging. Root cause confirmed before any fix is applied. |
+| [`/think`](skills/think/SKILL.md) | Before building anything new | Challenges the problem, pressure-tests the design, and produces a decision-complete plan another agent can implement. |
+| [`/design`](skills/design/SKILL.md) | Building frontend interfaces | Produces distinctive UI, including screenshot-driven aesthetic iteration, with a committed direction rather than generic defaults. |
+| [`/check`](skills/check/SKILL.md) | After a task, before merging or release | Reviews the diff, extracts project-specific constraints, handles approved release/publish/push/reaction follow-through, and verifies with evidence. |
+| [`/hunt`](skills/hunt/SKILL.md) | Any bug, regression, or unexpected behavior | Systematic debugging. Root cause confirmed before any fix is applied, especially when something used to work. |
 | [`/write`](skills/write/SKILL.md) | Writing or editing prose | Rewrites prose to sound natural in Chinese and English. Cuts stiff, formulaic phrasing. |
 | [`/learn`](skills/learn/SKILL.md) | Diving into an unfamiliar domain | Six-phase research workflow: collect, digest, outline, fill in, refine, then self-review and publish. |
 | [`/read`](skills/read/SKILL.md) | Any URL or PDF | Fetches content as clean Markdown with platform-specific routing. Special handling for GitHub, PDFs, WeChat, and Feishu. |
-| [`/health`](skills/health/SKILL.md) | Auditing Claude Code setup | Checks CLAUDE.md, rules, skills, hooks, MCP, and behavior. Flags issues by severity. |
+| [`/health`](skills/health/SKILL.md) | Auditing Claude Code setup | Checks CLAUDE.md, rules, skills, hooks, MCP, and behavior with a budget-aware summary pass before deep inspection. |
 
 Each skill is a folder with reference docs, helper scripts, and gotchas from real failures.
+
+## Project Context
+
+Waza keeps the generic programmer habits inside the public skill. `/check` becomes project-aware by reading the target repository's public context and the user's task constraints.
+
+- Project commands come from README files, package manifests, Makefiles, CI workflows, and explicit user instructions.
+- Project hard stops include generated artifacts, protected files, version synchronization, release assets, and domain-specific safety risks.
+- Public docs and examples must not include credentials, certificate paths, private key filenames, tokens, or personal machine details.
+
+See [`skills/check/references/project-context.md`](skills/check/references/project-context.md) for the review context template.
 
 ## Chaining Skills
 
@@ -48,6 +58,7 @@ Skills are designed to be chained together, but transitions are manual. Each ski
 **Common workflows:**
 
 - **Design a feature**: `/think` → approve → say "implement X" → `/check` → merge
+- **Ship a fix**: `/hunt` → fix → `/check` → release/publish/push/issue follow-through
 - **Research and write**: `/read` (fetch sources) → `/learn` (synthesize) → `/write` (polish)
 - **Debug and verify**: `/hunt` (find root cause) → fix → `/check` (review changes)
 
@@ -83,8 +94,31 @@ Claude corrects your mistakes in place, tagging each one with its pattern name s
 # Claude Code
 mkdir -p ~/.claude/rules && curl -fsSL https://raw.githubusercontent.com/tw93/Waza/main/rules/english.md -o ~/.claude/rules/english.md
 
-# Codex
-mkdir -p ~/.codex && curl -fsSL https://raw.githubusercontent.com/tw93/Waza/main/rules/english.md >> ~/.codex/AGENTS.md
+# Codex (idempotent)
+mkdir -p ~/.codex
+tmp="$(mktemp)"
+curl -fsSL https://raw.githubusercontent.com/tw93/Waza/main/rules/english.md -o "$tmp"
+python3 - "$tmp" "$HOME/.codex/AGENTS.md" <<'PY'
+from pathlib import Path
+import sys
+
+source = Path(sys.argv[1]).read_text().strip()
+target = Path(sys.argv[2])
+start = "<!-- Waza English Coaching: start -->"
+end = "<!-- Waza English Coaching: end -->"
+block = f"{start}\n{source}\n{end}\n"
+text = target.read_text() if target.exists() else ""
+
+if start in text and end in text:
+    before = text.split(start, 1)[0].rstrip()
+    after = text.split(end, 1)[1].lstrip()
+    text = f"{before}\n\n{block}\n{after}".rstrip() + "\n"
+else:
+    text = text.rstrip() + "\n\n" + block
+
+target.write_text(text)
+PY
+rm -f "$tmp"
 ```
 
 ## Install
@@ -95,7 +129,7 @@ mkdir -p ~/.codex && curl -fsSL https://raw.githubusercontent.com/tw93/Waza/main
 npx skills add tw93/Waza -a claude-code -g -y
 ```
 
-Or via plugin marketplace:
+Or through the Claude Code plugin marketplace:
 
 ```bash
 /plugin marketplace add tw93/Waza
@@ -114,7 +148,7 @@ Download [waza.zip](https://github.com/tw93/Waza/releases/latest/download/waza.z
 
 **Compatibility**
 
-`/health` is Claude Code only. The other skills are written to use the host environment's native question, search, fetch, and agent mechanisms. `/check` runs parallel specialist reviewers when the host supports them; otherwise it performs the same passes inline.
+`/health` is Claude Code only. It defaults to a summary audit to avoid burning quota on first run; ask for a deep or full health audit when you want full conversation extracts and inspector subagents. The other skills are written to use the host environment's native question, search, fetch, and agent mechanisms. `/check` runs parallel specialist reviewers when the host supports them; otherwise it performs the same passes inline.
 
 ## Uninstall
 
@@ -132,7 +166,7 @@ rm -f ~/.claude/statusline.sh
 # Remove English Coaching (Claude Code)
 rm -f ~/.claude/rules/english.md
 
-# Remove English Coaching (Codex): remove the English Coaching block from ~/.codex/AGENTS.md
+# Remove English Coaching (Codex): remove the Waza English Coaching marked block from ~/.codex/AGENTS.md
 ```
 
 ## Background
