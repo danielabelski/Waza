@@ -506,8 +506,8 @@ print_conversation_extract
 echo "=== MCP ACCESS DENIALS ==="
 print_mcp_access_denials
 else
-  echo "=== CONVERSATION EXTRACT ===" ; echo "(skipped: summary mode; set WAZA_HEALTH_MODE=deep for full conversation extracts)"
-  echo "=== MCP ACCESS DENIALS ===" ; echo "(skipped: summary mode; set WAZA_HEALTH_MODE=deep for access-denial scan)"
+  echo "=== CONVERSATION EXTRACT ===" ; echo "(skipped: summary mode; ask for a deep health audit or run collect-data.sh auto deep for full conversation extracts)"
+  echo "=== MCP ACCESS DENIALS ===" ; echo "(skipped: summary mode; ask for a deep health audit or run collect-data.sh auto deep for access-denial scan)"
 fi
 
 echo "[9/10] Skill inventory + frontmatter + provenance..."
@@ -589,5 +589,5 @@ for DIR in "$P/.claude/skills" "$HOME/.claude/skills"; do
 done
 [ "$_CONTENT_COUNT" -gt 0 ] || echo "(none)"
 else
-  echo "=== SKILL FULL CONTENT ===" ; echo "(skipped: summary mode; set WAZA_HEALTH_MODE=deep to sample skill bodies)"
+  echo "=== SKILL FULL CONTENT ===" ; echo "(skipped: summary mode; ask for a deep health audit or run collect-data.sh auto deep to sample skill bodies)"
 fi

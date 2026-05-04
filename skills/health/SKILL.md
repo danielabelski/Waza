@@ -17,7 +17,7 @@ Find violations. Identify the misaligned layer. Calibrate to project complexity 
 
 **Output language:** Check in order: (1) CLAUDE.md `## Communication` rule (global over local); (2) user's recent language; (3) English.
 
-**Budget posture:** Start with the summary audit. Do not read full conversation extracts or launch inspector subagents unless the user asks for a deep/full audit, the project is Complex, or the summary pass exposes a critical ambiguity that cannot be resolved locally. Tell the user before escalating because deep health audits can consume significant token quota.
+**Budget posture:** Start with the summary audit. Escalate automatically when the user asks for a deep, full, complete, thorough, "深入", "完整", "彻底", or "继续跑完" audit, when current project instructions or remembered user preference says to run deep health checks by default, when the project is Complex, or when the summary pass exposes a critical ambiguity that cannot be resolved locally. Otherwise do not read full conversation extracts or launch inspector subagents. Tell the user before escalating because deep health audits can consume significant token quota.
 
 ## Step 0: Assess project tier
 
@@ -70,8 +70,8 @@ Test every MCP server: call one harmless tool per server. Record `live=yes/no` w
 Confirm the tier. Then route:
 
 - **Simple:** Analyze locally. No subagents.
-- **Standard:** Analyze locally from the summary output. Do not launch subagents by default. If the user asks for a deep audit, or if local analysis cannot classify a security/control issue, ask before escalating and explain the likely token cost.
-- **Complex or explicit deep audit:** Re-run collection with `WAZA_HEALTH_MODE=deep`, then launch two subagents in parallel. Redact credentials to `[REDACTED]`.
+- **Standard:** Analyze locally from the summary output. Do not launch subagents by default. If the user asks for a deep/full/thorough audit, or if local analysis cannot classify a security/control issue, escalate to deep mode and explain the likely token cost.
+- **Complex, remembered deep preference, or explicit deep audit:** Re-run collection with `bash "$HEALTH_SCRIPT" auto deep`, then launch two subagents in parallel. Redact credentials to `[REDACTED]`.
   - **Agent 1** (Context + Security): Read `agents/inspector-context.md`. Feed `CONVERSATION SIGNALS` section.
   - **Agent 2** (Control + Behavior): Read `agents/inspector-control.md`. Feed detected tier.
 - **Fallback:** If a subagent fails, analyze that layer locally and note "(analyzed locally)".
