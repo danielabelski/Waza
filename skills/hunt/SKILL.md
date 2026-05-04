@@ -1,9 +1,9 @@
 ---
 name: hunt
-description: "Finds root cause of errors, crashes, unexpected behavior, and failing tests before applying any fix. Not for code review or new features."
-when_to_use: "排查, 查查, 报错, 崩溃, 不工作, 不对, 跑不通, debug, why broken, not working, what's wrong, fix error, stack trace"
+description: "Finds root cause of errors, crashes, regressions, screenshot-reported defects, unexpected behavior, and failing tests before applying any fix. Not for code review or new features."
+when_to_use: "排查, 查查, 报错, 崩溃, 不工作, 不对, 跑不通, 以前是好的, 回归, 截图回归, 继续优化, 反复修不好, debug, regression, used to work, broke after update, why broken, not working, what's wrong, fix error, stack trace"
 metadata:
-  version: "3.17.0"
+  version: "3.18.0"
 ---
 
 # Hunt: Diagnose Before You Fix
@@ -40,6 +40,20 @@ Rationalization warning: "I'll just try this" means no hypothesis, write it firs
 Activate when the symptom is "used to work, now broken" or "broke after an update".
 
 Find the last-known-good tag (`git tag --sort=-version:refname | head -5`), define a non-interactive pass/fail test command, run `git bisect start / bad / good <tag>`, let bisect drive without jumping ahead, read large files once and reference from notes rather than re-reading at each step, and when bisect names the culprit commit read only that diff to identify the specific line that introduced the regression.
+
+## Repeated Regression / Screenshot Reference Mode
+
+Activate when the user says the same issue is still wrong after a fix, provides a "good" screenshot/version/file, or describes a visual result as previously correct.
+
+Treat the reference as evidence, not decoration:
+
+1. List every reported and visible symptom, preserving the user's concrete words where useful ("still slow", "not clear", "尖刺", "先显示上一个内容").
+2. Identify the reference oracle: last-good commit/tag, old build, fixture, screenshot, downloaded artifact, or expected state from the user's description.
+3. Define the pass/fail check before editing. For visual bugs, this may be a narrow screenshot checklist plus the command that renders the view; for behavioral bugs, prefer an automated regression test or deterministic repro.
+4. Compare current vs. reference and name the exact delta. Do not generalize a visual defect into "style polish" when the evidence points to a broken render, race, font pipeline, or state path.
+5. If the same symptom remains after one attempted fix, stop and rebuild the hypothesis from the evidence. Do not stack more patches onto a disproven explanation.
+
+If the issue is purely subjective UI taste, route to `/design`. If it is rendering, state, timing, build output, font generation, or a regression from a known-good version, stay in `/hunt`.
 
 ## Confirm or Discard
 
