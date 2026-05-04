@@ -2,7 +2,8 @@
 .claude/
 .agent/
 .qoder/
-AGENTS.md
+AGENTS.override.md
+CLAUDE.local.md
 skills-lock.json
 
 # Distribution

@@ -89,6 +89,7 @@ if not isinstance(plugins, list):
 
 market_versions: dict[str, str] = {}
 market_descriptions: dict[str, str] = {}
+bundle_seen = False
 for entry in plugins:
     if not isinstance(entry, dict):
         fail("INVALID MARKETPLACE: plugin entry must be an object")
@@ -102,6 +103,16 @@ for entry in plugins:
         fail(f"MISSING DESCRIPTION: marketplace plugin {name}")
     if name in market_versions:
         fail(f"DUPLICATE MARKETPLACE ENTRY: {name}")
+    if name == "waza":
+        if bundle_seen:
+            fail("DUPLICATE MARKETPLACE ENTRY: waza")
+        if source != "./":
+            fail(f"WRONG SOURCE: waza source={source!r} expected='./'")
+        if not (root / "SKILL.md").exists():
+            fail("MISSING ROOT SKILL: marketplace bundle waza points at ./ but SKILL.md is missing")
+        bundle_seen = True
+        print(f"ok: marketplace bundle waza {version}")
+        continue
     expected_source = f"./skills/{name}"
     if source != expected_source:
         fail(f"WRONG SOURCE: {name} source={source!r} expected={expected_source!r}")
