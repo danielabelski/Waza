@@ -82,64 +82,43 @@ curl -sL https://raw.githubusercontent.com/tw93/Waza/main/scripts/setup-statusli
 
 ### English Coaching
 
-Most AI models were trained on far more English than any other language, so every prompt in your native tongue goes through an invisible translation layer. Switch to English and the reasoning sharpens, answers get more precise, and every session doubles as language practice.
+Optional rule for English practice. When your prompt contains an English mistake, the agent appends a short 😇 correction; Chinese-only prompts stay untouched.
 
 <div align="center">
   <img src="https://gw.alipayobjects.com/zos/k/24/vfkGOi.png" width="1000" />
 </div>
 
-Claude corrects your mistakes in place, tagging each one with its pattern name so you learn the rule, not just the fix.
-
 ```bash
 # Claude Code
-mkdir -p ~/.claude/rules && curl -fsSL https://raw.githubusercontent.com/tw93/Waza/main/rules/english.md -o ~/.claude/rules/english.md
+curl -sL https://raw.githubusercontent.com/tw93/Waza/main/scripts/setup-english-coaching.sh | bash -s -- claude-code
 
-# Codex (idempotent)
-mkdir -p ~/.codex
-tmp="$(mktemp)"
-curl -fsSL https://raw.githubusercontent.com/tw93/Waza/main/rules/english.md -o "$tmp"
-python3 - "$tmp" "$HOME/.codex/AGENTS.md" <<'PY'
-from pathlib import Path
-import sys
-
-source = Path(sys.argv[1]).read_text().strip()
-target = Path(sys.argv[2])
-start = "<!-- Waza English Coaching: start -->"
-end = "<!-- Waza English Coaching: end -->"
-block = f"{start}\n{source}\n{end}\n"
-text = target.read_text() if target.exists() else ""
-
-if start in text and end in text:
-    before = text.split(start, 1)[0].rstrip()
-    after = text.split(end, 1)[1].lstrip()
-    text = f"{before}\n\n{block}\n{after}".rstrip() + "\n"
-else:
-    text = text.rstrip() + "\n\n" + block
-
-target.write_text(text)
-PY
-rm -f "$tmp"
+# Codex
+curl -sL https://raw.githubusercontent.com/tw93/Waza/main/scripts/setup-english-coaching.sh | bash -s -- codex
 ```
 
 ## Install
 
-**Claude Code**
+**Claude Code direct slash commands**
 
 ```bash
-npx skills add tw93/Waza -a claude-code -g -y
+npx skills add tw93/Waza --full-depth --skill think design check hunt write learn read health -a claude-code -g -y
 ```
 
-Or through the Claude Code plugin marketplace:
+This installs the individual `/think`, `/design`, `/check`, `/hunt`, `/write`, `/learn`, `/read`, and `/health` skills. `--full-depth` is required because Waza also ships a root dispatcher skill.
+
+Single-dispatcher bundle through the Claude Code plugin marketplace:
 
 ```bash
 /plugin marketplace add tw93/Waza
 /plugin install waza@waza
 ```
 
+The marketplace bundle installs one `/waza` entry. Install individual marketplace entries such as `think@waza` when you need direct slash commands.
+
 **Codex**
 
 ```bash
-npx skills add tw93/Waza -a codex -g -y
+npx skills add tw93/Waza --full-depth --skill think design check hunt write learn read health -a codex -g -y
 ```
 
 **Claude Desktop**

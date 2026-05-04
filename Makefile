@@ -1,15 +1,15 @@
 PROJECT_KEY := $(shell printf '%s' "$(CURDIR)" | sed 's|[/_]|-|g; s|^-||')
 
-.PHONY: test verify-docs verify-scripts smoke-statusline smoke-statusline-installer smoke-verify-skills smoke-package smoke-health package
+.PHONY: test verify-docs verify-scripts smoke-statusline smoke-statusline-installer smoke-english-coaching-installer smoke-verify-skills smoke-package smoke-health package
 
-test: verify-docs verify-scripts smoke-statusline smoke-statusline-installer smoke-verify-skills smoke-package smoke-health
+test: verify-docs verify-scripts smoke-statusline smoke-statusline-installer smoke-english-coaching-installer smoke-verify-skills smoke-package smoke-health
 
 verify-docs:
 	./scripts/verify-skills.sh
 
 verify-scripts:
 	git diff --check
-	bash -n scripts/statusline.sh skills/health/scripts/collect-data.sh skills/read/scripts/fetch.sh scripts/setup-statusline.sh skills/check/scripts/run-tests.sh scripts/package-skill.sh
+	bash -n scripts/statusline.sh skills/health/scripts/collect-data.sh skills/read/scripts/fetch.sh scripts/setup-statusline.sh scripts/setup-english-coaching.sh skills/check/scripts/run-tests.sh scripts/package-skill.sh
 	echo "bash -n: ok"
 	python3 -m py_compile skills/read/scripts/fetch_feishu.py skills/read/scripts/fetch_weixin.py
 	echo "py_compile: ok"
@@ -68,6 +68,32 @@ smoke-statusline-installer:
 		test -x "$$home_dir/.claude/statusline.sh"; \
 		test ! -f "$$tmpdir/brew.log"; \
 		echo "statusline installer smoke: ok"
+
+smoke-english-coaching-installer:
+	@set -e; \
+		tmpdir=$$(mktemp -d); \
+		home_dir="$$tmpdir/home"; \
+		bin_dir="$$tmpdir/bin"; \
+		mkdir -p "$$home_dir/.codex" "$$bin_dir"; \
+		ln -s "$$(command -v python3)" "$$bin_dir/python3"; \
+		ln -s /bin/mkdir "$$bin_dir/mkdir"; \
+		ln -s "$$(command -v mktemp)" "$$bin_dir/mktemp"; \
+		ln -s /bin/rm "$$bin_dir/rm"; \
+		printf '%s\n' '#!/bin/bash' \
+			'outfile=""' \
+			'while [ "$$#" -gt 0 ]; do' \
+			'  if [ "$$1" = "-o" ]; then outfile="$$2"; shift 2; else shift; fi' \
+			'done' \
+			'printf "%s\n" "## English Coaching" "" "test rule" > "$$outfile"' \
+			> "$$bin_dir/curl"; \
+		chmod +x "$$bin_dir/curl"; \
+		PATH="$$bin_dir" HOME="$$home_dir" /bin/bash scripts/setup-english-coaching.sh claude-code >"$$tmpdir/claude.out"; \
+		grep -q 'test rule' "$$home_dir/.claude/rules/english.md"; \
+		PATH="$$bin_dir" HOME="$$home_dir" /bin/bash scripts/setup-english-coaching.sh codex >"$$tmpdir/codex1.out"; \
+		PATH="$$bin_dir" HOME="$$home_dir" /bin/bash scripts/setup-english-coaching.sh codex >"$$tmpdir/codex2.out"; \
+		test "$$(grep -c '<!-- Waza English Coaching: start -->' "$$home_dir/.codex/AGENTS.md")" -eq 1; \
+		grep -q 'test rule' "$$home_dir/.codex/AGENTS.md"; \
+		echo "English Coaching installer smoke: ok"
 
 smoke-verify-skills:
 	@set -e; \
