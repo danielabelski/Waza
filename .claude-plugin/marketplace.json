@@ -34,7 +34,7 @@
     {
       "name": "check",
       "description": "Reviews code diffs and release-ready changes after implementation, extracts project-specific constraints from repository context, auto-fixes safe issues, and drives approved release, publish, push, release-reaction, and issue/PR follow-through. Also triages issues and PRs when the user mentions them. Not for exploring ideas or debugging.",
-      "version": "3.18.0",
+      "version": "3.19.0",
       "category": "development",
       "source": "./skills/check",
       "homepage": "https://github.com/tw93/Waza"
