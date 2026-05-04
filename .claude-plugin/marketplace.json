@@ -34,7 +34,7 @@
     {
       "name": "hunt",
       "description": "Finds root cause of errors, crashes, regressions, screenshot-reported defects, unexpected behavior, and failing tests before applying any fix. Not for code review or new features.",
-      "version": "3.18.0",
+      "version": "3.19.0",
       "category": "development",
       "source": "./skills/hunt",
       "homepage": "https://github.com/tw93/Waza"
