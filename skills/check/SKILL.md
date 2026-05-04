@@ -3,7 +3,7 @@ name: check
 description: "Reviews code diffs and release-ready changes after implementation, extracts project-specific constraints from repository context, auto-fixes safe issues, and drives approved release, publish, push, release-reaction, and issue/PR follow-through. Also triages issues and PRs when the user mentions them. Not for exploring ideas or debugging."
 when_to_use: "review, 看看代码, 检查一下, 有没有问题, 是否需要优化, 合并前, 看看issue, 看看PR, release, publish, push, release reaction, GitHub reaction, 发布, 提交, 关闭issue, 发布表情, release表情, close issue, issue close, review my code, check changes, before merge, before release, code review, code-review"
 metadata:
-  version: "3.19.0"
+  version: "3.20.0"
 ---
 
 # Check: Review Before You Ship
@@ -40,6 +40,8 @@ Activate when the user mentions: issue, PR, "review all", triage, "batch", or "�
 
 **PR handling:** If the PR direction is accepted but the patch needs changes, prefer pushing the maintainer's fixes to the contributor's PR branch and then merging the PR. Check `maintainerCanModify` first. If branch edits are not allowed, ask the contributor to enable maintainer edits or push the needed revision; only fall back to a separate maintainer commit when timing or release safety requires it, and say so in the PR. Close without merging only when the direction is rejected, unsafe, no longer needed, or explicitly not part of the project's scope. Do not silently absorb an accepted PR into `main` and close it.
 
+**Public reply shape:** Start with `@<user>` and thanks. Then write one short natural paragraph explaining the reason and what changed or why it was not merged. End with the update command, release/version, or next step the reporter should take. Keep it in the thread's language unless the project says otherwise.
+
 **Sign-off line (append to standard sign-off):**
 ```
 triage:           N reviewed, N closed, N deferred
@@ -55,7 +57,7 @@ This mode extends review; it does not skip review. Before any public or irrevers
 2. Verify generated or bundled outputs, version fields, release notes, package contents, and required artifacts are in sync. Prefer dry-run commands when the ecosystem provides them.
 3. Commit only intended files. Preserve unrelated dirty work, and serialize git operations so index locks or overlapping adds do not corrupt the workflow.
 4. Push, publish, tag, or create a release only when the user has explicitly approved that action. If auth, OTP, CI, registry, or network state blocks the operation, pause and report the exact blocker.
-5. For issue/PR follow-through, confirm the item identity with `gh issue view` or `gh pr view` before posting. Write 1-2 natural sentences in the thread's language. Close only when the fix is shipped, already available, invalid, duplicate, or the maintainer explicitly asked for closure.
+5. For issue/PR follow-through, confirm the item identity with `gh issue view` or `gh pr view` before posting. Use the public reply shape from Triage Mode: mention the user, thank them, briefly explain the reason and action, then give the update command, release/version, or next step. Close only when the fix is shipped, already available, invalid, duplicate, or the maintainer explicitly asked for closure.
 6. For GitHub release reaction follow-through, only do it when project context or the current thread asks for it. After the release exists and required assets are verified, resolve the release id from the tag, POST every positive release reaction to `repos/<owner>/<repo>/releases/<id>/reactions` with `gh api`, and re-read reactions to confirm. Positive release reactions are `+1`, `laugh`, `heart`, `hooray`, `rocket`, and `eyes`.
 7. After network or API failures, re-read the end state instead of assuming success or failure.
 
