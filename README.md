@@ -41,6 +41,47 @@ Each engineering habit gets an installed skill. In Claude Code, type the slash c
 
 Each skill is a folder with reference docs, helper scripts, and gotchas from real failures.
 
+## Install and Update
+
+Most users should install Waza globally, so the same skills are available in every project.
+
+**Claude Code direct slash commands**
+
+```bash
+npx skills add tw93/Waza -a claude-code -g -y
+```
+
+This installs the individual `/think`, `/design`, `/check`, `/hunt`, `/write`, `/learn`, `/read`, and `/health` skills.
+
+**Codex**
+
+```bash
+npx skills add tw93/Waza -a codex -g -y
+```
+
+**Claude Code plugin marketplace**
+
+```bash
+/plugin marketplace add tw93/Waza
+/plugin install think@waza
+```
+
+**Claude Desktop**
+
+Download [waza.zip](https://github.com/tw93/Waza/releases/latest/download/waza.zip), open Customize > Skills > "+" > Create skill, and upload the ZIP.
+
+**Update**
+
+```bash
+npx skills update -g -y
+```
+
+Marketplace installs use `claude plugin update <skill>`. Claude Desktop users can replace the old skill with the latest [waza.zip](https://github.com/tw93/Waza/releases/latest/download/waza.zip).
+
+**Compatibility**
+
+`/health` is Claude Code only. It defaults to a summary audit to avoid burning quota on first run; ask for a deep or full health audit when you want full conversation extracts and inspector subagents. The other skills are written to use the host environment's native question, search, fetch, and agent mechanisms. `/check` runs parallel specialist reviewers when the host supports them; otherwise it performs the same passes inline.
+
 ## Project Context
 
 Waza keeps the generic programmer habits inside the public skill. `/check` becomes project-aware by reading the target repository's public context and the user's task constraints.
@@ -95,37 +136,6 @@ curl -sL https://raw.githubusercontent.com/tw93/Waza/main/scripts/setup-english-
 # Codex
 curl -sL https://raw.githubusercontent.com/tw93/Waza/main/scripts/setup-english-coaching.sh | bash -s -- codex
 ```
-
-## Install
-
-**Claude Code direct slash commands**
-
-```bash
-npx skills add tw93/Waza -a claude-code -g -y
-```
-
-This installs the individual `/think`, `/design`, `/check`, `/hunt`, `/write`, `/learn`, `/read`, and `/health` skills.
-
-Or install individual entries through the Claude Code plugin marketplace:
-
-```bash
-/plugin marketplace add tw93/Waza
-/plugin install think@waza
-```
-
-**Codex**
-
-```bash
-npx skills add tw93/Waza -a codex -g -y
-```
-
-**Claude Desktop**
-
-Download [waza.zip](https://github.com/tw93/Waza/releases/latest/download/waza.zip), open Customize > Skills > "+" > Create skill, and upload the ZIP.
-
-**Compatibility**
-
-`/health` is Claude Code only. It defaults to a summary audit to avoid burning quota on first run; ask for a deep or full health audit when you want full conversation extracts and inspector subagents. The other skills are written to use the host environment's native question, search, fetch, and agent mechanisms. `/check` runs parallel specialist reviewers when the host supports them; otherwise it performs the same passes inline.
 
 ## Uninstall
 
