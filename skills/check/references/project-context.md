@@ -19,6 +19,7 @@ Use this template to compress repository context before running Waza `/check`. T
 - Generated or bundled artifacts that must stay in sync with source changes.
 - Domain-specific safety rules.
 - Release artifacts that must exist.
+- GitHub release reactions or other public release follow-through expected by the project.
 - Public issue or PR reply conventions.
 - Known CI or test flakes documented by the project and how to distinguish them from real failures.
 - Release, publish, push, or issue-closure prerequisites documented by the project.
@@ -60,6 +61,7 @@ Use this template to compress repository context before running Waza `/check`. T
 - Version fields to check: `<manifest>`, `<app config>`, `<lockfile>`.
 - Generated artifacts to check: `<artifact>` from `<source>`.
 - Dry-run command before publishing: `<command>`.
+- GitHub release reactions to add after asset verification: `<+1/laugh/heart/hooray/rocket/eyes or none>`.
 - Public state to re-read after publishing or closing: `<registry/release/issue URL or command>`.
 ```
 

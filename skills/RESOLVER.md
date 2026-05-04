@@ -22,7 +22,7 @@
 | 触发 | 技能 |
 |------|------|
 | 实现完成 / 合并前 / "review 一下" / "看看这段代码" / `code-review` | `skills/check/SKILL.md` |
-| release / publish / push / 发布 / 提交 / 关闭 issue / 发布前检查 | `skills/check/SKILL.md` (Ship / Release Follow-through) |
+| release / publish / push / release reaction / 发布 / 提交 / 关闭 issue / 发布前检查 / 发布表情 | `skills/check/SKILL.md` (Ship / Release Follow-through) |
 | review issue / review PR / triage / 批量处理 / "看看有没有 issue" / close issue | `skills/check/SKILL.md` (Triage Mode) |
 
 ### Diagnostic（出问题了）
@@ -30,7 +30,7 @@
 | 触发 | 技能 |
 |------|------|
 | 报错 / 崩溃 / 测试失败 / 行为异常 / "为什么不工作" / 以前是好的 / 回归 / 截图回归 / 反复修不好 | `skills/hunt/SKILL.md` |
-| Claude 忽略指令 / hook 失灵 / MCP 异常 / 配置审计 | `skills/health/SKILL.md` |
+| Claude 忽略指令 / hook 失灵 / MCP 异常 / 配置审计 / health 消耗 token | `skills/health/SKILL.md` |
 
 ### Content（内容进出）
 
@@ -47,8 +47,8 @@
 1. **最具体优先**：`/design` 比 `/think` 更具体（仅限 UI 决策）。用户说"帮我设计登录页"时优先 `/design`。
 2. **URL 按内容类型二次分流**：消息含 URL → 先走 `/read` 取回 Markdown → 如果用户要总结或分析，继续完成总结或分析；如果是长文研究性素材再接 `/learn`。
 3. **改错 vs review**：代码已经交付或走到 PR → `/check`；代码跑不通或行为错了 → `/hunt`。两者都可能匹配"帮我看看"，按"有没有具体错误现象"判断。
-4. **配置异常 vs 代码错误**：Claude 本身不听话、hook 不触发、MCP 掉链子 → `/health`；用户写的代码抛异常 → `/hunt`。
-5. **发布动作 vs 发布文案**：要写 release notes / changelog → `/write`；要提交、打 tag、publish、push、上传 release asset、回复/关闭 issue → `/check`。
+4. **配置异常 vs 代码错误**：Claude 本身不听话、hook 不触发、MCP 掉链子或 `/health` 消耗 token → `/health`；用户写的代码抛异常 → `/hunt`。
+5. **发布动作 vs 发布文案**：要写 release notes / changelog → `/write`；要提交、打 tag、publish、push、上传 release asset、补 GitHub release reactions、回复/关闭 issue → `/check`。
 6. **截图审美 vs 截图回归**：截图里说"丑/不好看/不清晰"且是审美校准 → `/design`；截图证明以前好的现在坏了、渲染错、状态错、生成物错 → `/hunt`。
 7. **长文产出 vs 润色**：从零到成稿 → `/learn`；已有稿子要改 → `/write`。
 8. **判断 vs 调试**："判断一下" + 报错/异常/不工作 → `/hunt`（诊断问题）；"判断一下" + 有没有必要/该不该保留/值不值得 → `/think` Evaluation Mode（价值判断）。

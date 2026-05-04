@@ -8,9 +8,17 @@
   },
   "plugins": [
     {
+      "name": "waza",
+      "description": "Installs the full Waza dispatcher bundle for Claude Code so all eight skills are available through one plugin install. Recommended when users want the whole toolkit instead of installing individual skills.",
+      "version": "3.12.0",
+      "category": "development",
+      "source": "./",
+      "homepage": "https://github.com/tw93/Waza"
+    },
+    {
       "name": "health",
-      "description": "Audits the full six-layer Claude Code config stack when Claude ignores instructions, behaves inconsistently, hooks malfunction, or MCP servers need auditing. Flags issues by severity. Not for debugging code or reviewing PRs.",
-      "version": "3.16.0",
+      "description": "Runs a budget-aware audit of the Claude Code config stack when Claude ignores instructions, behaves inconsistently, hooks malfunction, MCP servers need auditing, or users ask why /health used many tokens. Flags issues by severity. Not for debugging code or reviewing PRs.",
+      "version": "3.17.0",
       "category": "development",
       "source": "./skills/health",
       "homepage": "https://github.com/tw93/Waza"
@@ -25,8 +33,8 @@
     },
     {
       "name": "check",
-      "description": "Reviews code diffs and release-ready changes after implementation, extracts project-specific constraints from repository context, auto-fixes safe issues, and drives approved release, publish, push, and issue/PR follow-through. Also triages issues and PRs when the user mentions them. Not for exploring ideas or debugging.",
-      "version": "3.17.0",
+      "description": "Reviews code diffs and release-ready changes after implementation, extracts project-specific constraints from repository context, auto-fixes safe issues, and drives approved release, publish, push, release-reaction, and issue/PR follow-through. Also triages issues and PRs when the user mentions them. Not for exploring ideas or debugging.",
+      "version": "3.18.0",
       "category": "development",
       "source": "./skills/check",
       "homepage": "https://github.com/tw93/Waza"
