@@ -148,7 +148,7 @@ Download [waza.zip](https://github.com/tw93/Waza/releases/latest/download/waza.z
 
 **Compatibility**
 
-`/health` is Claude Code only. It defaults to a summary audit to avoid burning quota on first run; ask for a deep health audit or set `WAZA_HEALTH_MODE=deep` when you want full conversation extracts and inspector subagents. The other skills are written to use the host environment's native question, search, fetch, and agent mechanisms. `/check` runs parallel specialist reviewers when the host supports them; otherwise it performs the same passes inline.
+`/health` is Claude Code only. It defaults to a summary audit to avoid burning quota on first run; ask for a deep or full health audit when you want full conversation extracts and inspector subagents. The other skills are written to use the host environment's native question, search, fetch, and agent mechanisms. `/check` runs parallel specialist reviewers when the host supports them; otherwise it performs the same passes inline.
 
 ## Uninstall
 
