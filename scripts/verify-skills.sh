@@ -331,3 +331,16 @@ PYEOF
 test -f rules/english.md && \
 test -f rules/chinese.md && \
 test -f rules/anti-patterns.md && echo "references: ok"
+
+if ! grep -Fq "npx skills add tw93/Waza --full-depth --skill think design check hunt write learn read health -a claude-code -g -y" README.md; then
+    echo "README INSTALL COMMAND: Waza install must use --full-depth and list the 8 nested skills explicitly" >&2
+    exit 1
+fi
+echo "ok: README installs nested skills"
+
+if ! grep -Fq "Chinese-only messages" rules/english.md || \
+   ! grep -Fq "already-natural English, stay silent" rules/english.md; then
+    echo "ENGLISH COACHING GUARD: rules/english.md must suppress Chinese-only and no-op correction output" >&2
+    exit 1
+fi
+echo "ok: English Coaching guard"

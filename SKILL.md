@@ -1,6 +1,6 @@
 ---
 name: waza
-description: 'Engineering skills for Claude: think (architecture), design (UI), check (review/release), hunt (debugging/regression), write (prose), learn (research), read (URL/PDF fetch), health (config audit). Triggers on slash commands or intent.'
+description: 'Dispatcher for Waza engineering skills: think (architecture), design (UI), check (review/release), hunt (debugging/regression), write (prose), learn (research), read (URL/PDF fetch), health (config audit).'
 ---
 
 # Waza: Engineering Skills Dispatcher

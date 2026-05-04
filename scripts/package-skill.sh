@@ -29,6 +29,7 @@ awk '
   /^skills-lock\.json$/ { next }
   /^scripts\/verify-skills\.sh$/ { next }
   /^scripts\/statusline\.sh$/ { next }
+  /^scripts\/setup-english-coaching\.sh$/ { next }
   /^scripts\/setup-statusline\.sh$/ { next }
   /^scripts\/package-skill\.sh$/ { next }
   /^skills\/[^\/]+\/SKILL\.md$/ { next }
