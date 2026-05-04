@@ -67,7 +67,7 @@ Use this path for any new skill or meaningful behavior change:
 ## Distribution Rules
 
 - `.claude-plugin/marketplace.json`, `skills/RESOLVER.md`, root `SKILL.md`, and every `skills/*/SKILL.md` must agree on skill names, descriptions, and source paths.
-- `npx skills add tw93/Waza` reads `.claude-plugin/marketplace.json` and installs skills as separate marketplace entries.
+- `npx skills add tw93/Waza` reads `.claude-plugin/marketplace.json` and installs skills as separate marketplace entries; Claude Code plugin installs may also use the root `waza` bundle entry with `source: "./"`.
 - Claude Desktop uses the release ZIP built by `scripts/package-skill.sh`.
 - `scripts/package-skill.sh` builds a public archive with exactly one root `SKILL.md`; nested `skills/*/SKILL.md` files are inlined for packaged installs.
 - Do not make packaged skills resolve scripts or references through personal home-directory caches or machine paths. Resolve relative to the installed Waza directory.
@@ -90,3 +90,4 @@ Use this path for any new skill or meaningful behavior change:
 - Release body structure: centered logo/title/tagline, English changelog, matching Chinese changelog, then update command and release asset links.
 - Keep English and Chinese release items one-to-one by number. Use 5 to 8 items, one sentence each.
 - Run `make package` before publishing; CI should upload the ZIP on published releases.
+- After a GitHub release is published and assets are verified, add every positive release reaction with `gh api`: `+1`, `laugh`, `heart`, `hooray`, `rocket`, and `eyes`; resolve the release id from the tag, POST each reaction to `repos/<owner>/<repo>/releases/<id>/reactions`, then re-read reactions to confirm them.

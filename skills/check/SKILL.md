@@ -1,9 +1,9 @@
 ---
 name: check
-description: "Reviews code diffs and release-ready changes after implementation, extracts project-specific constraints from repository context, auto-fixes safe issues, and drives approved release, publish, push, and issue/PR follow-through. Also triages issues and PRs when the user mentions them. Not for exploring ideas or debugging."
-when_to_use: "review, 看看代码, 检查一下, 有没有问题, 是否需要优化, 合并前, 看看issue, 看看PR, release, publish, push, 发布, 提交, 关闭issue, close issue, issue close, review my code, check changes, before merge, before release, code review, code-review"
+description: "Reviews code diffs and release-ready changes after implementation, extracts project-specific constraints from repository context, auto-fixes safe issues, and drives approved release, publish, push, release-reaction, and issue/PR follow-through. Also triages issues and PRs when the user mentions them. Not for exploring ideas or debugging."
+when_to_use: "review, 看看代码, 检查一下, 有没有问题, 是否需要优化, 合并前, 看看issue, 看看PR, release, publish, push, release reaction, GitHub reaction, 发布, 提交, 关闭issue, 发布表情, release表情, close issue, issue close, review my code, check changes, before merge, before release, code review, code-review"
 metadata:
-  version: "3.17.0"
+  version: "3.18.0"
 ---
 
 # Check: Review Before You Ship
@@ -54,9 +54,10 @@ This mode extends review; it does not skip review. Before any public or irrevers
 3. Commit only intended files. Preserve unrelated dirty work, and serialize git operations so index locks or overlapping adds do not corrupt the workflow.
 4. Push, publish, tag, or create a release only when the user has explicitly approved that action. If auth, OTP, CI, registry, or network state blocks the operation, pause and report the exact blocker.
 5. For issue/PR follow-through, confirm the item identity with `gh issue view` or `gh pr view` before posting. Write 1-2 natural sentences in the thread's language. Close only when the fix is shipped, already available, invalid, duplicate, or the maintainer explicitly asked for closure.
-6. After network or API failures, re-read the end state instead of assuming success or failure.
+6. For GitHub release reaction follow-through, only do it when project context or the current thread asks for it. After the release exists and required assets are verified, resolve the release id from the tag, POST every positive release reaction to `repos/<owner>/<repo>/releases/<id>/reactions` with `gh api`, and re-read reactions to confirm. Positive release reactions are `+1`, `laugh`, `heart`, `hooray`, `rocket`, and `eyes`.
+7. After network or API failures, re-read the end state instead of assuming success or failure.
 
-End with the concrete shipped state: commit hash, tag, release URL, registry/version result, pushed branch, issue/PR state, and any remaining blockers. Omit fields that do not apply.
+End with the concrete shipped state: commit hash, tag, release URL, registry/version result, pushed branch, release asset state, release reaction state, issue/PR state, and any remaining blockers. Omit fields that do not apply.
 
 ## Scope
 
