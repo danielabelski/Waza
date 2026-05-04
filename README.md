@@ -101,24 +101,22 @@ curl -sL https://raw.githubusercontent.com/tw93/Waza/main/scripts/setup-english-
 **Claude Code direct slash commands**
 
 ```bash
-npx skills add tw93/Waza --full-depth --skill think design check hunt write learn read health -a claude-code -g -y
+npx skills add tw93/Waza -a claude-code -g -y
 ```
 
-This installs the individual `/think`, `/design`, `/check`, `/hunt`, `/write`, `/learn`, `/read`, and `/health` skills. `--full-depth` is required because Waza also ships a root dispatcher skill.
+This installs the individual `/think`, `/design`, `/check`, `/hunt`, `/write`, `/learn`, `/read`, and `/health` skills.
 
-Single-dispatcher bundle through the Claude Code plugin marketplace:
+Or install individual entries through the Claude Code plugin marketplace:
 
 ```bash
 /plugin marketplace add tw93/Waza
-/plugin install waza@waza
+/plugin install think@waza
 ```
-
-The marketplace bundle installs one `/waza` entry. Install individual marketplace entries such as `think@waza` when you need direct slash commands.
 
 **Codex**
 
 ```bash
-npx skills add tw93/Waza --full-depth --skill think design check hunt write learn read health -a codex -g -y
+npx skills add tw93/Waza -a codex -g -y
 ```
 
 **Claude Desktop**
