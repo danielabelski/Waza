@@ -150,6 +150,18 @@ curl -sL https://raw.githubusercontent.com/tw93/Waza/main/scripts/setup-english-
 curl -sL https://raw.githubusercontent.com/tw93/Waza/main/scripts/setup-english-coaching.sh | bash -s -- codex
 ```
 
+### Anti-Patterns
+
+Optional always-on guardrails for cross-skill behaviors: stop acting before reading, no hallucinated paths, no scope creep, no unsolicited summaries. Skill-agnostic, applies in every session.
+
+```bash
+# Claude Code
+curl -sL https://raw.githubusercontent.com/tw93/Waza/main/scripts/setup-anti-patterns.sh | bash -s -- claude-code
+
+# Codex
+curl -sL https://raw.githubusercontent.com/tw93/Waza/main/scripts/setup-anti-patterns.sh | bash -s -- codex
+```
+
 ## Uninstall
 
 ```bash
@@ -167,6 +179,11 @@ rm -f ~/.claude/statusline.sh
 rm -f ~/.claude/rules/english.md
 
 # Remove English Coaching (Codex): remove the Waza English Coaching marked block from ~/.codex/AGENTS.md
+
+# Remove Anti-Patterns (Claude Code)
+rm -f ~/.claude/rules/anti-patterns.md
+
+# Remove Anti-Patterns (Codex): remove the Waza Anti-Patterns marked block from ~/.codex/AGENTS.md
 ```
 
 ## Background

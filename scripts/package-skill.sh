@@ -31,6 +31,7 @@ awk '
   /^scripts\/verify-skills\.sh$/ { next }
   /^scripts\/statusline\.sh$/ { next }
   /^scripts\/setup-english-coaching\.sh$/ { next }
+  /^scripts\/setup-anti-patterns\.sh$/ { next }
   /^scripts\/setup-statusline\.sh$/ { next }
   /^scripts\/package-skill\.sh$/ { next }
   /^skills\/[^\/]+\/SKILL\.md$/ { next }
