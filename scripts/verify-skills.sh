@@ -87,8 +87,17 @@ plugins = marketplace.get("plugins")
 if not isinstance(plugins, list):
     fail("INVALID MARKETPLACE: plugins must be a list")
 
+# Marketplace shape:
+#   - One bundle entry: name == "waza", source == "./". Auto-discovers all
+#     skills/<dir>/SKILL.md and registers them under the waza namespace
+#     (/waza:think, /waza:check, ...).
+#   - Per-skill entries: name == "waza-<skill>", source == "./skills/<skill>".
+#     Each registers a single skill, callable as /waza-<skill>:<skill>.
+# Per-skill entries are keyed by skill_name (the dir under skills/) so version
+# and description checks line up with skill_versions / skill_descriptions.
 market_versions: dict[str, str] = {}
 market_descriptions: dict[str, str] = {}
+seen_names: set[str] = set()
 for entry in plugins:
     if not isinstance(entry, dict):
         fail("INVALID MARKETPLACE: plugin entry must be an object")
@@ -100,15 +109,40 @@ for entry in plugins:
         fail("INVALID MARKETPLACE: every plugin needs name and version")
     if not description:
         fail(f"MISSING DESCRIPTION: marketplace plugin {name}")
-    if name in market_versions:
+    if name in seen_names:
         fail(f"DUPLICATE MARKETPLACE ENTRY: {name}")
+    seen_names.add(name)
+
     if name == "waza":
-        fail("MARKETPLACE BUNDLE REMOVED: do not add a waza entry that points at the repository root")
-    expected_source = f"./skills/{name}"
+        # Duplicate bundle is already caught by the generic seen_names check
+        # above (any second entry with the same name fails first).
+        if source != "./":
+            fail(f"WRONG BUNDLE SOURCE: source={source!r} expected='./'")
+        continue
+
+    if not name.startswith("waza-"):
+        fail(
+            f"INVALID PLUGIN NAME: {name!r} must be 'waza' (bundle) or "
+            f"'waza-<skill>' (per-skill entry)"
+        )
+    skill_name = name.removeprefix("waza-")
+    if not skill_name:
+        fail(
+            f"INVALID PLUGIN NAME: {name!r} has an empty <skill> suffix; "
+            f"per-skill entries must be named 'waza-<skill>' with a non-empty skill name"
+        )
+    expected_source = f"./skills/{skill_name}"
     if source != expected_source:
         fail(f"WRONG SOURCE: {name} source={source!r} expected={expected_source!r}")
-    market_versions[name] = version
-    market_descriptions[name] = description
+    market_versions[skill_name] = version
+    market_descriptions[skill_name] = description
+
+if "waza" not in seen_names:
+    fail(
+        "MISSING BUNDLE ENTRY: marketplace.json must include a 'waza' bundle entry "
+        "(name=\"waza\", source=\"./\") so /plugin install waza@waza registers "
+        "all skills under the waza namespace"
+    )
 
 missing_from_market = sorted(set(skill_versions) - set(market_versions))
 if missing_from_market:
