@@ -10,7 +10,7 @@
     {
       "name": "waza",
       "description": "Installs the full Waza toolkit. Registers all eight skills under the waza namespace, callable as /waza:think, /waza:check, /waza:hunt, /waza:design, /waza:read, /waza:write, /waza:learn, and /waza:health. Not for users who only want one skill — install a waza-<skill>@waza entry instead.",
-      "version": "3.12.2",
+      "version": "3.20.0",
       "category": "development",
       "source": "./",
       "homepage": "https://github.com/tw93/Waza"

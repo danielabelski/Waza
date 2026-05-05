@@ -6,9 +6,10 @@ python3 - <<'PYEOF'
 import json
 import sys
 from pathlib import Path
+from typing import NoReturn
 
 
-def fail(message: str) -> None:
+def fail(message: str) -> NoReturn:
     print(message, file=sys.stderr)
     raise SystemExit(1)
 
@@ -95,9 +96,17 @@ if not isinstance(plugins, list):
 #     Each registers a single skill, callable as /waza-<skill>:<skill>.
 # Per-skill entries are keyed by skill_name (the dir under skills/) so version
 # and description checks line up with skill_versions / skill_descriptions.
+def parse_version(v: str) -> tuple[int, ...]:
+    try:
+        return tuple(int(part) for part in v.split("."))
+    except ValueError:
+        fail(f"INVALID VERSION: {v!r} must be dot-separated integers")
+
+
 market_versions: dict[str, str] = {}
 market_descriptions: dict[str, str] = {}
 seen_names: set[str] = set()
+bundle_version = ""
 for entry in plugins:
     if not isinstance(entry, dict):
         fail("INVALID MARKETPLACE: plugin entry must be an object")
@@ -118,6 +127,7 @@ for entry in plugins:
         # above (any second entry with the same name fails first).
         if source != "./":
             fail(f"WRONG BUNDLE SOURCE: source={source!r} expected='./'")
+        bundle_version = version
         continue
 
     if not name.startswith("waza-"):
@@ -166,6 +176,20 @@ for skill, skill_version in sorted(skill_versions.items()):
             f"  marketplace description must start with the SKILL.md description"
         )
     print(f"ok: {skill} {skill_version}")
+
+# Bundle version must keep up with the highest per-skill version. Otherwise
+# /plugin update waza@waza on a stale bundle silently ships old skill metadata.
+if bundle_version and skill_versions:
+    max_skill = max(skill_versions.items(), key=lambda kv: parse_version(kv[1]))
+    if parse_version(bundle_version) < parse_version(max_skill[1]):
+        fail(
+            f"BUNDLE VERSION STALE: waza bundle={bundle_version} "
+            f"is below highest skill {max_skill[0]}={max_skill[1]}.\n"
+            f"  Bump the 'waza' entry in .claude-plugin/marketplace.json "
+            f"to at least {max_skill[1]} so /plugin install waza@waza "
+            f"matches the latest skill releases."
+        )
+    print(f"ok: bundle version {bundle_version} >= max skill {max_skill[1]}")
 
 import re
 # Direct local references: `references/foo.md`, `agents/bar.md`, `scripts/baz.sh`
