@@ -80,6 +80,16 @@ Install just one with `--skill`:
 npx skills add tw93/Waza --skill think -a codex -g -y
 ```
 
+**Codex inline link invocation**
+
+After installing with `npx skills add tw93/Waza -a codex -g -y`, Codex sessions can reference skills via inline markdown links. The canonical install path is `~/.claude/skills/waza/skills/<name>/SKILL.md`:
+
+```markdown
+[$check](~/.claude/skills/waza/skills/check/SKILL.md) — review before ship
+[$hunt](~/.claude/skills/waza/skills/hunt/SKILL.md) — diagnose the regression
+[$think](~/.claude/skills/waza/skills/think/SKILL.md) — plan before build
+```
+
 **Claude Desktop**
 
 Download [waza.zip](https://github.com/tw93/Waza/releases/latest/download/waza.zip), open Customize > Skills > "+" > Create skill, and upload the ZIP.

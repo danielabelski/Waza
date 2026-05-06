@@ -10,7 +10,7 @@
     {
       "name": "waza",
       "description": "Installs the full Waza toolkit. Registers all eight skills under the waza namespace, callable as /waza:think, /waza:check, /waza:hunt, /waza:design, /waza:read, /waza:write, /waza:learn, and /waza:health. Not for users who only want one skill — install a waza-<skill>@waza entry instead.",
-      "version": "3.20.0",
+      "version": "3.22.0",
       "category": "development",
       "source": "./",
       "homepage": "https://github.com/tw93/Waza"
@@ -37,8 +37,8 @@
     },
     {
       "name": "waza-check",
-      "description": "Reviews code diffs and release-ready changes after implementation, extracts project-specific constraints from repository context, auto-fixes safe issues, and drives approved release, publish, push, release-reaction, and issue/PR follow-through. Also triages issues and PRs when the user mentions them. Not for exploring ideas or debugging.",
-      "version": "3.20.0",
+      "description": "Reviews code diffs and release-ready changes after implementation, executes approved implementation plans, extracts project-specific constraints from repository context, auto-fixes safe issues, and drives approved release, publish, push, release-reaction, and issue/PR follow-through. Also triages issues and PRs when the user mentions them. Not for exploring ideas, debugging, or document prose review.",
+      "version": "3.22.0",
       "category": "development",
       "source": "./skills/check",
       "homepage": "https://github.com/tw93/Waza",
@@ -78,7 +78,7 @@
     {
       "name": "waza-write",
       "description": "Strips AI writing patterns and rewrites prose to sound natural in Chinese or English. Only activates on explicit writing or editing requests. Not for code comments, commit messages, or inline docs.",
-      "version": "3.18.0",
+      "version": "3.19.0",
       "category": "development",
       "source": "./skills/write",
       "homepage": "https://github.com/tw93/Waza",

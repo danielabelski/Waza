@@ -1,11 +1,14 @@
 PROJECT_KEY := $(shell printf '%s' "$(CURDIR)" | sed 's|[/_]|-|g; s|^-||')
 
-.PHONY: test verify-docs verify-scripts smoke-statusline smoke-statusline-installer smoke-english-coaching-installer smoke-anti-patterns-installer smoke-verify-skills smoke-package smoke-health package
+.PHONY: test verify-docs verify-scripts verify-routing smoke-statusline smoke-statusline-installer smoke-english-coaching-installer smoke-anti-patterns-installer smoke-verify-skills smoke-package smoke-health package
 
-test: verify-docs verify-scripts smoke-statusline smoke-statusline-installer smoke-english-coaching-installer smoke-anti-patterns-installer smoke-verify-skills smoke-package smoke-health
+test: verify-docs verify-routing verify-scripts smoke-statusline smoke-statusline-installer smoke-english-coaching-installer smoke-anti-patterns-installer smoke-verify-skills smoke-package smoke-health
 
 verify-docs:
 	./scripts/verify-skills.sh
+
+verify-routing:
+	./scripts/check-routing-drift.sh
 
 verify-scripts:
 	git diff --check

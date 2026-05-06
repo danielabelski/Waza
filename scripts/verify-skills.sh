@@ -361,3 +361,55 @@ if ! grep -Fq "Chinese-only messages" rules/english.md || \
     exit 1
 fi
 echo "ok: English Coaching guard"
+
+# Attribution leak hardstop: no AI attribution strings in tracked markdown or scripts.
+# These strings indicate AI-generated co-authorship leaked into skill content.
+ATTRIBUTION_PATTERNS="Co-Authored-By: Claude\|Co-authored-by: Cursor\|noreply@anthropic.com\|cursoragent@cursor.com"
+# Scan only non-documentation files: skip SKILL.md, rules/*.md, and this script
+# (those legitimately document what patterns to detect rather than leaking them).
+if grep -rn --include="*.sh" --include="*.json" "$ATTRIBUTION_PATTERNS" . 2>/dev/null \
+   | grep -v "^Binary\|\.git/" \
+   | grep -v "scripts/verify-skills.sh"; then
+    echo "ATTRIBUTION LEAK: AI attribution string found in tracked script or config." >&2
+    exit 1
+fi
+echo "ok: no attribution leak"
+
+# Pairwise trigger keyword overlap: detect when two skills share trigger keywords
+# (Jaccard similarity >= 0.5 means more than half the combined keywords are shared).
+python3 - <<'OVERLAP_PYEOF'
+import sys
+from pathlib import Path
+
+root = Path(".")
+skill_files = sorted((root / "skills").glob("*/SKILL.md"))
+
+def parse_when_to_use(path):
+    for line in path.read_text().splitlines():
+        if line.startswith("when_to_use:"):
+            raw = line.split(":", 1)[1].strip().strip('"')
+            return {kw.strip().lower() for kw in raw.split(",") if kw.strip()}
+    return set()
+
+skills = {}
+for path in skill_files:
+    name = path.parent.name
+    skills[name] = parse_when_to_use(path)
+
+names = sorted(skills)
+found_overlap = False
+for i, a in enumerate(names):
+    for b in names[i+1:]:
+        shared = skills[a] & skills[b]
+        union = skills[a] | skills[b]
+        if not union:
+            continue
+        jaccard = len(shared) / len(union)
+        if jaccard >= 0.5:
+            print(f"TRIGGER OVERLAP: {a} vs {b} jaccard={jaccard:.2f} shared={sorted(shared)}", file=sys.stderr)
+            found_overlap = True
+
+if found_overlap:
+    raise SystemExit(1)
+print("ok: trigger keyword overlap below threshold")
+OVERLAP_PYEOF

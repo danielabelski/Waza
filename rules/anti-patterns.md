@@ -20,3 +20,4 @@ Always-on behavioral guardrails. These apply regardless of which skill is active
 | 14 | Create files unprompted | Create new files the user never asked for | Only create files that the user requested or that are required by the task |
 | 15 | Additive interpretation | "Fix X" becomes "fix X + refactor Y + add Z" | Do exactly what was asked, nothing more |
 | 16 | Retry without new evidence | Same command failed twice, try it a third time | After a failure, gather new evidence (different tool, read error, check env) before retrying |
+| 17 | Attribution leak | Include `Co-Authored-By: Claude`, `Co-authored-by: Cursor`, `noreply@anthropic.com`, or `cursoragent@cursor.com` in any commit message, PR body, or issue reply | Never add AI attribution to any public-facing text; the user is the author |
