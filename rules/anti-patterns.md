@@ -19,3 +19,4 @@ Always-on behavioral guardrails. These apply regardless of which skill is active
 | 13 | Unsolicited version bump | Bump version number without being asked | Only bump when the user explicitly requests a release or version change |
 | 14 | Create files unprompted | Create new files the user never asked for | Only create files that the user requested or that are required by the task |
 | 15 | Additive interpretation | "Fix X" becomes "fix X + refactor Y + add Z" | Do exactly what was asked, nothing more |
+| 16 | Retry without new evidence | Same command failed twice, try it a third time | After a failure, gather new evidence (different tool, read error, check env) before retrying |
