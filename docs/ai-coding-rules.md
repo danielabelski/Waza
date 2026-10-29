@@ -15,7 +15,7 @@ Twenty rules, grouped in the order a task moves, ready to paste into your agent'
 ## Rules
 
 6. Teach your agent how you talk. "Look at" or "analyze" means read the code and report, without editing; "fix" or "change" means do it. Once a change is verified it can commit on its own; publishing and deleting still come back to you.
-7. Beyond the key project requirements, `AGENTS.md` holds only what the code can't tell: the non-obvious rules, and the options you already rejected. Claude Code now reads `AGENTS.md` by default, so a separate `CLAUDE.md` is no longer needed.
+7. Beyond the key project requirements, `AGENTS.md` and `CLAUDE.md` hold only what the code can't tell: the non-obvious rules, and the options you already rejected.
 8. Don't rely on the prompt alone for rules the agent must follow; it can slip. Enforce them with hooks or check scripts, and count the work done only once they actually ran and passed.
 
 ## Code
