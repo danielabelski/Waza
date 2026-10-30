@@ -168,3 +168,83 @@ def test_plan_names_the_pre_fix_revision_and_touched_files(tmp_path):
 )
 def test_test_file_detection(path, expected):
     assert ledger_mod.is_test_file(path) is expected
+
+@pytest.mark.parametrize("body,catcher", [
+    ('# def test_ghost():\npass\n', 'test_ghost'),
+    ('"""def test_ghost():\n    pass\n"""\n', 'test_ghost'),
+    ('test_ghost()\n', 'test_ghost'),
+    ('const title = "missing flag";\n', 'missing flag'),
+    ('// function test_ghost() {}\n', 'test_ghost'),
+])
+def test_mentions_are_not_definitions(tmp_path, body, catcher):
+    ext = 'js' if body.startswith(('const', '//')) else 'py'
+    repo, sha = make_repo(tmp_path, {f'tests/test_fake.{ext}': body})
+    write_ledger(repo, f'| I-01 | 2026-01-02 | s | unknown | {sha} | unit | `{catcher}` |\n')
+    assert run(repo).returncode == 1
+
+
+def test_deleted_gate_is_not_a_catcher(tmp_path):
+    repo, sha = make_repo(tmp_path, TEST_FILES)
+    (repo / 'scripts/gate.sh').unlink()
+    write_ledger(repo, f'| I-01 | 2026-01-02 | s | unknown | {sha} | unit | `scripts/gate.sh` |\n')
+    assert run(repo).returncode == 1
+
+
+def test_untracked_test_is_current_workspace_evidence(tmp_path):
+    repo, sha = make_repo(tmp_path, TEST_FILES)
+    (repo / 'tests/test_new.py').write_text('def test_new():\n    pass\n')
+    write_ledger(repo, f'| I-01 | 2026-01-02 | s | unknown | {sha} | unit | `test_new` |\n')
+    assert run(repo).returncode == 0
+
+
+def test_escaped_parent_symlink_is_not_evidence(tmp_path):
+    repo, sha = make_repo(tmp_path, TEST_FILES)
+    outside = tmp_path / 'outside'
+    outside.mkdir()
+    (outside / 'test_escape.py').write_text('def test_escape():\n    pass\n')
+    (repo / 'tests/escape').symlink_to(outside, target_is_directory=True)
+    git(repo, 'add', 'tests/escape')
+    write_ledger(repo, f'| I-01 | 2026-01-02 | s | unknown | {sha} | unit | `tests/escape/test_escape.py` |\n')
+    assert run(repo).returncode == 1
+
+
+@pytest.mark.parametrize('path,body,catcher', [
+    ('tests/test_async.py', 'async def test_async():\n    pass\n', 'test_async'),
+    ('tests/test_js.js', 'it("rejects a missing flag", () => {});\n', 'rejects a missing flag'),
+    ('tests/test_js.ts', 'function test_named() {}\n', 'test_named'),
+    ('tests/test_js.ts', 'const test_arrow = () => {};\n', 'test_arrow'),
+    ('tests/test_shell.sh', 'test_shell() {\n true\n}\n', 'test_shell'),
+])
+def test_supported_declarations(tmp_path, path, body, catcher):
+    repo, sha = make_repo(tmp_path, {path: body})
+    write_ledger(repo, f'| I-01 | 2026-01-02 | s | unknown | {sha} | unit | `{catcher}` |\n')
+    result = run(repo)
+    assert result.returncode == 0, result.stdout
+
+@pytest.mark.parametrize('path,body,catcher', [
+    ('tests/test_js.js', '/*\nit("fake title", () => {});\n*/\n', 'fake title'),
+    ('tests/test_js.js', 'const text = `\nfunction test_fake() {}\n`;\n', 'test_fake'),
+    ('tests/test_shell.sh', '# test_fake() {\ntrue\n', 'test_fake'),
+    ('tests/test_shell.sh', 'cat <<EOF\ntest_fake() { true; }\nEOF\n', 'test_fake'),
+    ('tests/other.rs', '// fn test_fake() {}\n', 'test_fake'),
+    ('tests/test_shell.sh', "'test_fake() {'\n", 'test_fake'),
+    ('tests/test_shell.sh', '"test_fake"() { true; }\n', 'test_fake'),
+    ('tests/test_js.js', 'test.skip("fake title", () => {});\n', 'fake title'),
+    ('tests/test_js.js', 'test.todo("fake title", () => {});\n', 'fake title'),
+])
+def test_other_language_data_is_not_a_definition(tmp_path, path, body, catcher):
+    repo, sha = make_repo(tmp_path, {path: body})
+    write_ledger(repo, f'| I-01 | 2026-01-02 | s | unknown | {sha} | unit | `{catcher}` |\n')
+    assert run(repo).returncode == 1
+    write_ledger(repo, f'| I-01 | 2026-01-02 | s | unknown | {sha} | unit | `{path}` |\n')
+    assert run(repo).returncode == 0
+
+
+def test_gate_symlink_outside_root_is_rejected(tmp_path):
+    repo, sha = make_repo(tmp_path, TEST_FILES)
+    outside = tmp_path / 'gate.sh'
+    outside.write_text('exit 0\n')
+    (repo / 'scripts/escape.sh').symlink_to(outside)
+    git(repo, 'add', 'scripts/escape.sh')
+    write_ledger(repo, f'| I-01 | 2026-01-02 | s | unknown | {sha} | unit | `scripts/escape.sh` |\n')
+    assert run(repo).returncode == 1
